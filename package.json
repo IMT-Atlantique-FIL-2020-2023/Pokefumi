@@ -1,0 +1,31 @@
+{
+  "name": "pokefumi-1",
+  "version": "1.0.0",
+  "description": "Poke-fu-mi est une application qui permet d'organiser des combats entre maîtres Pokémon mais les règles ne sont pas exactement celles du jeu classique.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && cp -rf package.json dist/package.json",
+    "prestart": "npm run build",
+    "start": "ts-node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IMT-Atlantique-FIL-2020-2023/Pokefumi.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IMT-Atlantique-FIL-2020-2023/Pokefumi/issues"
+  },
+  "homepage": "https://github.com/IMT-Atlantique-FIL-2020-2023/Pokefumi#readme",
+  "dependencies": {
+    "body-parser": "^1.19.1",
+    "express": "^4.17.2"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.2",
+    "@types/express": "^4.17.13"
+  }
+}

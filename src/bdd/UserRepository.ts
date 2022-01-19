@@ -7,7 +7,7 @@ export default class UserRepository {
   db: Database.Database;
 
   constructor() {
-    this.db = new Database('db/users.db', { verbose: console.log });
+    this.db = new Database(join(process.cwd(), 'users.db'), { verbose: console.log });
     this.applyMigrations();
   }
 
@@ -26,29 +26,24 @@ export default class UserRepository {
     }
   }
 
-  getUserByUsername(username: string): User | undefined {
-    const statement = this.db.prepare('SELECT * FROM users WHERE username = ?');
-    const rows: User[] = statement.get(username);
+  connectUser(username: string, password: string): User | undefined {
+    const statement = this.db.prepare('SELECT * FROM users WHERE username = ? AND password = ?');
+    const rows: User[] = statement.get(username, password);
     return rows.pop();
   }
 
   getAllUsers(): User[] {
-    const statement = this.db.prepare("SELECT * FROM users")
-    const rows: User[] = statement.all()
-    return rows
+    const statement = this.db.prepare('SELECT * FROM users');
+    return statement.all();
   }
-
   getUserById(userId: number) {
-	const statement = this.db
-        .prepare("SELECT * FROM users WHERE user_id = ?")
-	const rows: User[] = statement.get(userId)
-	return rows
+    const statement = this.db.prepare('SELECT * FROM users WHERE user_id = ?');
+    const rows: User[] = statement.get(userId);
+    return rows;
   }
 
   createUser(name: string) {
-    const statement =
-      this.db.prepare("INSERT INTO users (name) VALUES (?)")
-    return statement.run(name).lastInsertRowid
+    const statement = this.db.prepare('INSERT INTO users (name) VALUES (?)');
+    return statement.run(name).lastInsertRowid;
   }
-
 }

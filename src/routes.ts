@@ -3,9 +3,7 @@ import * as UserController from './controllers/userController';
 import User from './models/user';
 
 export const register = (app: express.Application) => {
-  app.get('/', (req, res) => res.send('Hello World!'));
-
-  app.get('/users', (req, res) => {
+  app.get('/user', (req, res) => {
     res.status(200).json(UserController.listUsers());
   });
 

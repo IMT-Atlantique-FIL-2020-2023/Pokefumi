@@ -1,6 +1,6 @@
 import Deck from './deck';
 
-export default interface Joueur {
+export default interface User {
   id: number;
   name: string; //TODO doit être unique
   deck: Deck;

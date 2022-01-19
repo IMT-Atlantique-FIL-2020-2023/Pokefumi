@@ -8,3 +8,10 @@ export default interface Joueur {
   score: number;
   password: string;
 }
+
+export interface User {
+  id: number;
+  username: string; //TODO doit être unique
+  password: string;
+  score: number;
+}

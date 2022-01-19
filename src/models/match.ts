@@ -1,10 +1,10 @@
-import Joueur from './joueur';
+import User from './user';
 
 export default interface Match {
   status: Status; //état du match
   isPublic: boolean; //true =match ouvert à tous, false = match avec lien d'invitation direct
-  joueur1: Joueur; //joueur propriétaire du match
-  joueur2?: Joueur; //adversaire. Peut être null dans le cas d'un match public tant que personne n'ait rejoint
+  joueur1: User; //joueur propriétaire du match
+  joueur2?: User; //adversaire. Peut être null dans le cas d'un match public tant que personne n'ait rejoint
   gagnant?: number; //gagnant du duel
   round: Round[];
 }

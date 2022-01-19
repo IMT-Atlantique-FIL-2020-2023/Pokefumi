@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc && cp -rf package.json dist/package.json",
-    "prestart": "npm run build",
     "start": "ts-node ."
   },
   "repository": {

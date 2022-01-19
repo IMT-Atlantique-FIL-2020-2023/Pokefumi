@@ -36,4 +36,15 @@ export default class UserRepository {
     const statement = this.db.prepare<User>('INSERT INTO users (username, password, score) VALUES (@username, @password, @score)');
     return statement.run(user).lastInsertRowid;
   }
+
+  connectUser(username: string, password: string): User | undefined {
+    const statement = this.db.prepare('SELECT * FROM users WHERE username = ? AND password = ?');
+    const rows: User[] = statement.get(username, password);
+    return rows.pop();
+  }
+
+  getAllUsers(): User[] {
+    const statement = this.db.prepare('SELECT * FROM users');
+    return statement.all();
+  }
 }

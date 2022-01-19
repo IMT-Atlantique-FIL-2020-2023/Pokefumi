@@ -1,4 +1,7 @@
-import User from './../models/user'
+import User from './../models/user';
+import UserRepository from './../bdd/UserRepository';
+
+const userRepository = new UserRepository()
 
 const typedUsers: User[] = []
 const listUsers = () => {
@@ -10,5 +13,5 @@ const addUser = (newUser: User) => {
   return userRepository.getAllUsers()
 }
 
-
 export { listUsers, addUser }
+

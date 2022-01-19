@@ -26,17 +26,6 @@ export default class UserRepository {
     }
   }
 
-  getUserByUsername(username: string): User | undefined {
-    const statement = this.db.prepare('SELECT * FROM users WHERE username = ?');
-    const rows: User[] = statement.get(username);
-    return rows.pop();
-  }
-
-  createUser(user: User) {
-    const statement = this.db.prepare<User>('INSERT INTO users (username, password, score) VALUES (@username, @password, @score)');
-    return statement.run(user).lastInsertRowid;
-  }
-
   connectUser(username: string, password: string): User | undefined {
     const statement = this.db.prepare('SELECT * FROM users WHERE username = ? AND password = ?');
     const rows: User[] = statement.get(username, password);
@@ -46,5 +35,15 @@ export default class UserRepository {
   getAllUsers(): User[] {
     const statement = this.db.prepare('SELECT * FROM users');
     return statement.all();
+  }
+  getUserById(userId: number) {
+    const statement = this.db.prepare('SELECT * FROM users WHERE user_id = ?');
+    const rows: User[] = statement.get(userId);
+    return rows;
+  }
+
+  createUser(name: string) {
+    const statement = this.db.prepare('INSERT INTO users (name) VALUES (?)');
+    return statement.run(name).lastInsertRowid;
   }
 }

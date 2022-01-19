@@ -1,5 +1,5 @@
 import * as express from "express"
-import * as UserController from "./userController"
+import * as UserController from "./controllers/userController"
 import  User  from './models/user'
 
 export const register = ( app: express.Application ) => {

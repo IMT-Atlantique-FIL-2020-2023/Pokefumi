@@ -1,5 +1,5 @@
 import Database from 'better-sqlite3';
-import { User} from './models';
+import  User  from './models/user';
 
 export async function getUsers() {
   return queryMany<User>('SELECT id, name, score FROM user')

@@ -1,8 +1,8 @@
-import Joueur from './models/joueur'
+import Joueur from './models/user'
 import * from 'bdd.ts'
 
 //TODO s'inscrire à la plateforme
-//export inscrire(): 
+//export inscrire():
 
 //TODO vérifier que le nom d'utilisateur est unique
 export function isUnique(playerName : string ) : boolean {

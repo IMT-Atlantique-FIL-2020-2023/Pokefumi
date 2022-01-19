@@ -1,4 +1,6 @@
 import Database from 'better-sqlite3';
+import { join } from 'path';
+import { User } from '../models/joueur';
 import fs from 'fs';
 
 export default class UserRepository {
@@ -19,8 +21,19 @@ export default class UserRepository {
 
     if (!testRow) {
       console.log('Applying migrations on DB users...');
-      const migrations = ['db/migrations/init.sql'];
+      const migrations = [join(__dirname, 'migrations/init_user.sql')];
       migrations.forEach(applyMigration);
     }
+  }
+
+  getUserByUsername(username: string): User | undefined {
+    const statement = this.db.prepare('SELECT * FROM users WHERE username = ?');
+    const rows: User[] = statement.get(username);
+    return rows.pop();
+  }
+
+  createUser(user: User) {
+    const statement = this.db.prepare<User>('INSERT INTO users (username, password, score) VALUES (@username, @password, @score)');
+    return statement.run(user).lastInsertRowid;
   }
 }

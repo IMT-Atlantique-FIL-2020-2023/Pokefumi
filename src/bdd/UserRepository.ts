@@ -7,7 +7,7 @@ export default class UserRepository {
   db: Database.Database;
 
   constructor() {
-    this.db = new Database('db/users.db', { verbose: console.log });
+    this.db = new Database(join(process.cwd(), 'users.db'), { verbose: console.log });
     this.applyMigrations();
   }
 

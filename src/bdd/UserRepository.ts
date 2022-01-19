@@ -1,6 +1,6 @@
 import Database from 'better-sqlite3';
 import { join } from 'path';
-import { User } from '../models/joueur';
+import User from '../models/user';
 import fs from 'fs';
 
 export default class UserRepository {

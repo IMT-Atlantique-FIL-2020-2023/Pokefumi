@@ -1,5 +1,5 @@
-import * as express from 'express';
-import * as UserController from './controllers/userController';
+/*import * as express from 'express';
+import * as UserController from '../api/User/controllers/userController';
 import User from './models/user';
 
 export const register = (app: express.Application) => {
@@ -11,4 +11,4 @@ export const register = (app: express.Application) => {
     const newUser: User = req.body;
     res.status(200).json(UserController.addUser(newUser));
   });
-};
+};*/

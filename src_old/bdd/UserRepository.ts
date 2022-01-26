@@ -1,4 +1,4 @@
-import Database from 'better-sqlite3';
+/*import Database from 'better-sqlite3';
 import { join } from 'path';
 import User from '../models/user';
 import fs from 'fs';
@@ -47,3 +47,4 @@ export default class UserRepository {
     return statement.run(name).lastInsertRowid;
   }
 }
+*/

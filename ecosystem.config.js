@@ -24,7 +24,7 @@
         NODE_ENV: 'production',
       },
     },
-    {
+     {
       name: 'dev', // pm2 start App name
       script: 'ts-node', // ts-node
       args: '-r tsconfig-paths/register --transpile-only src/server.ts', // ts-node args

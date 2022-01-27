@@ -1,29 +1,25 @@
-import Database from 'better-sqlite3';
-import { join } from 'path';
 import User from '../models/user.model';
-import fs from 'fs';
 
 export default class UserRepository {
-  db: Database.Database;
+  db: any;
 
   constructor() {
-    this.db = new Database(join(process.cwd(), './repository/users.db'), { verbose: console.log });
-    this.applyMigrations();
-  }
+    // Importing SQLite3 to our project.
+    const sqlite3 = require('sqlite3');
 
-  applyMigrations() {
-    const applyMigration = (path: string) => {
-      const migration = fs.readFileSync(path, 'utf8');
-      this.db.exec(migration);
-    };
-
-    const testRow = this.db.prepare("SELECT name FROM sqlite_schema  WHERE type = 'table' AND name = 'users'").get();
-
-    if (!testRow) {
-      console.log('Applying migrations on DB users...');
-      const migrations = [join(__dirname, './init_user.sql')];
-      migrations.forEach(applyMigration);
-    }
+    // Setting up a database for storing data.
+    this.db = new sqlite3.Database('./repository/user.db');
+    this.db.run(`
+    CREATE TABLE IF NOT EXISTS users (
+      user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT NOT NULL,
+      password TEXT NOT NULL,
+      score INTEGER DEFAULT 0,
+      UNIQUE(username)
+      );`);
+    /*this.db.run(`
+    INSERT INTO users (username,password)
+    VALUES('user1', 'password1');`);*/
   }
 
   connectUser(username: string, password: string): User | undefined {
@@ -31,15 +27,26 @@ export default class UserRepository {
     const rows: User[] = statement.get(username, password);
     return rows.pop();
   }
-
-  getAllUsers(): User[] {
-    const statement = this.db.prepare('SELECT * FROM users');
-    return statement.all();
+  /*let result = new Array();
+    this.db.each('SELECT * FROM users', function (err: string, row: User) {
+      console.log("1") +row); // and other columns, if desired
+      result.push(row);
+    });
+    console.log(result.length);
+    return result;*/
+  async getAllUsers() {
+    return await new Promise((resolve, reject) => {
+      this.db.all('SELECT * FROM users', [], (err: any, rows: any) => {
+        if (err) reject(err);
+        resolve(rows);
+      });
+    });
   }
+
   getUserById(userId: number) {
     const statement = this.db.prepare('SELECT * FROM users WHERE user_id = ?');
     const rows: User[] = statement.get(userId);
-    return rows;
+    console.log(rows.length);
   }
 
   createUser(name: string) {

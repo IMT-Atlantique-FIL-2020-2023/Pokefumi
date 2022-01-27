@@ -1,4 +1,4 @@
-import Deck from '../../../src/models/deck';
+import Deck from '../../../src_old/models/deck';
 
 export default interface User {
   id: number;

@@ -4,8 +4,9 @@ import UserRepository from '../repository/user.repository';
 const userRepository = new UserRepository();
 
 const typedUsers: User[] = [];
-const listUsers = () => {
-  return userRepository.getAllUsers();
+const listUsers = async () => {
+  let res = await userRepository.getAllUsers();
+  return res;
 };
 
 const addUser = (newUser: User) => {

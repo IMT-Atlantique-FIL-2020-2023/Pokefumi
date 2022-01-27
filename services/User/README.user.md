@@ -1,5 +1,8 @@
 Ceci est un microservice qui gère des utilisateurs.
 
+## Se placer dans le répertoire de l'application
+cd services/User
+
 ## Sans Docker:
 
 ##### Installer les dépendances

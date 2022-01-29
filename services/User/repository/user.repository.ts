@@ -19,7 +19,7 @@ export default class UserRepository {
       );`);
     /*this.db.run(`
     INSERT INTO users (username,password)
-    VALUES('user1', 'password1');`);*/
+    VALUES('user2', 'password2');`);*/
   }
 
   connectUser(username: string, password: string): User | undefined {
@@ -27,29 +27,31 @@ export default class UserRepository {
     const rows: User[] = statement.get(username, password);
     return rows.pop();
   }
-  /*let result = new Array();
-    this.db.each('SELECT * FROM users', function (err: string, row: User) {
-      console.log("1") +row); // and other columns, if desired
-      result.push(row);
-    });
-    console.log(result.length);
-    return result;*/
+
   async getAllUsers() {
-    return await new Promise((resolve, reject) => {
+    return await new Promise<User[]>((resolve, reject) => {
       this.db.all('SELECT * FROM users', [], (err: any, rows: any) => {
-        if (err) reject(err);
+        if (err) reject(err.message);
         resolve(rows);
       });
     });
   }
 
-  getUserById(userId: number) {
-    const statement = this.db.prepare('SELECT * FROM users WHERE user_id = ?');
-    const rows: User[] = statement.get(userId);
-    console.log(rows.length);
+  async getUserById(id: number) {
+    return new Promise<User>((resolve, reject) => {
+      this.db.serialize(() => {
+        this.db.all('SELECT * FROM users WHERE user_id=?', [id], (err: any, user: User) => {
+          if (err) {
+            reject(err.message);
+          } else {
+            resolve(user);
+          }
+        });
+      });
+    });
   }
 
-  createUser(name: string) {
+  async createUser(name: string) {
     const statement = this.db.prepare('INSERT INTO users (name) VALUES (?)');
     return statement.run(name).lastInsertRowid;
   }

@@ -9,9 +9,14 @@ const listUsers = async () => {
   return res;
 };
 
+const getUserById = async (id: number) => {
+  let res = await userRepository.getUserById(id);
+  return res;
+};
+
 const addUser = (newUser: User) => {
   userRepository.createUser(newUser.name);
   return userRepository.getAllUsers();
 };
 
-export { listUsers, addUser };
+export { listUsers, addUser, getUserById };

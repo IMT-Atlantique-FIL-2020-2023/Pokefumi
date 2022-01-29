@@ -14,9 +14,9 @@ const getUserById = async (id: number) => {
   return res;
 };
 
-const addUser = (newUser: User) => {
-  userRepository.createUser(newUser.name);
-  return userRepository.getAllUsers();
+const addUser = async (newUser: User) => {
+  let res = await userRepository.createUser(newUser);
+  return res;
 };
 
 export { listUsers, addUser, getUserById };

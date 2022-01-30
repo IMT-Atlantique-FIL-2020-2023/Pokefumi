@@ -53,8 +53,6 @@ export default class UserRepository {
 
   async createUser(user: User): Promise<User> {
     const params = [user.username, user.password];
-    console.log(typeof user.username);
-    console.log(typeof user.password);
     return new Promise<User>((resolve, reject) => {
       this.db.serialize(() => {
         this.db.run(`INSERT INTO users (username,password) VALUES(?,?);`, params, (err: any) => {

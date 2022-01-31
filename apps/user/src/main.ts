@@ -1,4 +1,4 @@
-import { app } from './app.user';
+import { app } from './app/app.user';
 import { AddressInfo } from 'net';
 const server = app.listen(8081, 'localhost', () => {
   const { port, address } = server.address() as AddressInfo;

@@ -1,4 +1,4 @@
-import Deck from '../../../src_old/models/deck';
+import { Deck } from '@pokefumi/pokefumi-common';
 
 export default interface User {
   id: number;

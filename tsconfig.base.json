@@ -6,6 +6,12 @@
     "emitDecoratorMetadata": true,
     "resolveJsonModule": true,
     "noImplicitAny": true,
+    "target": "es6",
     "sourceMap": true,
+    "paths": {
+      "@pokefumi/pokefumi-common": [
+        "packages/pokefumi-common/src/index.ts"
+      ]
+    }
   }
 }

@@ -47,7 +47,7 @@
           "method": "GET",
           "extra_config": {},
           "host": [
-            "http://localhost:3333"
+            "http://127.0.0.1:3333"
           ],
           "disable_host_sanitize": false
         }

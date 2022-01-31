@@ -1,32 +1,69 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.209.6/containers/typescript-node
 {
-	"name": "Node.js & TypeScript",
-	"build": {
-		"dockerfile": "Dockerfile",
-		// Update 'VARIANT' to pick a Node version: 16, 14, 12.
-		// Append -bullseye or -buster to pin to an OS version.
-		// Use -bullseye variants on local on arm64/Apple Silicon.
-		"args": { 
-			"VARIANT": "16.13.1"
+	"name": "Node.js & TypeScript & Nx",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspace",
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"editor.bracketPairColorization.enabled": true,
+		"remote.extensionKind": {
+			"ms-azuretools.vscode-docker": [
+				"ui"
+			]
 		}
 	},
-
-	// Set *default* container specific settings.json values on container create.
-	"settings": {},
-
-
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
-		"dbaeumer.vscode-eslint"
+		"redhat.vscode-yaml",
+		"vscode-icons-team.vscode-icons",
+		"visualstudioexptteam.vscodeintellicode",
+		"gruntfuggly.todo-tree",
+		"esbenp.prettier-vscode",
+		"ms-azuretools.vscode-docker",
+		"christian-kohler.path-intellisense",
+		"davidanson.vscode-markdownlint",
+		"yzhang.markdown-all-in-one",
+		"wmaurer.vscode-jumpy",
+		"mkaufman.htmlhint",
+		"xabikos.javascriptsnippets",
+		"eg2.vscode-npm-script",
+		"christian-kohler.npm-intellisense",
+		"nachocab.highlight-dodgy-characters",
+		"wengerk.highlight-bad-chars",
+		"nhoizey.gremlins",
+		"graphql.vscode-graphql",
+		"eamodio.gitlens",
+		"michelemelluso.gitignore",
+		"github.vscode-pull-request-github",
+		"donjayamanne.githistory",
+		"tombonnike.vscode-status-bar-format-toggle",
+		"nixon.env-cmd-file-syntax",
+		"vivaxy.vscode-conventional-commits",
+		"adam-bender.commit-message-editor",
+		"kisstkondoros.vscode-codemetrics",
+		"dbaeumer.vscode-eslint",
+		"alexcvzz.vscode-sqlite",
+		"adpyke.vscode-sql-formatter",
+		"mtxr.sqltools",
+		"mtxr.sqltools-driver-sqlite",
+		"softwaredotcom.swdc-vscode",
+		"streetsidesoftware.code-spell-checker",
+		"alefragnani.bookmarks",
+		"nicoespeon.abracadabra",
 	],
-
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-
+	"forwardPorts": [
+		3333,
+		3334,
+		3335,
+		3336,
+		3337,
+		8000
+	],
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "yarn install",
-
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "node"
 }

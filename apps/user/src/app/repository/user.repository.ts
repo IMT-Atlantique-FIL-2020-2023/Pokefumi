@@ -1,5 +1,5 @@
 import User from '../models/user.model';
-
+import {join} from 'path'
 export default class UserRepository {
   db: any;
 
@@ -8,7 +8,7 @@ export default class UserRepository {
     const sqlite3 = require('sqlite3');
 
     // Setting up a database for storing data.
-    this.db = new sqlite3.Database('./repository/user.db');
+    this.db = new sqlite3.Database(join(__dirname, './users.db'));
     this.db.run(`
     CREATE TABLE IF NOT EXISTS users (
       user_id INTEGER PRIMARY KEY AUTOINCREMENT,

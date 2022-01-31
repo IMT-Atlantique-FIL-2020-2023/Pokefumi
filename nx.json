@@ -35,5 +35,5 @@
   "cli": {
     "defaultCollection": "@nrwl/express"
   },
-  "defaultProject": "stats"
+  "defaultProject": "user"
 }

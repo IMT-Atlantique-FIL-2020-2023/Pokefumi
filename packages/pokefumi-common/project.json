@@ -1,0 +1,23 @@
+{
+  "root": "packages/pokefumi-common",
+  "sourceRoot": "packages/pokefumi-common/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/pokefumi-common/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/pokefumi-common"],
+      "options": {
+        "jestConfig": "packages/pokefumi-common/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

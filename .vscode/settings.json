@@ -1,3 +1,12 @@
 {
-    "discord.enabled": true
+    "discord.enabled": true,
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "Users",
+            "database": "${workspaceFolder:Pokefumi}/users.db"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
 }

@@ -6,6 +6,7 @@
     "emitDecoratorMetadata": true,
     "resolveJsonModule": true,
     "noImplicitAny": true,
+    "moduleResolution": "Node",
     "target": "es6",
     "sourceMap": true,
     "paths": {

@@ -1,0 +1,31 @@
+{
+	"folders": [
+		{
+			"path": "../apps/user"
+		},
+		{
+			"path": "../apps/match"
+		},
+		{
+			"path": "../apps/matchmaking"
+		},
+		{
+			"path": "../apps/stats"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"discord.enabled": true,
+		"sqltools.connections": [
+			{
+				"previewLimit": 50,
+				"driver": "SQLite",
+				"name": "Users",
+				"database": "${workspaceFolder:Pokefumi}/users.db"
+			}
+		],
+		"sqltools.useNodeRuntime": true
+	}
+}

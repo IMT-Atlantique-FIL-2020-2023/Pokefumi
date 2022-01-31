@@ -2,7 +2,7 @@
   "name": "pokefumi-1",
   "version": "1.0.0",
   "description": "Poke-fu-mi est une application qui permet d'organiser des combats entre maîtres Pokémon mais les règles ne sont pas exactement celles du jeu classique.",
-  "main": "src/index.ts",
+  "main": "./index.user.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc && cp -rf package.json dist/package.json",
@@ -37,16 +37,33 @@
     "wahlburger": "^1.0.0"
   },
   "devDependencies": {
+    "3": "^2.1.0",
     "@types/better-sqlite3": "^7.4.2",
     "@types/body-parser": "^1.19.2",
     "@types/express": "^4.17.13",
     "@typescript-eslint/eslint-plugin": "^4.23.0",
     "@typescript-eslint/parser": "^4.23.0",
+    "axios": "^0.24.0",
+    "better-sqlite3": "^7.4.6",
+    "better-sqlite3-helper": "^3.1.6",
+    "body-parser": "^1.19.1",
+    "config": "^3.3.7",
     "cross-env": "^7.0.3",
     "eslint": "^7.26.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
+    "express": "^4.17.2",
+    "is-odd": "^3.0.1",
+    "jokes-gco": "^1.0.17",
+    "pokenode-ts": "^1.10.1",
+    "random-sort": "^2.6.9",
+    "sqlite": "^4.0.23",
+    "sqlite-ts": "^0.1.0",
+    "sqlite3": "^5.0.2",
+    "start": "^5.1.0",
+    "true": "^0.0.4",
     "ts-node": "^10.4.0",
-    "typescript": "^4.5.4"
+    "typescript": "^4.5.4",
+    "wahlburger": "^1.0.0"
   }
 }

@@ -51,6 +51,21 @@ export default class UserRepository {
     });
   }
 
+  async deleteUserById(id: number) {
+    return new Promise<User>((resolve, reject) => {
+      this.db.serialize(() => {
+        this.db.run('DELETE FROM users WHERE user_id=?', [id], (err: any, user: User) => {
+          if (err) {
+            reject(err.message);
+          } else {
+            resolve(user);
+          }
+        });
+      });
+    });
+  }
+
+
   async createUser(user: User): Promise<User> {
     const params = [user.username, user.password];
     return new Promise<User>((resolve, reject) => {

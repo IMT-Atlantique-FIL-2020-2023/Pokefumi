@@ -1,0 +1,52 @@
+{
+  "root": "apps/matchmaking",
+  "sourceRoot": "apps/matchmaking/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/matchmaking",
+        "main": "apps/matchmaking/src/main.ts",
+        "tsConfig": "apps/matchmaking/tsconfig.app.json",
+        "assets": ["apps/matchmaking/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/matchmaking/src/environments/environment.ts",
+              "with": "apps/matchmaking/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:execute",
+      "options": {
+        "buildTarget": "matchmaking:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/matchmaking/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/matchmaking"],
+      "options": {
+        "jestConfig": "apps/matchmaking/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

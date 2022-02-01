@@ -1,10 +1,11 @@
-import User from '../models/user.model';
-import {join} from 'path'
+import { User } from '@pokefumi/pokefumi-common';
+import { join } from 'path';
 export default class UserRepository {
   db: any;
 
   constructor() {
     // Importing SQLite3 to our project.
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const sqlite3 = require('sqlite3');
 
     // Setting up a database for storing data.

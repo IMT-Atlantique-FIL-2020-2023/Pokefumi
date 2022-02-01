@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as UserController from '../controllers/user.controller';
-import User from '../models/user.model';
+import { User } from '@pokefumi/pokefumi-common';
 
 export const register = async (app: express.Application) => {
   app.get('/users', async (req, res) => {

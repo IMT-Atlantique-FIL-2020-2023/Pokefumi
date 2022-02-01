@@ -1,5 +1,5 @@
-import { Deck } from '@pokefumi/pokefumi-common';
-
+import { Deck, User } from '@pokefumi/pokefumi-common';
+/*
 export default interface User {
   id: number;
   username: string; //TODO doit être unique
@@ -8,3 +8,4 @@ export default interface User {
   score: number;
   password: string;
 }
+*/

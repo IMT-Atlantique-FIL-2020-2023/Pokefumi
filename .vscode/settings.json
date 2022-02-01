@@ -1,12 +1,13 @@
 {
-    "discord.enabled": true,
-    "sqltools.connections": [
-        {
-            "previewLimit": 50,
-            "driver": "SQLite",
-            "name": "Users",
-            "database": "${workspaceFolder:Pokefumi}/users.db"
-        }
-    ],
-    "sqltools.useNodeRuntime": true
+  "discord.enabled": true,
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "name": "Users",
+      "database": "${workspaceFolder:Pokefumi}/users.db"
+    }
+  ],
+  "sqltools.useNodeRuntime": true,
+  "conventionalCommits.scopes": ["Match"]
 }

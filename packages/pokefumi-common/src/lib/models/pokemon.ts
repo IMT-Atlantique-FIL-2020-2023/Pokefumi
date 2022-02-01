@@ -51,5 +51,5 @@ export class Pokemon extends Model {
 
   id?: number;
   name: string;
-  type: TypePokemon[]; //un pokemon peut avoir plusieurs types
+  types: TypePokemon[]; //un pokemon peut avoir plusieurs types
 }

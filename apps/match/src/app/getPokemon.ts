@@ -1,16 +1,27 @@
 import { PokemonClient } from 'pokenode-ts';
 import { Pokemon, TypePokemon } from '@pokefumi/pokefumi-common';
-import e from 'express';
-import getType from './getType';
+import { getTypeByName } from './getType';
 
-export default async function getPokemon(name: string): Promise<Pokemon> {
+export async function getPokemon(id: number): Promise<Pokemon> {
+  const api = new PokemonClient();
+
+  const pokemon = await api.getPokemonById(id);
+
+  return buildTypesPokemon(pokemon);
+}
+
+export async function getPokemonByName(name: string): Promise<Pokemon> {
   const api = new PokemonClient();
 
   const namedPokemon = await api.getPokemonByName(name);
 
+  return buildTypesPokemon(namedPokemon);
+}
+
+async function buildTypesPokemon(namedPokemon: any): Promise<Pokemon> {
   const types: TypePokemon[] = await Promise.all(
     namedPokemon.types.map(async (e: any) => {
-      return await getType(e.type.name);
+      return await getTypeByName(e.type.name);
     }),
   );
 

@@ -1,8 +1,199 @@
 _id: spc_25372c743f8149b9a3eb466780ed8bf4
 type: ApiSpec
 parentId: wrk_02b7d060b92a4d1e8ea235cfc915f88d
-modified: 1642580539198
+modified: 1643790486992
 created: 1642580539198
 fileName: pokefumi.yaml
-contents: ""
+contents: |-
+  {
+     "swagger": "2.0",
+     "info": {
+        "description": "",
+        "version": "1.0.0",
+        "title": "Pokefumi swagger",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+           "email": "apiteam@swagger.io"
+        },
+        "license": {
+           "name": "Apache 2.0",
+           "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+     },
+     "host": "localhost:3333",
+     "basePath": "/",
+     "tags": [
+        {
+           "name": "users",
+           "description": "users API"
+        }
+     ],
+     "paths": {
+        "/users": {
+           "get": {
+              "tags": [
+                 "users"
+              ],
+              "summary": "Find All Users",
+              "responses": {
+                 "200": {
+                    "description": "OK"
+                 },
+                 "500": {
+                    "description": "Server Error"
+                 }
+              }
+           },
+           "post": {
+              "tags": [
+                 "users"
+              ],
+              "summary": "Add User",
+              "parameters": [
+                 {
+                    "name": "body",
+                    "in": "body",
+                    "description": "user Data",
+                    "required": true,
+                    "schema": {
+                       "$ref": "#/definitions/users"
+                    }
+                 }
+              ],
+              "responses": {
+                 "201": {
+                    "description": "Created"
+                 },
+                 "400": {
+                    "description": "Bad Request"
+                 },
+                 "409": {
+                    "description": "Conflict"
+                 },
+                 "500": {
+                    "description": "Server Error"
+                 }
+              }
+           }
+        },
+        "/users/{id}": {
+           "get": {
+              "tags": [
+                 "users"
+              ],
+              "summary": "Find User By Id",
+              "parameters": [
+                 {
+                    "name": "id",
+                    "in": "path",
+                    "description": "User Id",
+                    "required": true,
+                    "type": "integer"
+                 }
+              ],
+              "responses": {
+                 "200": {
+                    "description": "OK"
+                 },
+                 "409": {
+                    "description": "Conflict"
+                 },
+                 "500": {
+                    "description": "Server Error"
+                 }
+              }
+           },
+           "put": {
+              "tags": [
+                 "users"
+              ],
+              "summary": "Update User By Id",
+              "parameters": [
+                 {
+                    "name": "id",
+                    "in": "path",
+                    "description": "user Id",
+                    "required": true,
+                    "type": "integer"
+                 },
+                 {
+                    "name": "body",
+                    "in": "body",
+                    "description": "user Data",
+                    "required": true,
+                    "schema": {
+                       "$ref": "#/definitions/users"
+                    }
+                 }
+              ],
+              "responses": {
+                 "200": {
+                    "description": "OK"
+                 },
+                 "400": {
+                    "description": "Bad Request"
+                 },
+                 "409": {
+                    "description": "Conflict"
+                 },
+                 "500": {
+                    "description": "Server Error"
+                 }
+              }
+           },
+           "delete": {
+              "tags": [
+                 "users"
+              ],
+              "summary": "Delete User By Id",
+              "parameters": [
+                 {
+                    "name": "id",
+                    "in": "path",
+                    "description": "user Id",
+                    "required": true,
+                    "type": "integer"
+                 }
+              ],
+              "responses": {
+                 "200": {
+                    "description": "OK"
+                 },
+                 "409": {
+                    "description": "Conflict"
+                 },
+                 "500": {
+                    "description": "Server Error"
+                 }
+              }
+           }
+        }
+     },
+     "definitions": {
+        "users": {
+           "type": "object",
+           "required": [
+              "email",
+              "password"
+           ],
+           "properties": {
+              "id": {
+                 "type": "integer",
+                 "description": "user Id"
+              },
+              "email": {
+                 "type": "string",
+                 "description": "user Email"
+              },
+              "password": {
+                 "type": "string",
+                 "description": "user Password"
+              }
+           }
+        }
+     },
+     "schemes": [
+        "http"
+     ]
+  }
 contentType: yaml

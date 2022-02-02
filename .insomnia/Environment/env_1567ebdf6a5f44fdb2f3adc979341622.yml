@@ -1,0 +1,16 @@
+_id: env_1567ebdf6a5f44fdb2f3adc979341622
+type: Environment
+parentId: env_e1fd75ac35e0298afe35a46a60eef46ea98c163b
+modified: 1643792189934
+created: 1643791996513
+name: Microservices
+data:
+  user-service-url: localhost:3333
+  matchmaking-service-url: localhost:3334
+dataPropertyOrder:
+  "&":
+    - user-service-url
+    - matchmaking-service-url
+color: null
+isPrivate: false
+metaSortKey: 1643791996513

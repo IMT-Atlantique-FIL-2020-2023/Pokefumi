@@ -8,6 +8,7 @@ import getListPokemons from './app/getListPokemons';
 import getListTypes from './app/getListTypes';
 import getType from './app/getType';
 import getPokemon from './app/getPokemon';
+import bagarrePokemon from './app/bagarrePokemon';
 
 const app = express();
 
@@ -29,6 +30,10 @@ app.get('/types', async (req, res) => {
 
 app.get('/types/:name', async (req, res) => {
   res.send(await getType(req.params.name));
+});
+
+app.get('/bagarre/:name1/:name2', async (req, res) => {
+  res.send(await bagarrePokemon(req.params.name1, req.params.name2));
 });
 
 const port = process.env.port || 3333;

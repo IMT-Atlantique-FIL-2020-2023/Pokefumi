@@ -1,0 +1,24 @@
+{
+  "name": "openapi-generator-plus-project",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "generate": "openapi-generator-plus -c config.yml",
+    "generate-oats": "ts-node ./scripts/generate.ts"
+  },
+  "dependencies": {
+    "@oats-ts/openapi-http": "0.0.13",
+    "@oats-ts/openapi-http-server": "0.0.11",
+    "@oats-ts/openapi-parameter-deserialization": "0.0.13",
+    "@oats-ts/openapi-parameter-serialization": "0.0.13",
+    "@oats-ts/try": "0.0.13",
+    "@oats-ts/validators": "0.0.13"
+  },
+  "devDependencies": {
+    "@oats-ts/openapi": "0.0.13",
+    "@oats-ts/openapi-test-utils": "0.0.13",
+    "@openapi-generator-plus/typescript-express-passport-server-generator": "^2.4.0",
+    "openapi-generator-plus": "^1.0.0",
+    "ts-node": "^10.4.0"
+  }
+}

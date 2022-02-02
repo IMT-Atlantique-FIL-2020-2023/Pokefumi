@@ -1,0 +1,11 @@
+# OpenAPI Generator Plus generator configuration
+#
+# The path (relative to this configuration file) or a URL for your API specification
+inputPath: stats.schema.yml
+
+# The path (relative to this configuration file) where the generated API should be output
+outputPath: src/app/generated-openapi-generator-plus
+
+# The name of the generator template used
+generator: "@openapi-generator-plus/typescript-express-passport-server-generator"
+# See https://github.com/karlvr/openapi-generator-plus-express-passport#readme for more configuration options

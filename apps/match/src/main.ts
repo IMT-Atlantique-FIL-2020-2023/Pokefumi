@@ -36,7 +36,7 @@ app.get('/bagarre/:name1/:name2', async (req, res) => {
   res.send(await bagarrePokemon(req.params.name1, req.params.name2));
 });
 
-const port = process.env.port || 3333;
+const port = process.env.port || 3335;
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
 });

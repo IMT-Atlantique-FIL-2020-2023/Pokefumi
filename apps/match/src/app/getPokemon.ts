@@ -3,7 +3,7 @@ import { Pokemon, TypePokemon } from '@pokefumi/pokefumi-common';
 import e from 'express';
 import getType from './getType';
 
-export default async function getListPokemons(name: string): Promise<Pokemon> {
+export default async function getPokemon(name: string): Promise<Pokemon> {
   const api = new PokemonClient();
 
   const namedPokemon = await api.getPokemonByName(name);

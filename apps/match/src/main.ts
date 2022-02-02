@@ -13,27 +13,47 @@ import bagarrePokemon from './app/bagarrePokemon';
 const app = express();
 
 app.get('/api', (req, res) => {
-  res.send({ message: 'Welcome to match!' });
+  res.status(200).send({ message: 'Welcome to match!' });
 });
 
 app.get('/pokemons', async (req, res) => {
-  res.send(await getListPokemons());
+  try {
+    res.status(200).send(await getListPokemons());
+  } catch (e) {
+    res.status(e.response.status).send(e);
+  }
 });
 
 app.get('/pokemons/:name', async (req, res) => {
-  res.send(await getPokemon(req.params.name));
+  try {
+    res.status(200).send(await getPokemon(req.params.name));
+  } catch (e) {
+    res.status(e.response.status).send(e);
+  }
 });
 
 app.get('/types', async (req, res) => {
-  res.send(await getListTypes());
+  try {
+    res.status(200).send(await getListTypes());
+  } catch (e) {
+    res.status(e.response.status).send(e);
+  }
 });
 
 app.get('/types/:name', async (req, res) => {
-  res.send(await getType(req.params.name));
+  try {
+    res.status(200).send(await getType(req.params.name));
+  } catch (e) {
+    res.status(e.response.status04).send(e);
+  }
 });
 
 app.get('/bagarre/:name1/:name2', async (req, res) => {
-  res.send(await bagarrePokemon(req.params.name1, req.params.name2));
+  try {
+    res.status(200).send(await bagarrePokemon(req.params.name1, req.params.name2));
+  } catch (e) {
+    res.status(e.response.status).send(e);
+  }
 });
 
 const port = process.env.port || 3335;

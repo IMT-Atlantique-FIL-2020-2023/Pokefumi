@@ -1,22 +1,19 @@
-import User from '../models/user.model';
+import { User } from '@pokefumi/pokefumi-common';
 import UserRepository from '../repository/user.repository';
 
 const userRepository = new UserRepository();
 
 const typedUsers: User[] = [];
 const listUsers = async () => {
-  let res = await userRepository.getAllUsers();
-  return res;
+  return await userRepository.getAllUsers();
 };
 
 const getUserById = async (id: number) => {
-  let res = await userRepository.getUserById(id);
-  return res;
+  return await userRepository.getUserById(id);
 };
 
 const addUser = async (newUser: User) => {
-  let res = await userRepository.createUser(newUser);
-  return res;
+  return await userRepository.createUser(newUser);
 };
 
 export { listUsers, addUser, getUserById };

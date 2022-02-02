@@ -1,7 +1,7 @@
 import { Model } from 'objection';
 import { Deck } from './deck';
 
-export default class User extends Model {
+export class User extends Model {
   static get tableName() {
     return 'user';
   }

@@ -9,29 +9,17 @@ export default class MatchmakingRepository {
     const sqlite3 = require('sqlite3');
 
     // Setting up a database for storing data.
-    this.db = new sqlite3.Database(join(__dirname, './users.db'));
-    this.db.run(`
-    CREATE TABLE IF NOT EXISTS users (
-      user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-      username TEXT NOT NULL,
-      password TEXT NOT NULL,
-      score INTEGER DEFAULT 0,
-      UNIQUE(username)
-      );`);
-    /*this.db.run(`
-    INSERT INTO users (username,password)
-    VALUES('user2', 'password2');`);*/
+    console.log(__dirname);
+    this.db = new sqlite3.Database(join(__dirname, './matchmaking.db'));
 
     this.db.run(`
     CREATE TABLE IF NOT EXISTS matchs (
       match_id INTEGER PRIMARY KEY AUTOINCREMENT,
-      status TEXT NOT NULL,
+      status TEXT DEFAULT "OPENED",
       isPublic BOOLEAN,
       joueur1 INTEGER,
       joueur2 INTEGER,
-      gagnant INTEGER DEFAULT 0,
-      FOREIGN KEY(joueur1) REFERENCES users(user_id),
-      FOREIGN KEY(joueur2) REFERENCES users(user_id)
+      gagnant INTEGER DEFAULT 0
       );`);
 
     this.db.run(`
@@ -39,11 +27,10 @@ export default class MatchmakingRepository {
       round_id INTEGER PRIMARY KEY AUTOINCREMENT,
       roundNumber INTEGER DEFAULT 0,
       matchId INTEGER,
-      pokemonPlayer1 TEXT NOT NULL,
-      pokemonPlayer2 TEXT NOT NULL,
-      status TEXT NOT NULL,
-      winner INTEGER DEFAULT 0,  
-      FOREIGN KEY(matchId) REFERENCES matchs(match_id)
+      pokemonPlayer1 TEXT,
+      pokemonPlayer2 TEXT,
+      status TEXT NOT NULL DEFAULT 'STARTED',
+      winner INTEGER DEFAULT 0
       );`);
   }
 
@@ -53,6 +40,43 @@ export default class MatchmakingRepository {
         if (err) reject(err.message);
         resolve(rows);
       });
+    });
+  }
+
+  async getMatchById(id: number) {
+    return new Promise<Match>((resolve, reject) => {
+      this.db.serialize(() => {
+        this.db.all('SELECT * FROM match WHERE match_id=?', [id], (err: any, match: Match) => {
+          if (err) {
+            reject(err.message);
+          } else {
+            resolve(match);
+          }
+        });
+      });
+    });
+  }
+
+  async createMatch(match: Match): Promise<Match> {
+    const params = [match.joueur1, match.isPublic];
+    return new Promise<Match>((resolve, reject) => {
+      this.db.serialize(() => {
+        this.db.run(`INSERT INTO matchs (joueur1,isPublic) VALUES(?,?);`, params, (err: any) => {
+          if (err) {
+            reject(err.message);
+          } else {
+            resolve(match);
+          }
+        });
+      });
+    }).catch(function () {
+      return null;
+    });
+  }
+
+  async setStatus(id: number, status: string) {
+    return await (() => {
+      this.db.all('UPDATE matchs SET status = ? WHERE match_id = ?', [status, id]);
     });
   }
 }

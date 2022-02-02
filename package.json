@@ -475,6 +475,7 @@
     "supports-color": "^7.2.0",
     "supports-hyperlinks": "^2.2.0",
     "supports-preserve-symlinks-flag": "^1.0.0",
+    "swagger-ui-express": "^4.3.0",
     "symbol-tree": "^3.2.4",
     "table": "^6.8.0",
     "tar": "^6.1.11",

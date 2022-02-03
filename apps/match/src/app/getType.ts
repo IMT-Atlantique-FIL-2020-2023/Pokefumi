@@ -1,15 +1,27 @@
 import { PokemonClient } from 'pokenode-ts';
 import { TypePokemon, LabelTypePokemon } from '@pokefumi/pokefumi-common';
 
-export default async function getType(name: string): Promise<TypePokemon> {
+export async function getType(id: number): Promise<TypePokemon> {
   const api = new PokemonClient();
 
-  const typePokemon = await api.getTypeByName(name);
+  const pokemon = await api.getTypeById(id);
 
+  return buildTypePokemon(pokemon);
+}
+
+export async function getTypeByName(name: string): Promise<TypePokemon> {
+  const api = new PokemonClient();
+
+  const pokemon = await api.getTypeByName(name);
+
+  return buildTypePokemon(pokemon);
+}
+
+async function buildTypePokemon(pokemon: any): Promise<TypePokemon> {
   const type: TypePokemon = {
-    label: typePokemon.name as LabelTypePokemon,
-    faiblesses: typePokemon.damage_relations.double_damage_from.map(e => e.name) as LabelTypePokemon[],
-    resistances: typePokemon.damage_relations.half_damage_from.map(e => e.name) as LabelTypePokemon[],
+    label: pokemon.name as LabelTypePokemon,
+    faiblesses: pokemon.damage_relations.double_damage_from.map(e => e.name) as LabelTypePokemon[],
+    resistances: pokemon.damage_relations.half_damage_from.map(e => e.name) as LabelTypePokemon[],
   } as TypePokemon;
 
   return type;

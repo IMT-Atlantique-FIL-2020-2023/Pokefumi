@@ -52,7 +52,7 @@ app.get('/types/:id', async (req, res) => {
   try {
     res.status(200).send(await getType(Number(req.params.id)));
   } catch (e) {
-    res.status(e.response.status04).send(e);
+    res.status(e.response.status).send(e);
   }
 });
 
@@ -60,7 +60,7 @@ app.get('/types/name/:name', async (req, res) => {
   try {
     res.status(200).send(await getTypeByName(req.params.name));
   } catch (e) {
-    res.status(e.response.status04).send(e);
+    res.status(e.response.status).send(e);
   }
 });
 

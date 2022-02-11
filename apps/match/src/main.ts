@@ -8,7 +8,7 @@ import getListPokemons from './app/getListPokemons';
 import getListTypes from './app/getListTypes';
 import { getType, getTypeByName } from './app/getType';
 import { getPokemon, getPokemonByName } from './app/getPokemon';
-import { bagarrePokemon, bagarrePokemonByName } from './app/bagarrePokemon';
+import { getBagarrePokemon, getBagarrePokemonByName } from './app/getBagarrePokemon';
 
 const app = express();
 
@@ -66,7 +66,7 @@ app.get('/types/name/:name', async (req, res) => {
 
 app.get('/bagarre/:id1/:id2', async (req, res) => {
   try {
-    res.status(200).send(await bagarrePokemon(Number(req.params.id1), Number(req.params.id2)));
+    res.status(200).send(await getBagarrePokemon(Number(req.params.id1), Number(req.params.id2)));
   } catch (e) {
     res.status(e.response.status).send(e);
   }
@@ -74,7 +74,7 @@ app.get('/bagarre/:id1/:id2', async (req, res) => {
 
 app.get('/bagarre/name/:name1/:name2', async (req, res) => {
   try {
-    res.status(200).send(await bagarrePokemonByName(req.params.name1, req.params.name2));
+    res.status(200).send(await getBagarrePokemonByName(req.params.name1, req.params.name2));
   } catch (e) {
     res.status(e.response.status).send(e);
   }

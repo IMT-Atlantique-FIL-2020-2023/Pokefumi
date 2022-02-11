@@ -3,15 +3,18 @@ import * as MatchMakingController from '../controllers/matchmaking.controller';
 import { Match } from '@pokefumi/pokefumi-common';
 
 export const register = async (app: express.Application) => {
+  //récupérer la liste des matchs
   app.get('/matchs', async (req, res) => {
     res.status(200).json(await MatchMakingController.listMatchs());
   });
 
+  //récupérer un match par son id
   app.get('/matchs/:id', async (req, res) => {
     const match_id = Number(req.params.id);
     res.status(200).json(await MatchMakingController.getMatchById(match_id));
   });
 
+  //modifie le statut d'un match existant
   app.put('/matchs/:id/status/:status', async (req, res) => {
     const match_id = Number(req.params.id);
     const status: string = req.params.status;

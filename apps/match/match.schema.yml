@@ -1,0 +1,228 @@
+openapi: 3.0.1
+info:
+  title: Match service
+  description: "Because we need bagarre"
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.0.1
+servers:
+  - url: https://127.0.0.1:3335
+tags:
+  - name: pokemon
+    description: Pokemon infos
+  - name: match
+    description: Matchs infos
+paths:
+  /api:
+    get:
+      summary: Check is the api is up
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /pokemons:
+    get:
+      tags:
+        - pokemon
+      summary: Get the list of existing pokemons
+      responses:
+        200:
+          description: The list of pokemons
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Pokemon"
+  /pokemons/{id}:
+    get:
+      tags:
+        - pokemon
+      summary: Get the pokemon for a given id
+      parameters:
+        - name: id
+          in: path
+          description: Pokemon ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: The pokemon for a given id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pokemon"
+  /pokemons/name/{name}:
+    get:
+      tags:
+        - pokemon
+      summary: Get the pokemon for a given name
+      parameters:
+        - name: name
+          in: path
+          description: Pokemon name
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The pokemon for a given name
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pokemon"
+
+  /types:
+    get:
+      tags:
+        - pokemon
+      summary: Get the list of existing types
+      responses:
+        200:
+          description: The list of types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TypePokemon"
+  /types/{id}:
+    get:
+      tags:
+        - pokemon
+      summary: Get the type for a given id
+      parameters:
+        - name: id
+          in: path
+          description: type ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: The type for a given id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypePokemon"
+  /types/name/{name}:
+    get:
+      tags:
+        - pokemon
+      summary: Get the type for a given name
+      parameters:
+        - name: name
+          in: path
+          description: type name
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The type for a given name
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypePokemon"
+
+  /bagarre/{id1}/{id2}:
+    get:
+      tags:
+        - match
+      summary: Get the result of a match for two given pokemon ids
+      parameters:
+        - name: id1
+          in: path
+          description: pokemon1 id
+          required: true
+          schema:
+            type: string
+        - name: id2
+          in: path
+          description: pokemon2 id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The winning pokemon
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pokemon"
+  /bagarre/name/{name1}/{name2}:
+    get:
+      tags:
+        - match
+      summary: Get the result of a match for two given pokemon names
+      parameters:
+        - name: name1
+          in: path
+          description: pokemon1 name
+          required: true
+          schema:
+            type: string
+        - name: name2
+          in: path
+          description: pokemon2 name
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The winning pokemon
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pokemon"
+
+components:
+  schemas:
+    Pokemon:
+      title: Pokemon
+      description: "A POKEMON :o"
+      type: object
+      properties:
+        id:
+          description: Pokemon's id
+          type: integer
+          format: int64
+        name:
+          description: Pokemon's name
+          type: string
+        types:
+          description: List of the types for this pokemon
+          type: array
+          items:
+            $ref: "#/components/schemas/TypePokemon"
+
+      TypePokemon:
+        title: TypePokemon
+        description: "A POKEMON TYPE :o"
+        type: object
+        properties:
+          id:
+            description: id of the type 
+            type: integer
+            format: int64
+          name:
+            description: label of the type
+            type: string
+          faiblesses: 
+            description: liste des faiblesses du type
+            type: array
+            items:
+              type: string
+          resistances: 
+            description: liste des faiblesses du type
+            type: array
+            items:
+              type: string

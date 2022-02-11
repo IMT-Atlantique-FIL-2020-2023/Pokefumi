@@ -93,7 +93,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/TypePokemon"
+                 $ref: "#/components/schemas/TypePokemon"
   /types/{id}:
     get:
       tags:
@@ -204,25 +204,25 @@ components:
           items:
             $ref: "#/components/schemas/TypePokemon"
 
-      TypePokemon:
-        title: TypePokemon
-        description: "A POKEMON TYPE :o"
-        type: object
-        properties:
-          id:
-            description: id of the type 
-            type: integer
-            format: int64
-          name:
-            description: label of the type
+    TypePokemon:
+      title: TypePokemon
+      description: "A POKEMON TYPE :o"
+      type: object
+      properties:
+        id:
+          description: id of the type 
+          type: integer
+          format: int64
+        name:
+          description: label of the type
+          type: string
+        faiblesses: 
+          description: liste des faiblesses du type
+          type: array
+          items:
             type: string
-          faiblesses: 
-            description: liste des faiblesses du type
-            type: array
-            items:
-              type: string
-          resistances: 
-            description: liste des faiblesses du type
-            type: array
-            items:
-              type: string
+        resistances: 
+          description: liste des faiblesses du type
+          type: array
+          items:
+            type: string

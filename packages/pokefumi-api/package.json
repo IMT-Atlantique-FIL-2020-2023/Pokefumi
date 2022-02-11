@@ -1,0 +1,20 @@
+{
+  "name": "pokefumi-api",
+  "version": "1.0.0",
+  "description": "This library was generated with [Nx](https://nx.dev).",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate": "run-p generate:*",
+    "generate:stats": "openapi -i ../../apps/stats/*.schema.*ml -o src/lib/generated-sources/open-api-ts-codegen/stats -c axios",
+    "generate:user": "openapi -i ../../apps/user/*.schema.*ml -o src/lib/generated-sources/open-api-ts-codegen/user -c axios",
+    "generate:match": "openapi -i ../../apps/match/*.schema.*ml -o src/lib/generated-sources/open-api-ts-codegen/match -c axios",
+    "generate:matchmaking": "openapi -i ../../apps/matchmaking/*.schema.*ml -o src/lib/generated-sources/open-api-ts-codegen/matchmaking -c axios"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "openapi-typescript-codegen": "^0.19.0"
+  }
+}

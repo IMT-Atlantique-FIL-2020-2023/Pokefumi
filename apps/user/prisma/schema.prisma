@@ -1,35 +1,16 @@
 datasource db {
-    provider = "postgresql"
-    url      = "postgres://dogwftgrnzkxap:1ca7a8decabc5a488c81366adc639b0221d580fb3a6fe809ad60bdbc1d7faacd@ec2-52-209-111-18.eu-west-1.compute.amazonaws.com:5432/d6jjn7ki9suk5i"
-    host = "ec2-52-209-111-18.eu-west-1.compute.amazonaws.com"
-    database = "d6jjn7ki9suk5i"
-    user = "dogwftgrnzkxap"
-    password = "1ca7a8decabc5a488c81366adc639b0221d580fb3a6fe809ad60bdbc1d7faacd"
-
+    provider = "sqlite"
+    url      = "file:./user.db"
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
-  content   String?
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-}
-
-model Profile {
-  id     Int     @id @default(autoincrement())
-  bio    String?
-  user   User    @relation(fields: [userId], references: [id])
-  userId Int     @unique
+generator client {
+  provider = "prisma-client-js"
 }
 
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String?
-  posts   Post[]
-  profile Profile?
+  id         Int      @id @default(autoincrement())
+  username   String   @unique
+  statut     String
+  score      Int?
+  password   String
 }

@@ -7,7 +7,7 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 0.0.1
 servers:
-  - url: https://127.0.0.1:33d33
+  - url: http://127.0.0.1:3333
 tags:
   - name: user
     description: users informations and manipulations

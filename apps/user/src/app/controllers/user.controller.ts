@@ -11,9 +11,9 @@ const listUsers = async () => {
 const getUserById = async (id: number) => {
   return await userRepository.getUserById(id);
 };
-
+/*
 const addUser = async (newUser: User) => {
   return await userRepository.createUser(newUser);
-};
+};*/
 
-export { listUsers, addUser, getUserById };
+export { listUsers ,getUserById/*, addUser,  */ };

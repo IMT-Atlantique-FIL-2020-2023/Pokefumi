@@ -1,15 +1,21 @@
 import { User } from '@pokefumi/pokefumi-common';
 import { join } from 'path';
 
+import { PrismaClient } from '@prisma/client'
+
 export default class UserRepository {
-  db: any;
+  prisma: any;
 
   constructor() {
+
+    this.prisma = new PrismaClient()
+
+    this.loadSampleData();
+
     // Importing SQLite3 to our project.
     // eslint-disable-next-line @typescript-eslint/no-var-requires
 
-
-    
+    /*
     const Database = require('better-sqlite3');
     this.db = new Database('./users.db', { verbose: console.log });
 
@@ -27,49 +33,29 @@ export default class UserRepository {
     VALUES('user2', 'password2');`);*/
   }
 
-  connectUser(username: string, password: string): User | undefined {
+  /*connectUser(username: string, password: string): User | undefined {
     const statement = this.db.prepare('SELECT * FROM users WHERE username = ? AND password = ?');
     const rows: User[] = statement.get(username, password);
     return rows.pop();
-  }
+  }*/
 
   async getAllUsers() {
-    return await new Promise<User[]>((resolve, reject) => {
-      this.db.all('SELECT * FROM users', [], (err: any, rows: any) => {
-        if (err) reject(err.message);
-        resolve(rows);
-      });
-    });
+      const allUsers = await this.prisma.user.findMany();
+      return allUsers;
   }
 
-  async getUserById(id: number) {
-    return new Promise<User>((resolve, reject) => {
-      this.db.serialize(() => {
-        this.db.all('SELECT * FROM users WHERE user_id=?', [id], (err: any, user: User) => {
-          if (err) {
-            reject(err.message);
-          } else {
-            resolve(user);
-          }
-        });
-      });
-    });
-  }
+  async getUserById(id:number) {
+    const allUsers = await this.prisma.user.findById(id);
+    return allUsers;
+}
 
-  async createUser(user: User): Promise<User> {
-    const params = [user.username, user.password];
-    return new Promise<User>((resolve, reject) => {
-      this.db.serialize(() => {
-        this.db.run(`INSERT INTO users (username,password) VALUES(?,?);`, params, (err: any) => {
-          if (err) {
-            reject(err.message);
-          } else {
-            resolve(user);
-          }
-        });
-      });
-    }).catch(function () {
-      return null;
-    });
+  async loadSampleData(){
+    const user = await this.prisma.user.create({
+      data: {
+        username: 'user',
+        statut: "offline",
+        password: "mdp"
+      },
+    })
   }
 }

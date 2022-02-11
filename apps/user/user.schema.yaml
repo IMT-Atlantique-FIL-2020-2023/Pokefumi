@@ -1,0 +1,164 @@
+openapi: 3.0.1
+info:
+  title: User service
+  description: "Because we need users"
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.0.1
+servers:
+  - url: https://127.0.0.1:3333
+tags:
+  - name: user
+    description: users informations and manipulations
+paths:
+  /users:
+    get:
+      tags:
+        - user
+      summary: List of all users
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArrayOfMatches"
+  /pokemons/{id}/number-of-matchs:
+    get:
+      tags:
+        - pokemon
+      summary: Number of matchs for a specific pokemon
+      description: Returns the number of matchs for a specific pokemon
+      operationId: getNumberOfMatchsByPokemon
+      parameters:
+        - name: id
+          in: path
+          description: Pokemon ID
+          required: true
+          schema:
+            $ref: "#/components/schemas/PokemonID"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    description: Pokemon's id used in the request
+                    type: integer
+                    format: int64
+                  numberOfMatchs:
+                    description: Number of matchs for this pokemon
+                    type: integer
+                    format: int64
+  /pokemons/{id}/number-of-victories:
+    get:
+      tags:
+        - pokemon
+      summary: Number of victories for a specific pokemon
+      description: Returns the number of victories for a specific pokemon
+      operationId: getNumberOfVictoriesByPokemon
+      parameters:
+        - name: id
+          in: path
+          description: Pokemon ID
+          required: true
+          schema:
+            $ref: "#/components/schemas/PokemonID"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    description: Pokemon's id used in the request
+                    type: integer
+                    format: int64
+                    minimum: 0
+                  numberOfVictories:
+                    description: Number of victories for this pokemon
+                    type: integer
+                    format: int64
+  /pokemons/matchs:
+    get:
+      tags:
+        - pokemon
+      summary: List of pokemons with their number of matchs
+      description: Returns the list of pokemons with their number of matchs
+      operationId: getPokemonsWithNumberOfMatchs
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArrayOfPokemons"
+components:
+  schemas:
+    ArrayOfUsers:
+      title: Array of users
+      description: array of users
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            description: id of the user
+            type: integer
+            format: int64
+            minimum: 0
+          username:
+            description: name of the user
+            type: string
+            format: text
+          statut: 
+            description: status of the user
+            type: boolean
+          score:
+            description: score of the player
+            type: integer
+            format: number
+          password:
+            description: password of the user
+            type: string
+            format: text
+    ArrayOfMatches:
+      title: Array Of Matches Stats
+      description: Array of matches
+      type: array
+      items:
+        type: object
+        properties:
+          date:
+            description: Date of the aggregated day
+            type: string
+            format: date
+          numberOfMatches:
+            description: Date of matches for this day
+            type: integer
+            format: number
+    ArrayOfPokemons:
+      title: Array Of Pokemons Stats
+      description: Array of pokemons
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            description: Pokemon's id
+            type: integer
+            format: int64
+            minimum: 0
+          numberOfMatchs:
+            description: Number of matchs for this pokemon
+            type: integer
+            format: int64
+    PokemonID:
+      type: integer
+      minimum: 0

@@ -42,6 +42,8 @@ export class Match extends Model {
   joueur2?: User; //adversaire. Peut être null dans le cas d'un match public tant que personne n'ait rejoint
   gagnant?: number; //gagnant du duel
   round: Round[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export enum Status {

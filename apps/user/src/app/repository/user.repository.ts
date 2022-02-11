@@ -1,15 +1,19 @@
 import { User } from '@pokefumi/pokefumi-common';
 import { join } from 'path';
+
 export default class UserRepository {
   db: any;
 
   constructor() {
     // Importing SQLite3 to our project.
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const sqlite3 = require('sqlite3');
+
+
+    
+    const Database = require('better-sqlite3');
+    this.db = new Database('./users.db', { verbose: console.log });
 
     // Setting up a database for storing data.
-    this.db = new sqlite3.Database(join(__dirname, './users.db'));
     this.db.run(`
     CREATE TABLE IF NOT EXISTS users (
       user_id INTEGER PRIMARY KEY AUTOINCREMENT,

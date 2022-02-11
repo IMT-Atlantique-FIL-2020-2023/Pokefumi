@@ -1,13 +1,13 @@
 import { getPokemon, getPokemonByName } from './getPokemon';
 import { Pokemon } from '@pokefumi/pokefumi-common';
 
-export async function bagarrePokemon(id1: number, id2: number): Promise<Pokemon> {
+export async function getBagarrePokemon(id1: number, id2: number): Promise<Pokemon> {
   const pokemon1: Pokemon = await getPokemon(id1);
   const pokemon2: Pokemon = await getPokemon(id2);
 
   return buildBagarre(pokemon1, pokemon2);
 }
-export async function bagarrePokemonByName(name1: string, name2: string): Promise<Pokemon> {
+export async function getBagarrePokemonByName(name1: string, name2: string): Promise<Pokemon> {
   const pokemon1: Pokemon = await getPokemonByName(name1);
   const pokemon2: Pokemon = await getPokemonByName(name2);
 

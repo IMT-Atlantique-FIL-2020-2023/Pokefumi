@@ -12,8 +12,13 @@ const getUserById = async (id: number) => {
   return await userRepository.getUserById(id);
 };
 
+const deleteUserById = async (id: number) => {
+  let res = await userRepository.deleteUserById(id);
+  return res;
+};
+
 const addUser = async (newUser: User) => {
   return await userRepository.createUser(newUser);
 };
 
-export { listUsers, addUser, getUserById };
+export { listUsers, addUser, getUserById,deleteUserById };

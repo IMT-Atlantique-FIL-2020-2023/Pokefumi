@@ -1,22 +1,25 @@
 Ceci est un microservice qui gère des utilisateurs.
 
 ## Se placer dans le répertoire de l'application
-cd services/User
+
+cd apps/user
 
 ## Genérer la couche ORM
-prisme generate
+
+prisma generate
 
 ## Genérer la base de données
-prisme db push
 
+prisma db push
 
 ## Installer les dépendances
+
 ```
 npm i
 ```
 
 ## Démarrer l'API
+
 ```
 npm start
 ```
-

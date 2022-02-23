@@ -1,14 +1,13 @@
 import { User } from '@pokefumi/pokefumi-common';
 import { join } from 'path';
 
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
 
 export default class UserRepository {
   prisma: any;
 
   constructor() {
-
-    this.prisma = new PrismaClient()
+    this.prisma = new PrismaClient();
 
     this.loadSampleData();
 
@@ -40,22 +39,31 @@ export default class UserRepository {
   }*/
 
   async getAllUsers() {
-      const allUsers = await this.prisma.user.findMany();
-      return allUsers;
+    const allUsers = await this.prisma.user.findMany();
+    return allUsers;
   }
 
-  async getUserById(id:number) {
-    const allUsers = await this.prisma.user.findById(id);
-    return allUsers;
-}
+  async getUserById(idParam: number) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: idParam,
+      },
+    });
+    return user;
+  }
 
-  async loadSampleData(){
-    const user = await this.prisma.user.create({
+  async createUser(data: User): Promise<User> {
+    const user = await this.prisma.user.create({ data });
+    return user;
+  }
+
+  async loadSampleData() {
+    /*const user = await this.prisma.user.create({
       data: {
         username: 'user',
-        statut: "offline",
-        password: "mdp"
+        statut: 'offline',
+        password: 'mdp',
       },
-    })
+    });*/
   }
 }

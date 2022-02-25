@@ -1,12 +1,12 @@
 import { Match } from '@pokefumi/pokefumi-common';
 import { join } from 'path';
+import * as sqlite3 from 'sqlite3';
 export default class MatchmakingRepository {
   db: any;
 
   constructor() {
     // Importing SQLite3 to our project.
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const sqlite3 = require('sqlite3');
 
     // Setting up a database for storing data.
     console.log(__dirname);
@@ -19,7 +19,11 @@ export default class MatchmakingRepository {
       isPublic BOOLEAN,
       joueur1 INTEGER,
       joueur2 INTEGER,
-      gagnant INTEGER DEFAULT 0
+      gagnant INTEGER DEFAULT 0,
+      createdAt TIMESTAMP
+      DEFAULT CURRENT_TIMESTAMP
+      updatedAt TIMESTAMP
+      DEFAULT CURRENT_TIMESTAMP
       );`);
 
     this.db.run(`

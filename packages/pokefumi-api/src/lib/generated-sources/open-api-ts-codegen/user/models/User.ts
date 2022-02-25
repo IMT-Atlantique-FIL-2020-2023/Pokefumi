@@ -3,9 +3,9 @@
 /* eslint-disable */
 
 /**
- * array of users
+ * a user
  */
-export type ArrayOfUsers = Array<{
+export type User = {
     /**
      * id of the user
      */
@@ -17,7 +17,7 @@ export type ArrayOfUsers = Array<{
     /**
      * status of the user
      */
-    statut?: boolean;
+    statut?: string;
     /**
      * score of the player
      */
@@ -26,4 +26,4 @@ export type ArrayOfUsers = Array<{
      * password of the user
      */
     password?: string;
-}>;
+};

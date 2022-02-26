@@ -79,7 +79,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Pokemon"
-
   /types:
     get:
       tags:
@@ -132,7 +131,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/TypePokemon"
-
   /bagarre/{id1}/{id2}:
     get:
       tags:

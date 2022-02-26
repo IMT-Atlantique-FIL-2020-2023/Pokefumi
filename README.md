@@ -11,6 +11,8 @@ Pour lancer le matchmaking service :  `nx run matchmaking:serve`.
 L'application est divisée en 4 services principaux : user, match, matchmaking, stats
 Pour chaque service, vous pouvez trouver un schéma OpenAPI décrivant techniquement leurs fonctionnalités, dans les fichiers /apps/*/*.schema.yml, * étant le nom du service voulu.
 
+Ci-dessous voici un description succinte de quelques endpoint. La documentation exhaustive de chaque service se trouve dans son fichier <service>.schema.yaml. Celle-ci peut-être visualiser à partir d'un éditeur swagger.
+
 ### User
 Pour gérer les informations de chaque utilisateur et la création de nouveaux utilisateurs.
 #### /users

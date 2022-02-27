@@ -37,10 +37,10 @@ GET : Renvoie la liste des types de pokemon existants
 GET : Renvoie un type spécifique selon son id
 #### /types/name/{name}
 GET : Renvoie un type spécifique selon son nom
-#### /bagarre/{id1}/{id2}
+#### /round/{id1}/{id2}
 GET : Renvoie le résultat d'un round confrontant deux pokemon identifiés selon leurs id
-> Pourquoi ne pas avoir fait une requete sous la forme /bagarre/{id1}&{id2} comme pour des url ?
-#### /bagarre/name/{name1}/{name2}
+> Pourquoi ne pas avoir fait une requete sous la forme /round/{id1}&{id2} comme pour des url ?
+#### /round/name/{name1}/{name2}
 GET : Renvoie le résultat d'un round confrontant deux pokemon identifiés selon leurs noms
 
 ### Matchmaking 

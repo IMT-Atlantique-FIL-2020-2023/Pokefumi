@@ -1,20 +1,20 @@
 import { getPokemon, getPokemonByName } from './getPokemon';
 import { Pokemon } from '@pokefumi/pokefumi-common';
 
-export async function getBagarrePokemon(id1: number, id2: number): Promise<Pokemon> {
+export async function getRoundPokemon(id1: number, id2: number): Promise<Pokemon> {
   const pokemon1: Pokemon = await getPokemon(id1);
   const pokemon2: Pokemon = await getPokemon(id2);
 
-  return buildBagarre(pokemon1, pokemon2);
+  return buildRound(pokemon1, pokemon2);
 }
-export async function getBagarrePokemonByName(name1: string, name2: string): Promise<Pokemon> {
+export async function getRoundPokemonByName(name1: string, name2: string): Promise<Pokemon> {
   const pokemon1: Pokemon = await getPokemonByName(name1);
   const pokemon2: Pokemon = await getPokemonByName(name2);
 
-  return buildBagarre(pokemon1, pokemon2);
+  return buildRound(pokemon1, pokemon2);
 }
 
-async function buildBagarre(pokemon1: Pokemon, pokemon2: Pokemon): Promise<Pokemon> {
+async function buildRound(pokemon1: Pokemon, pokemon2: Pokemon): Promise<Pokemon> {
   let score = 0;
 
   const resistances1: Set<string>[] = pokemon1.types.map(e => new Set(e.resistances));

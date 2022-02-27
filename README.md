@@ -111,8 +111,12 @@ Nous avons pensé aux aspects futurs de l'application Pokefumi si elle venait à
 ## Système de salon
 Actuellement, un salon correspond à un match avec deux joueurs, et se ferme à la fin du match.
 Cependant, nous avons pensé qu'un salon pourrait correspondre à une succession de matchs en permettant aux deux joueurs de rejouer directement entre eux, sans devoir créer un nouveau salon et de recommencer le processus d'invitation. Cela permettrait aussi en BDD de limiter la répétition de certaines données, comme le Salon contiendrait une liste de Matchs et plus seulement un Match, et donc il y aurait moins de Salons enregistrés.
+  
+## Statistiques sur l'activité
+Il serait possible en stockant les dates des matchs de stocker le timecode avec les minutes et secondes pour déterminer le temps moyen d'attente entre la création d'un salon et la résolution d'un match.
+Il serait aussi possible de faire des statistiques pour suivre la fréquentation de l'application et identifier les pics d'activités, selon le nombre de matchs par jour ou heure. Cela pourrait aussi résulter sur l'affichage d'un graphique montrant visuellement l'évolution de l'activité.
 
-
+  
 # Geraud
 
 Il faut faire en sorte que les services puissent remplir les fonctionnalités nécessaire pour faire des stats.

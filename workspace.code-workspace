@@ -1,20 +1,20 @@
 {
 	"folders": [
 		{
-			"path": "../apps/user"
+			"path": "apps/match"
 		},
 		{
-			"path": "../apps/match"
+			"path": "apps/matchmaking"
 		},
 		{
-			"path": "../apps/matchmaking"
+			"path": "apps/stats"
 		},
 		{
-			"path": "../apps/stats"
+			"path": "apps/user"
 		},
 		{
 			"path": "."
-		}
+		},
 	],
 	"settings": {
 		"discord.enabled": true,
@@ -26,6 +26,9 @@
 				"database": "${workspaceFolder:Pokefumi}/users.db"
 			}
 		],
-		"sqltools.useNodeRuntime": true
+		"sqltools.useNodeRuntime": true,
+		"yaml.schemas": {
+			"openapi:v3": "file:///mnt/6c613b3f-1cec-40c0-a5fb-0e771e22f7c2/home/mxb/Documents/FIL%20A2/UE%20Service-Oriented/Pokefumi/apps/stats/stats.schema.yml"
+		}
 	}
 }

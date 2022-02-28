@@ -14,7 +14,7 @@ export class UserService {
      * @returns User successful operation
      * @throws ApiError
      */
-    public static get(): CancelablePromise<Array<User>> {
+    public static getAllUsers(): CancelablePromise<Array<User>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/users',
@@ -27,7 +27,7 @@ export class UserService {
      * @returns any Created
      * @throws ApiError
      */
-    public static post(
+    public static createUser(
         requestBody: User,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
@@ -42,12 +42,36 @@ export class UserService {
     }
 
     /**
+     * Connect the user
+     * @param username
+     * @param password
+     * @returns string authentificated
+     * @throws ApiError
+     */
+    public static connectUser(
+        username: string,
+        password: string,
+    ): CancelablePromise<string> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/auth/connect',
+            query: {
+                'username': username,
+                'password': password,
+            },
+            errors: {
+                401: `wrong credentials`,
+            },
+        });
+    }
+
+    /**
      * Retrieves a specific user
      * @param id The user ID
      * @returns User successful operation
      * @throws ApiError
      */
-    public static get1(
+    public static getUserById(
         id: number,
     ): CancelablePromise<User> {
         return __request(OpenAPI, {

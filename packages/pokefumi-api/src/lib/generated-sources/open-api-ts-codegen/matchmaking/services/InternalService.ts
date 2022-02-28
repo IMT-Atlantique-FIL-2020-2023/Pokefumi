@@ -1,27 +1,31 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { StatsDto } from '../models/StatsDto';
+import type { MatchDto } from '../models/MatchDto';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
-export class StatsService {
+export class InternalService {
 
     /**
-     * Upload stats
-     * Upload stats
-     * @param requestBody Stats to upload
-     * @returns StatsDto successful operation
+     * Close a match
+     * @param id Id of the match
+     * @param requestBody Post match winner and close it
+     * @returns MatchDto successful operation
      * @throws ApiError
      */
-    public static uploadStatRow(
-        requestBody?: StatsDto,
-    ): CancelablePromise<StatsDto> {
+    public static closeMatch(
+        id: number,
+        requestBody?: number,
+    ): CancelablePromise<MatchDto> {
         return __request(OpenAPI, {
-            method: 'PUT',
-            url: '/stats',
+            method: 'POST',
+            url: '/internal/matches/{id}/close',
+            path: {
+                'id': id,
+            },
             body: requestBody,
             mediaType: 'application/json',
             errors: {

@@ -7,11 +7,10 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { AppError } from './models/AppError';
-export type { ArrayOfPokemons } from './models/ArrayOfPokemons';
-export type { ArrayOfRounds } from './models/ArrayOfRounds';
+export type { CreateMatchDto } from './models/CreateMatchDto';
+export type { DeckDto } from './models/DeckDto';
+export { MatchDto } from './models/MatchDto';
 export type { PokemonID } from './models/PokemonID';
-export type { StatsDto } from './models/StatsDto';
 
-export { PokemonService } from './services/PokemonService';
-export { RoundService } from './services/RoundService';
-export { StatsService } from './services/StatsService';
+export { InternalService } from './services/InternalService';
+export { MatchesService } from './services/MatchesService';

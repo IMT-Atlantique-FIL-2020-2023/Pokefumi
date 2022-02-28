@@ -1,3 +1,3 @@
-export * as Match from './lib/generated-sources/open-api-ts-codegen/match';
+export * as Round from './lib/generated-sources/open-api-ts-codegen/round';
 export * as User from './lib/generated-sources/open-api-ts-codegen/user';
 export * as Stats from './lib/generated-sources/open-api-ts-codegen/stats';

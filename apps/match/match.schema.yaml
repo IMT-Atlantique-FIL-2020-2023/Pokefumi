@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Match service
-  description: "Because we need bagarre"
+  description: "To manage rounds in a match"
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -79,7 +79,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Pokemon"
-
   /types:
     get:
       tags:
@@ -132,12 +131,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/TypePokemon"
-
-  /bagarre/{id1}/{id2}:
+  /round/{id1}/{id2}:
     get:
       tags:
         - match
-      summary: Get the result of a match for two given pokemon ids
+      summary: Get the result of a round for two given pokemon ids
       parameters:
         - name: id1
           in: path
@@ -158,11 +156,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Pokemon"
-  /bagarre/name/{name1}/{name2}:
+  /round/name/{name1}/{name2}:
     get:
       tags:
         - match
-      summary: Get the result of a match for two given pokemon names
+      summary: Get the result of a round for two given pokemon names
       parameters:
         - name: name1
           in: path
@@ -217,12 +215,12 @@ components:
           description: label of the type
           type: string
         faiblesses: 
-          description: liste des faiblesses du type
+          description: list of weakness for a type
           type: array
           items:
             type: string
         resistances: 
-          description: liste des faiblesses du type
+          description: list of weakness for a type
           type: array
           items:
             type: string

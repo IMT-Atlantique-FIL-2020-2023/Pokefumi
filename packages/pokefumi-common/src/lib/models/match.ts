@@ -1,7 +1,6 @@
 import { User } from './user';
 
 export class Match {
-
   id?: number;
   status: Status; //état du match
   isPublic: boolean; //true =match ouvert à tous, false = match avec lien d'invitation direct
@@ -23,24 +22,7 @@ export type StatutRound = 'STARTED' | 'FINISHED';
 
 export type NumeroRound = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
-export class Round extends Model {
-  static get tableName() {
-    return 'round';
-  }
-
-  static get relationMappings() {
-    return {
-      round: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: Match,
-        join: {
-          from: 'round.matchId',
-          to: 'match.id',
-        },
-      },
-    };
-  }
-
+export class Round {
   id?: number;
   matchId: number;
   roundNumber: NumeroRound;

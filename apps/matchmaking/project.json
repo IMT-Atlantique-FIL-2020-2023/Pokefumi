@@ -10,7 +10,8 @@
         "outputPath": "dist/apps/matchmaking",
         "main": "apps/matchmaking/src/main.ts",
         "tsConfig": "apps/matchmaking/tsconfig.app.json",
-        "assets": ["apps/matchmaking/src/assets"]
+        "assets": ["apps/matchmaking/src/assets"],
+        "webpackConfig": "webpack/webpack.config.js"
       },
       "configurations": {
         "production": {

@@ -10,7 +10,8 @@
         "outputPath": "dist/apps/stats",
         "main": "apps/stats/src/main.ts",
         "tsConfig": "apps/stats/tsconfig.app.json",
-        "assets": ["apps/stats/src/assets"]
+        "assets": ["apps/stats/src/assets"],
+        "webpackConfig": "webpack/webpack.config.js"
       },
       "configurations": {
         "production": {

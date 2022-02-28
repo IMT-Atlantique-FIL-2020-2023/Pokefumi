@@ -1,0 +1,19 @@
+{
+  "name": "matchmaking",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app/main.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^3.10.0",
+    "@types/express-jwt": "^6.0.4",
+    "dotenv": "^16.0.0",
+    "express-jwt": "^6.1.1",
+    "zod": "^3.12.0",
+    "zod-express-middleware": "^1.4.0"
+  }
+}

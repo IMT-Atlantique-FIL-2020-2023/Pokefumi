@@ -1,41 +1,67 @@
 import * as express from 'express';
 import * as MatchMakingController from '../controllers/matchmaking.controller';
-import { Match } from '@pokefumi/pokefumi-common';
+import { validateRequest } from 'zod-express-middleware';
+import { z } from 'zod';
+import jwt from 'express-jwt';
 
+import { CloseDtoSchema, CreateMatchSchema, DeckDtoSchema, MatchIdSchema } from '../controllers/matchmaking.controller';
 export const register = async (app: express.Application) => {
   //récupérer la liste des matchs
   app.get('/matchs', async (req, res) => {
     res.status(200).json(await MatchMakingController.listMatchs());
   });
 
+  app.put(
+    '/matchs',
+    validateRequest({
+      params: MatchIdSchema,
+      body: CreateMatchSchema,
+    }),
+    jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] }),
+    async (req, res) => {
+      res.status(200).json(await MatchMakingController.createMatch(req.body));
+    },
+  );
+
   //récupérer un match par son id
-  app.get('/matchs/:id', async (req, res) => {
-    const match_id = Number(req.params.id);
-    res.status(200).json(await MatchMakingController.getMatchById(match_id));
+  app.get(
+    '/matchs/:id',
+    validateRequest({
+      params: MatchIdSchema,
+    }),
+    async (req, res) => {
+      const match_id = Number(req.params.id);
+      res.status(200).json(await MatchMakingController.getMatchById(match_id));
+    },
+  );
+
+  app.get('/matchs/invitation', async (req, res) => {
+    res.status(200).json(await MatchMakingController.listInvitations(req));
   });
 
   //modifie le statut d'un match existant
-  app.put('/matchs/:id/status/:status', async (req, res) => {
-    const match_id = Number(req.params.id);
-    const status: string = req.params.status;
-    res.status(200).json(await MatchMakingController.setStatus(match_id, status));
-  });
-  /*
-  app.put('/matchs/:id/joueur2/:idJoueur2', async (req, res) => {
-    const match_id = Number(req.params.id);
-    const idJoueur2 = req.params.idJoueur2;
-    res.status(200).json(await MatchMakingController.setJoueur2(match_id, idJoueur2));
-  });
+  app.post(
+    '/matchs/:id/join',
+    validateRequest({
+      params: MatchIdSchema,
+      body: DeckDtoSchema,
+    }),
+    jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] }),
+    async (req, res) => {
+      const match_id = Number(req.params.id);
+      res.status(200).json(await MatchMakingController.joinMatch(match_id, req.body));
+    },
+  );
 
-  app.put('/matchs/:id/gagnant/:idGagnant', async (req, res) => {
-    const match_id = Number(req.params.id);
-    const gagnant = req.params.idGagnant;
-    res.status(200).json(await MatchMakingController.setGagnant(match_id, gagnant));
-  });
-
-  app.post('/matchs', async (req, res) => {
-    const newMatch: Match = req.body;
-    const result = await MatchMakingController.addMatch(newMatch);
-    result ? res.status(200).json(result) : res.status(409).json('could not insert match. Check the body of your request.');
-  });*/
+  app.post(
+    '/internal/matches/:id/close',
+    validateRequest({
+      params: MatchIdSchema,
+      body: CloseDtoSchema,
+    }),
+    async (req, res) => {
+      const match_id = Number(req.params.id);
+      res.status(200).json(await MatchMakingController.closeMatch(match_id, req.body));
+    },
+  );
 };

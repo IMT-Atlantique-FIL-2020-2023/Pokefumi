@@ -1,0 +1,261 @@
+openapi: 3.0.1
+info:
+  title: Matchmaking service
+  description: "Because we need machmatking"
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.0.1
+servers:
+  - url: https://127.0.0.1:3334
+tags:
+  - name: matches
+    description: Everything related to a match
+  - name: round
+    description: Rounds stats
+  - name: internal
+    description: For internal communication
+paths:
+  /matchs:
+    get:
+      tags:
+        - matches
+      summary: Get all matches
+      operationId: getAllMatches
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                description: Array of matches id
+                items:
+                  type: string
+                  description: The id of the match
+    put:
+      tags:
+        - matches
+      summary: Create a match
+      operationId: createMatch
+      requestBody:
+        description: Match to create
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateMatchDto"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MatchDto"
+        400:
+          $ref: "#/components/responses/ErrorResponse"
+  /matchs/{id}:
+    get:
+      tags:
+        - matches
+      summary: Get a match by id
+      operationId: getMatchById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Id of the match
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MatchDto"
+  /matchs/invitation:
+    get:
+      tags:
+        - matches
+      summary: Get all matches that are waiting for an invitation for the connected player
+      operationId: getAllMatchesWaitingForInvitation
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                description: Array of awaiting matches
+                items:
+                  type: object
+                  required:
+                    - id
+                    - opponent
+                  properties:
+                    id:
+                      type: integer
+                      description: The id of the match
+                    authorId:
+                      type: string
+                      description: The id of the player opponent
+  /matchs/{id}/join:
+    post:
+      tags:
+        - matches
+      summary: Join a match
+      operationId: joinMatch
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Id of the match
+          schema:
+            type: integer
+      requestBody:
+        description: Deck
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeckDto"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MatchDto"
+        400:
+          $ref: "#/components/responses/ErrorResponse"
+  /internal/matches/{id}/close:
+    post:
+      tags:
+        - internal
+      summary: Close a match
+      operationId: closeMatch
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Id of the match
+          schema:
+            type: integer
+      requestBody:
+        description: Post match winner and close it
+        content:
+          application/json:
+            schema:
+              description: winner's id
+              type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MatchDto"
+        400:
+          $ref: "#/components/responses/ErrorResponse"
+components:
+  schemas:
+    DeckDto:
+      type: array
+      description: Deck of the player
+      minItems: 10
+      maxItems: 10
+      items:
+        $ref: "#/components/schemas/PokemonID"
+    CreateMatchDto:
+      type: object
+      required:
+        - opponnentId
+      properties:
+        opponnentId:
+          type: integer
+          description: Id of the opponent
+        deck:
+          type: array
+          description: Deck of the player
+          minItems: 10
+          maxItems: 10
+          items:
+            $ref: "#/components/schemas/PokemonID"
+    MatchDto:
+      type: object
+      required:
+        - id
+        - createdAt
+        - updatedAt
+        - authorId
+        - opponnentId
+        - status
+        - authorPokemons
+      properties:
+        id:
+          type: integer
+          description: The id of the match
+        createdAt:
+          type: string
+          description: The date of the creation
+          format: date-time
+        updatedAt:
+          type: string
+          description: The date of the last update
+          format: date-time
+        authorPokemons:
+          type: array
+          description: The pokemons ids of the author
+          maxItems: 10
+          minItems: 10
+          items:
+            type: integer
+        opponentPokemons:
+          type: array
+          description: The pokemons ids of the opponent
+          maxItems: 10
+          minItems: 10
+          items:
+            type: integer
+        authorId:
+          type: integer
+          description: The id of the author
+        opponnentId:
+          type: integer
+          description: The id of the opponent
+        status:
+          type: string
+          description: The status of the match
+          enum:
+            - waitingInvite
+            - started
+            - finished
+        winnerId:
+          default: null
+          type: integer
+          description: The id of the winner
+    PokemonID:
+      type: integer
+      minimum: 0
+    AppError:
+      type: "object"
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: Error code
+        message:
+          type: string
+          description: Error message
+          example: "Internal error"
+  responses:
+    ErrorResponse:
+      description: An error caused by the client
+      content:
+        application/json:
+          schema:
+            type: "array"
+            items:
+              $ref: "#/components/schemas/AppError"

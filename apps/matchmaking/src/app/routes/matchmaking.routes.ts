@@ -19,7 +19,7 @@ export const register = async (app: express.Application) => {
     }),
     jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] }),
     async (req, res) => {
-      res.status(200).json(await MatchMakingController.createMatch(req.body));
+      res.status(200).json(await MatchMakingController.createMatch(req.body, req));
     },
   );
 

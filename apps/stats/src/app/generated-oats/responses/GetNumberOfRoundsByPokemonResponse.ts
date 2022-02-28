@@ -1,7 +1,7 @@
 import { HttpResponse } from '@oats-ts/openapi-http';
 import { AppError } from '../types/AppError';
 
-export type GetNumberOfMatchsByPokemonResponse =
+export type GetNumberOfRoundsByPokemonResponse =
   | HttpResponse<
       {
         /**
@@ -9,9 +9,9 @@ export type GetNumberOfMatchsByPokemonResponse =
          */
         id?: number;
         /**
-         * Number of matchs for this pokemon
+         * Number of rounds for this pokemon
          */
-        numberOfMatchs?: number;
+        numberOfRounds?: number;
       },
       200,
       'application/json',

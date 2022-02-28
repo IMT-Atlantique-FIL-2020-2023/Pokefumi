@@ -2,10 +2,10 @@ import { ExpressToolkit } from '@oats-ts/openapi-express-server-adapter';
 import { ServerAdapter } from '@oats-ts/openapi-http';
 import { Router } from 'express';
 import { StatsServiceApi } from '../api/StatsServiceApi';
-import { getMatchsAdayLast30DaysRouter } from './getMatchsAdayLast30DaysRouter';
-import { getNumberOfMatchsByPokemonRouter } from './getNumberOfMatchsByPokemonRouter';
+import { getNumberOfRoundsByPokemonRouter } from './getNumberOfRoundsByPokemonRouter';
 import { getNumberOfVictoriesByPokemonRouter } from './getNumberOfVictoriesByPokemonRouter';
-import { getPokemonsWithNumberOfMatchsRouter } from './getPokemonsWithNumberOfMatchsRouter';
+import { getPokemonsWithNumberOfRoundsRouter } from './getPokemonsWithNumberOfRoundsRouter';
+import { getRoundsAdayLast30DaysRouter } from './getRoundsAdayLast30DaysRouter';
 import { StatsServiceRouters } from './StatsServiceRouters';
 import { uploadStatRowRouter } from './uploadStatRowRouter';
 
@@ -20,10 +20,10 @@ export function createStatsServiceRouter(
       response.locals['__oats_configuration'] = configuration;
       next();
     },
-    routes.getMatchsAdayLast30DaysRouter ?? getMatchsAdayLast30DaysRouter,
-    routes.getNumberOfMatchsByPokemonRouter ?? getNumberOfMatchsByPokemonRouter,
+    routes.getNumberOfRoundsByPokemonRouter ?? getNumberOfRoundsByPokemonRouter,
     routes.getNumberOfVictoriesByPokemonRouter ?? getNumberOfVictoriesByPokemonRouter,
-    routes.getPokemonsWithNumberOfMatchsRouter ?? getPokemonsWithNumberOfMatchsRouter,
+    routes.getPokemonsWithNumberOfRoundsRouter ?? getPokemonsWithNumberOfRoundsRouter,
+    routes.getRoundsAdayLast30DaysRouter ?? getRoundsAdayLast30DaysRouter,
     routes.uploadStatRowRouter ?? uploadStatRowRouter,
   );
 }

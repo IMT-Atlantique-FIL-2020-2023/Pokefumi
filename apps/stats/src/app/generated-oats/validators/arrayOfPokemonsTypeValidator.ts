@@ -5,7 +5,7 @@ export const arrayOfPokemonsTypeValidator = array(
     object(
       shape({
         id: number(),
-        numberOfMatchs: number(),
+        numberOfRounds: number(),
       }),
     ),
   ),

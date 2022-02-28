@@ -1,6 +1,6 @@
 import { PokemonID } from '../types/PokemonID';
 
-export type GetNumberOfMatchsByPokemonPathParameters = {
+export type GetNumberOfRoundsByPokemonPathParameters = {
   /**
    * Pokemon ID
    */

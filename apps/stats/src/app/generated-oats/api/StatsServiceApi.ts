@@ -1,23 +1,19 @@
-import { GetNumberOfMatchsByPokemonServerRequest } from '../requests/GetNumberOfMatchsByPokemonServerRequest';
+import { GetNumberOfRoundsByPokemonServerRequest } from '../requests/GetNumberOfRoundsByPokemonServerRequest';
 import { GetNumberOfVictoriesByPokemonServerRequest } from '../requests/GetNumberOfVictoriesByPokemonServerRequest';
 import { UploadStatRowServerRequest } from '../requests/UploadStatRowServerRequest';
-import { GetMatchsAdayLast30DaysResponse } from '../responses/GetMatchsAdayLast30DaysResponse';
-import { GetNumberOfMatchsByPokemonResponse } from '../responses/GetNumberOfMatchsByPokemonResponse';
+import { GetNumberOfRoundsByPokemonResponse } from '../responses/GetNumberOfRoundsByPokemonResponse';
 import { GetNumberOfVictoriesByPokemonResponse } from '../responses/GetNumberOfVictoriesByPokemonResponse';
-import { GetPokemonsWithNumberOfMatchsResponse } from '../responses/GetPokemonsWithNumberOfMatchsResponse';
+import { GetPokemonsWithNumberOfRoundsResponse } from '../responses/GetPokemonsWithNumberOfRoundsResponse';
+import { GetRoundsAdayLast30DaysResponse } from '../responses/GetRoundsAdayLast30DaysResponse';
 import { UploadStatRowResponse } from '../responses/UploadStatRowResponse';
 
 export type StatsServiceApi<T> = {
   /**
-   * Number of matchs a day for the last 30 days
-   */
-  getMatchsAdayLast30Days(toolkit: T): Promise<GetMatchsAdayLast30DaysResponse>;
-  /**
-   * Number of matchs for a specific pokemon
+   * Number of rounds for a specific pokemon
    *
-   * Returns the number of matchs for a specific pokemon
+   * Returns the number of rounds for a specific pokemon
    */
-  getNumberOfMatchsByPokemon(request: GetNumberOfMatchsByPokemonServerRequest, toolkit: T): Promise<GetNumberOfMatchsByPokemonResponse>;
+  getNumberOfRoundsByPokemon(request: GetNumberOfRoundsByPokemonServerRequest, toolkit: T): Promise<GetNumberOfRoundsByPokemonResponse>;
   /**
    * Number of victories for a specific pokemon
    *
@@ -25,11 +21,15 @@ export type StatsServiceApi<T> = {
    */
   getNumberOfVictoriesByPokemon(request: GetNumberOfVictoriesByPokemonServerRequest, toolkit: T): Promise<GetNumberOfVictoriesByPokemonResponse>;
   /**
-   * List of pokemons with their number of matchs
+   * List of pokemons with their number of rounds
    *
-   * Returns the list of pokemons with their number of matchs
+   * Returns the list of pokemons with their number of rounds
    */
-  getPokemonsWithNumberOfMatchs(toolkit: T): Promise<GetPokemonsWithNumberOfMatchsResponse>;
+  getPokemonsWithNumberOfRounds(toolkit: T): Promise<GetPokemonsWithNumberOfRoundsResponse>;
+  /**
+   * Number of rounds a day for the last 30 days
+   */
+  getRoundsAdayLast30Days(toolkit: T): Promise<GetRoundsAdayLast30DaysResponse>;
   /**
    * Upload stats
    *

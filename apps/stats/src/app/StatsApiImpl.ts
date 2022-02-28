@@ -2,17 +2,17 @@ import { ExpressParameters } from '@oats-ts/openapi-http-server/lib/express';
 import { fluent } from '@oats-ts/try';
 import { StatsServiceApi } from './generated-oats/api/StatsServiceApi';
 import { Issue, stringify } from '@oats-ts/validators';
-import { GetNumberOfMatchsByPokemonServerRequest } from './generated-oats/requests/GetNumberOfMatchsByPokemonServerRequest';
+import { GetNumberOfRoundsByPokemonServerRequest } from './generated-oats/requests/GetNumberOfRoundsByPokemonServerRequest';
 import { GetNumberOfVictoriesByPokemonServerRequest } from './generated-oats/requests/GetNumberOfVictoriesByPokemonServerRequest';
-import { GetMatchsAdayLast30DaysResponse } from './generated-oats/responses/GetMatchsAdayLast30DaysResponse';
-import { GetNumberOfMatchsByPokemonResponse } from './generated-oats/responses/GetNumberOfMatchsByPokemonResponse';
+import { GetRoundsAdayLast30DaysResponse } from './generated-oats/responses/GetRoundsAdayLast30DaysResponse';
+import { GetNumberOfRoundsByPokemonResponse } from './generated-oats/responses/GetNumberOfRoundsByPokemonResponse';
 import { GetNumberOfVictoriesByPokemonResponse } from './generated-oats/responses/GetNumberOfVictoriesByPokemonResponse';
-import { GetPokemonsWithNumberOfMatchsResponse } from './generated-oats/responses/GetPokemonsWithNumberOfMatchsResponse';
+import { GetPokemonsWithNumberOfRoundsResponse } from './generated-oats/responses/GetPokemonsWithNumberOfRoundsResponse';
 import { UploadStatRowServerRequest } from './generated-oats/requests/UploadStatRowServerRequest';
 import { UploadStatRowResponse } from './generated-oats/responses/UploadStatRowResponse';
 import { PrismaClient } from '@prisma/client';
 import { AppError } from './generated-oats/types/AppError';
-import { ArrayOfMatches } from './generated-oats/types/ArrayOfMatches';
+import { ArrayOfRounds } from './generated-oats/types/ArrayOfRounds';
 
 export class StatsApiImpl implements StatsServiceApi<ExpressParameters> {
   prisma;
@@ -48,9 +48,9 @@ export class StatsApiImpl implements StatsServiceApi<ExpressParameters> {
       }),
     );
   }
-  async getMatchsAdayLast30Days(): Promise<GetMatchsAdayLast30DaysResponse> {
+  async getRoundsAdayLast30Days(): Promise<GetRoundsAdayLast30DaysResponse> {
     return {
-      body: await this.prisma.$queryRaw<ArrayOfMatches>`
+      body: await this.prisma.$queryRaw<ArrayOfRounds>`
 SELECT 
   strftime('%d-%m-%Y', dateMatch) as date, 
   COUNT(*) as numberOfMatches 
@@ -66,12 +66,12 @@ GROUP BY
       mimeType: 'application/json',
     };
   }
-  async getNumberOfMatchsByPokemon(request: GetNumberOfMatchsByPokemonServerRequest): Promise<GetNumberOfMatchsByPokemonResponse> {
+  async getNumberOfRoundsByPokemon(request: GetNumberOfRoundsByPokemonServerRequest): Promise<GetNumberOfRoundsByPokemonResponse> {
     return fluent(request.path).get(
-      async ({ id }): Promise<GetNumberOfMatchsByPokemonResponse> => ({
+      async ({ id }): Promise<GetNumberOfRoundsByPokemonResponse> => ({
         body: {
           id,
-          numberOfMatchs: await this.prisma.statRound.count({
+          numberOfRounds: await this.prisma.statRound.count({
             where: {
               idPokemon: id,
             },
@@ -81,7 +81,7 @@ GROUP BY
         mimeType: 'application/json',
         statusCode: 200,
       }),
-      async (issues: Issue[]): Promise<GetNumberOfMatchsByPokemonResponse> => ({
+      async (issues: Issue[]): Promise<GetNumberOfRoundsByPokemonResponse> => ({
         body: issues.map(stringify).map((message): AppError => ({ message, code: 0 })),
         headers: undefined,
         mimeType: 'application/json',
@@ -114,7 +114,7 @@ GROUP BY
       }),
     );
   }
-  async getPokemonsWithNumberOfMatchs(): Promise<GetPokemonsWithNumberOfMatchsResponse> {
+  async getPokemonsWithNumberOfRounds(): Promise<GetPokemonsWithNumberOfRoundsResponse> {
     return {
       body: (
         await this.prisma.statRound.groupBy({

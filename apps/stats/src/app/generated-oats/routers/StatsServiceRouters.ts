@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
 export type StatsServiceRouters = {
-  getMatchsAdayLast30DaysRouter: Router;
-  getNumberOfMatchsByPokemonRouter: Router;
+  getNumberOfRoundsByPokemonRouter: Router;
   getNumberOfVictoriesByPokemonRouter: Router;
-  getPokemonsWithNumberOfMatchsRouter: Router;
+  getPokemonsWithNumberOfRoundsRouter: Router;
+  getRoundsAdayLast30DaysRouter: Router;
   uploadStatRowRouter: Router;
 };

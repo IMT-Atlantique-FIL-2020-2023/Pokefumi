@@ -1,10 +1,10 @@
 export type StatsDto = {
   /**
-   * Date of the match
+   * Date of the round
    */
   dateMatch: string;
   /**
-   * Match's id
+   * Round's id
    */
   idMatch: number;
   /**

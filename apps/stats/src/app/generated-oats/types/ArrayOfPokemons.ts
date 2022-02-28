@@ -7,7 +7,7 @@ export type ArrayOfPokemons = {
    */
   id: number;
   /**
-   * Number of matchs for this pokemon
+   * Number of rounds for this pokemon
    */
-  numberOfMatchs: number;
+  numberOfRounds: number;
 }[];

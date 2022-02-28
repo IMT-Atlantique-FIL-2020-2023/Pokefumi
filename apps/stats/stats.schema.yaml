@@ -11,8 +11,8 @@ servers:
 tags:
   - name: pokemon
     description: Pokemon stats
-  - name: match
-    description: Matchs stats
+  - name: round
+    description: Rounds stats
 paths:
   /stats:
     put:
@@ -36,26 +36,26 @@ paths:
                 $ref: "#/components/schemas/StatsDto"
         400:
           $ref: "#/components/responses/ErrorResponse"
-  /matchs/count-a-day-last-30-days:
+  /rounds/count-a-day-last-30-days:
     get:
       tags:
-        - match
-      summary: Number of matchs a day for the last 30 days
-      operationId: getMatchsAdayLast30Days
+        - round
+      summary: Number of rounds a day for the last 30 days
+      operationId: getRoundsAdayLast30Days
       responses:
         200:
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ArrayOfMatches"
-  /pokemons/{id}/number-of-matchs:
+                $ref: "#/components/schemas/ArrayOfRounds"
+  /pokemons/{id}/number-of-rounds:
     get:
       tags:
         - pokemon
-      summary: Number of matchs for a specific pokemon
-      description: Returns the number of matchs for a specific pokemon
-      operationId: getNumberOfMatchsByPokemon
+      summary: Number of rounds for a specific pokemon
+      description: Returns the number of rounds for a specific pokemon
+      operationId: getNumberOfRoundsByPokemon
       parameters:
         - name: id
           in: path
@@ -75,8 +75,8 @@ paths:
                     description: Pokemon's id used in the request
                     type: integer
                     format: int64
-                  numberOfMatchs:
-                    description: Number of matchs for this pokemon
+                  numberOfRounds:
+                    description: Number of rounds for this pokemon
                     type: integer
                     format: int64
         400:
@@ -114,13 +114,13 @@ paths:
                     format: int64
         400:
           $ref: "#/components/responses/ErrorResponse"
-  /pokemons/matchs:
+  /pokemons/rounds:
     get:
       tags:
         - pokemon
-      summary: List of pokemons with their number of matchs
-      description: Returns the list of pokemons with their number of matchs
-      operationId: getPokemonsWithNumberOfMatchs
+      summary: List of pokemons with their number of rounds
+      description: Returns the list of pokemons with their number of rounds
+      operationId: getPokemonsWithNumberOfRounds
       responses:
         200:
           description: successful operation
@@ -145,14 +145,14 @@ components:
           format: int64
           minimum: 0
         dateMatch:
-          description: Date of the match
+          description: Date of the round
           type: string
           format: date-time
         victory:
           description: Victory (if true) or defeat
           type: boolean
         idMatch:
-          description: Match's id
+          description: Round's id
           type: integer
           format: int64
           minimum: 0
@@ -161,22 +161,22 @@ components:
           type: integer
           minimum: 0
           maximum: 1
-    ArrayOfMatches:
-      title: Array Of Matches Stats
-      description: Array of matches
+    ArrayOfRounds:
+      title: Array Of Rounds Stats
+      description: Array of rounds
       type: array
       items:
         type: object
         required:
           - date
-          - numberOfMatchs
+          - numberOfRounds
         properties:
           date:
             description: Date of the aggregated day
             type: string
             format: date
-          numberOfMatches:
-            description: Date of matches for this day
+          numberOfRounds:
+            description: Number of rounds for this day
             type: integer
             format: number
     ArrayOfPokemons:
@@ -187,15 +187,15 @@ components:
         type: object
         required:
           - id
-          - numberOfMatchs
+          - numberOfRounds
         properties:
           id:
             description: Pokemon's id
             type: integer
             format: int64
             minimum: 0
-          numberOfMatchs:
-            description: Number of matchs for this pokemon
+          numberOfRounds:
+            description: Number of rounds for this pokemon
             type: integer
             format: int64
     PokemonID:

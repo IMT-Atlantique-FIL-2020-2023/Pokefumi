@@ -5,4 +5,5 @@ export type StatsServiceRouters = {
   getNumberOfMatchsByPokemonRouter: Router;
   getNumberOfVictoriesByPokemonRouter: Router;
   getPokemonsWithNumberOfMatchsRouter: Router;
+  uploadStatRowRouter: Router;
 };

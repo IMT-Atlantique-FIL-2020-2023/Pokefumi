@@ -4,7 +4,7 @@ export const arrayOfMatchesTypeValidator = array(
   items(
     object(
       shape({
-        date: optional(string()),
+        date: string(),
         numberOfMatches: optional(number()),
       }),
     ),

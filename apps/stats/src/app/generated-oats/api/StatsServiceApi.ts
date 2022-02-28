@@ -1,9 +1,11 @@
 import { GetNumberOfMatchsByPokemonServerRequest } from '../requests/GetNumberOfMatchsByPokemonServerRequest';
 import { GetNumberOfVictoriesByPokemonServerRequest } from '../requests/GetNumberOfVictoriesByPokemonServerRequest';
+import { UploadStatRowServerRequest } from '../requests/UploadStatRowServerRequest';
 import { GetMatchsAdayLast30DaysResponse } from '../responses/GetMatchsAdayLast30DaysResponse';
 import { GetNumberOfMatchsByPokemonResponse } from '../responses/GetNumberOfMatchsByPokemonResponse';
 import { GetNumberOfVictoriesByPokemonResponse } from '../responses/GetNumberOfVictoriesByPokemonResponse';
 import { GetPokemonsWithNumberOfMatchsResponse } from '../responses/GetPokemonsWithNumberOfMatchsResponse';
+import { UploadStatRowResponse } from '../responses/UploadStatRowResponse';
 
 export type StatsServiceApi<T> = {
   /**
@@ -28,4 +30,10 @@ export type StatsServiceApi<T> = {
    * Returns the list of pokemons with their number of matchs
    */
   getPokemonsWithNumberOfMatchs(toolkit: T): Promise<GetPokemonsWithNumberOfMatchsResponse>;
+  /**
+   * Upload stats
+   *
+   * Upload stats
+   */
+  uploadStatRow(request: UploadStatRowServerRequest, toolkit: T): Promise<UploadStatRowResponse>;
 };

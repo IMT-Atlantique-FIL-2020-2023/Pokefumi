@@ -5,7 +5,7 @@ export type ArrayOfMatches = {
   /**
    * Date of the aggregated day
    */
-  date?: string;
+  date: string;
   /**
    * Date of matches for this day
    */

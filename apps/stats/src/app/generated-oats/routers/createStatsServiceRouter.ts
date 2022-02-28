@@ -7,6 +7,7 @@ import { getNumberOfMatchsByPokemonRouter } from './getNumberOfMatchsByPokemonRo
 import { getNumberOfVictoriesByPokemonRouter } from './getNumberOfVictoriesByPokemonRouter';
 import { getPokemonsWithNumberOfMatchsRouter } from './getPokemonsWithNumberOfMatchsRouter';
 import { StatsServiceRouters } from './StatsServiceRouters';
+import { uploadStatRowRouter } from './uploadStatRowRouter';
 
 export function createStatsServiceRouter(
   api: StatsServiceApi<ExpressToolkit>,
@@ -23,5 +24,6 @@ export function createStatsServiceRouter(
     routes.getNumberOfMatchsByPokemonRouter ?? getNumberOfMatchsByPokemonRouter,
     routes.getNumberOfVictoriesByPokemonRouter ?? getNumberOfVictoriesByPokemonRouter,
     routes.getPokemonsWithNumberOfMatchsRouter ?? getPokemonsWithNumberOfMatchsRouter,
+    routes.uploadStatRowRouter ?? uploadStatRowRouter,
   );
 }

@@ -14,6 +14,28 @@ tags:
   - name: match
     description: Matchs stats
 paths:
+  /stats:
+    put:
+      tags:
+        - stats
+      summary: Upload stats
+      operationId: uploadStatRow
+      description: Upload stats
+      requestBody:
+        description: Stats to upload
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StatsDto"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatsDto"
+        400:
+          $ref: "#/components/responses/ErrorResponse"
   /matchs/count-a-day-last-30-days:
     get:
       tags:
@@ -57,6 +79,8 @@ paths:
                     description: Number of matchs for this pokemon
                     type: integer
                     format: int64
+        400:
+          $ref: "#/components/responses/ErrorResponse"
   /pokemons/{id}/number-of-victories:
     get:
       tags:
@@ -88,6 +112,8 @@ paths:
                     description: Number of victories for this pokemon
                     type: integer
                     format: int64
+        400:
+          $ref: "#/components/responses/ErrorResponse"
   /pokemons/matchs:
     get:
       tags:
@@ -104,12 +130,46 @@ paths:
                 $ref: "#/components/schemas/ArrayOfPokemons"
 components:
   schemas:
+    StatsDto:
+      type: object
+      required:
+        - idPokemon
+        - idMatch
+        - team
+        - victory
+        - dateMatch
+      properties:
+        idPokemon:
+          description: Pokemon's id
+          type: integer
+          format: int64
+          minimum: 0
+        dateMatch:
+          description: Date of the match
+          type: string
+          format: date-time
+        victory:
+          description: Victory (if true) or defeat
+          type: boolean
+        idMatch:
+          description: Match's id
+          type: integer
+          format: int64
+          minimum: 0
+        team:
+          description: Team of the pokemon
+          type: integer
+          minimum: 0
+          maximum: 1
     ArrayOfMatches:
       title: Array Of Matches Stats
       description: Array of matches
       type: array
       items:
         type: object
+        required:
+          - date
+          - numberOfMatchs
         properties:
           date:
             description: Date of the aggregated day
@@ -125,6 +185,9 @@ components:
       type: array
       items:
         type: object
+        required:
+          - id
+          - numberOfMatchs
         properties:
           id:
             description: Pokemon's id
@@ -138,3 +201,26 @@ components:
     PokemonID:
       type: integer
       minimum: 0
+    AppError:
+      type: "object"
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: Error code
+        message:
+          type: string
+          description: Error message
+          example: "Internal error"
+  responses:
+    ErrorResponse:
+      description: An error caused by the client
+      content:
+        application/json:
+          schema:
+            type: "array"
+            items:
+              $ref: "#/components/schemas/AppError"

@@ -123,7 +123,7 @@ GROUP BY
             _all: true,
           },
         })
-      ).map(({ idPokemon, _count }) => ({ id: idPokemon, numberOfMatches: _count })),
+      ).map(({ idPokemon, _count }) => ({ id: idPokemon, numberOfRounds: _count._all })),
       headers: undefined,
       mimeType: 'application/json',
       statusCode: 200,

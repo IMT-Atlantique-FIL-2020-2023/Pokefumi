@@ -4,8 +4,11 @@ import { validateRequest } from 'zod-express-middleware';
 import { z } from 'zod';
 import jwt from 'express-jwt';
 
+
 import { CloseDtoSchema, CreateMatchSchema, DeckDtoSchema, MatchIdSchema } from '../controllers/matchmaking.controller';
 export const register = async (app: express.Application) => {
+  
+
   //récupérer la liste des matchs
   app.get('/matchs', async (req, res) => {
     res.status(200).json(await MatchMakingController.listMatchs());

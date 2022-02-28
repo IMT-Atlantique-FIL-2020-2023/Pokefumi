@@ -1,4 +1,4 @@
-import { generators, generate, nameProviders, pathProviders, validator, writer, reader, prettierStringify, presets } from '@oats-ts/openapi';
+import { generate, nameProviders, pathProviders, validator, writer, reader, prettierStringify, presets } from '@oats-ts/openapi';
 import { promises as fs } from 'fs';
 import path from 'path';
 
@@ -32,4 +32,4 @@ async function generateBookStoreSchema(schemaPath: string, sourcePath: string) {
   });
 }
 
-generateBookStoreSchema(path.join(__dirname, '..', 'stats.schema.yml'), path.join(__dirname, '..', 'src/app/generated-oats'));
+generateBookStoreSchema(path.join(__dirname, '..', 'stats.schema.yaml'), path.join(__dirname, '..', 'src/app/generated-oats'));

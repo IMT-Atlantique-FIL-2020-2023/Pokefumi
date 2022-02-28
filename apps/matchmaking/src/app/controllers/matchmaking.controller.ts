@@ -9,17 +9,17 @@ const prisma = new PrismaClient();
 
 export const DeckDtoSchema = z.number().int().array().min(10).max(10);
 export type DeckDto = z.TypeOf<typeof DeckDtoSchema>;
-export const CreateMatchSchema = z.object({ opponnendId: z.number().int(), deck: DeckDtoSchema });
+export const CreateMatchSchema = z.object({ opponnentId: z.number().int(), deck: DeckDtoSchema });
 export type CreateMatchDto = z.TypeOf<typeof CreateMatchSchema>;
-export const MatchIdSchema = z.object({ id: z.number().int() });
+export const MatchIdSchema = z.object({ id: z.string().regex(/^\d+$/) });
 export type MatchIdPath = z.TypeOf<typeof MatchIdSchema>;
-export const CloseDtoSchema = z.number().int();
+export const CloseDtoSchema = z.object({ winnerId: z.number().int() });
 export type CloseDto = z.TypeOf<typeof CloseDtoSchema>;
 
 const transformMatchToDto = (match: Match) => ({
   ...match,
-  authorPokemons: match.authorPokemons.split(' ').map(Number),
-  opponentPokemons: match.opponentPokemons.split(' ').map(Number),
+  authorPokemons: match.authorPokemons?.split(' ')?.map(Number),
+  opponentPokemons: match.opponentPokemons?.split(' ')?.map(Number),
 });
 
 const transformMatchToDtoArray = (matches: Match[]) => matches.map(transformMatchToDto);
@@ -34,21 +34,28 @@ export async function getMatchById(id: number) {
 
 async function checkDeckValidity(pokemonsIds: number[]) {
   for (const id of pokemonsIds) {
-    await pokeapi.getPokemonById(id);
+    try {
+      await pokeapi.getPokemonById(id);
+    } catch (e) {
+      throw new Error(`Pokemon ${id} does not exist or pokeapi not available`);
+    }
   }
 }
 
 export async function createMatch(newMatch: CreateMatchDto, req: Express.Request) {
-  await User.UserService.get1(newMatch.opponnendId); // check user exists
-  checkDeckValidity(newMatch.deck); // check if pokemons are valid;
-  return transformMatchToDto(
+  const res = await User.UserService.getUserById(newMatch.opponnentId); // check user exists
+  if (!res) {
+    throw new Error('Opponent does not exist');
+  }
+
+  await checkDeckValidity(newMatch.deck); // check if pokemons are valid;
+  return await transformMatchToDto(
     await prisma.match.create({
       data: {
-        id: null,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
         authorId: req.user.id,
-        opponentId: newMatch.opponnendId,
+        opponentId: newMatch.opponnentId,
         authorPokemons: newMatch.deck.join(' '),
         status: 'waitingInvite',
       },
@@ -90,7 +97,7 @@ export async function joinMatch(id: number, deck: DeckDto) {
   );
 }
 
-export async function closeMatch(id: number, winnerId: CloseDto) {
+export async function closeMatch(id: number, { winnerId }: CloseDto) {
   return await prisma.match.updateMany({
     where: { id, status: 'started' },
     data: { status: 'finished', winnerId },

@@ -1,9 +1,6 @@
 {
 	"folders": [
 		{
-			"path": "apps/match"
-		},
-		{
 			"path": "apps/matchmaking"
 		},
 		{
@@ -13,8 +10,11 @@
 			"path": "apps/user"
 		},
 		{
-			"path": "."
+			"path": "apps/round"
 		},
+		{
+			"path": "."
+		}
 	],
 	"settings": {
 		"discord.enabled": true,

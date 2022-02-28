@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc && cp -rf package.json dist/package.json",
-    "start": "ts-node ."
+    "start": "ts-node .",
+    "postinstall": "npx prisma generate"
   },
   "repository": {
     "type": "git",

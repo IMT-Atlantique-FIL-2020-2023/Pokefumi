@@ -1,16 +1,17 @@
 datasource db {
-    provider = "sqlite"
-    url      = "file:./user.db"
+  provider = "sqlite"
+  url      = "file:./user.db"
 }
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../node_modules/@prisma/client"
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
-  username   String   @unique
-  statut     String
-  score      Int?
-  password   String
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  statut   String
+  score    Int?
+  password String
 }

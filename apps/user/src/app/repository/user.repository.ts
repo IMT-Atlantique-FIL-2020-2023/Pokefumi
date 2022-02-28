@@ -1,35 +1,10 @@
-import { User } from '@pokefumi/pokefumi-common';
-import { join } from 'path';
-
-import { PrismaClient } from '@prisma/client';
-
+import { PrismaClient, User } from '@prisma/client';
+import { createHash } from 'crypto';
+import * as jwt from 'jsonwebtoken';
 export default class UserRepository {
-  prisma: any;
-
+  prisma;
   constructor() {
     this.prisma = new PrismaClient();
-
-    this.loadSampleData();
-
-    // Importing SQLite3 to our project.
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-
-    /*
-    const Database = require('better-sqlite3');
-    this.db = new Database('./users.db', { verbose: console.log });
-
-    // Setting up a database for storing data.
-    this.db.run(`
-    CREATE TABLE IF NOT EXISTS users (
-      user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-      username TEXT NOT NULL,
-      password TEXT NOT NULL,
-      score INTEGER DEFAULT 0,
-      UNIQUE(username)
-      );`);
-    /*this.db.run(`
-    INSERT INTO users (username,password)
-    VALUES('user2', 'password2');`);*/
   }
 
   /*connectUser(username: string, password: string): User | undefined {
@@ -53,17 +28,23 @@ export default class UserRepository {
   }
 
   async createUser(data: User): Promise<User> {
-    const user = await this.prisma.user.create({ data });
+    data.password = createHash('sha256').update(data.password).digest('base64');
+    const user = await this.prisma.user.create({
+      data,
+    });
     return user;
   }
 
-  async loadSampleData() {
-    /*const user = await this.prisma.user.create({
-      data: {
-        username: 'user',
-        statut: 'offline',
-        password: 'mdp',
+  async connect(username: string, password: string): Promise<string> {
+    const res = await this.prisma.user.findFirst({
+      where: {
+        username: username,
+        password: createHash('sha256').update(password).digest('base64'),
       },
-    });*/
+    });
+    if (!res) {
+      throw new Error('Invalid credentials');
+    }
+    return jwt.sign({ id: res.id }, process.env.JWT_SECRET, { expiresIn: '12h' });
   }
 }

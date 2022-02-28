@@ -1,9 +1,7 @@
-import { User } from '@pokefumi/pokefumi-common';
 import UserRepository from '../repository/user.repository';
-
+import { User } from '@prisma/client';
 const userRepository = new UserRepository();
 
-const typedUsers: User[] = [];
 const listUsers = async () => {
   return await userRepository.getAllUsers();
 };
@@ -16,4 +14,8 @@ const addUser = async (newUser: User) => {
   return await userRepository.createUser(newUser);
 };
 
-export { listUsers, getUserById, addUser };
+const connectUser = async (username: string, password: string) => {
+  return await userRepository.connect(username, password);
+};
+
+export { listUsers, getUserById, addUser, connectUser };

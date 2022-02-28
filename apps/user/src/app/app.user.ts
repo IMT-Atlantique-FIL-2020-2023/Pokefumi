@@ -1,11 +1,11 @@
 import express from 'express';
 
 import * as routes from './routes/user.routes';
-const cors = require('cors');
+import cors from 'cors';
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 routes.register(app);
-app.use(cors());
 
 export { app };

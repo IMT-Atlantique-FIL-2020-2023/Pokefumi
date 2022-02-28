@@ -17,7 +17,7 @@ async function generateBookStoreSchema(schemaPath: string, sourcePath: string) {
     },
     validator: validator(),
     reader: reader({ path: schemaPath }),
-    generators: presets.fullStack(),
+    generators: presets.server(),
     writer: writer({
       stringify: prettierStringify({
         parser: 'typescript',

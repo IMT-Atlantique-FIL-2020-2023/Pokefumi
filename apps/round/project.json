@@ -1,16 +1,16 @@
 {
-  "root": "apps/match",
-  "sourceRoot": "apps/match/src",
+  "root": "apps/round",
+  "sourceRoot": "apps/round/src",
   "projectType": "application",
   "targets": {
     "build": {
       "executor": "@nrwl/node:build",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/match",
-        "main": "apps/match/src/main.ts",
-        "tsConfig": "apps/match/tsconfig.app.json",
-        "assets": ["apps/match/src/assets"]
+        "outputPath": "dist/apps/round",
+        "main": "apps/round/src/main.ts",
+        "tsConfig": "apps/round/tsconfig.app.json",
+        "assets": ["apps/round/src/assets"]
       },
       "configurations": {
         "production": {
@@ -19,8 +19,8 @@
           "inspect": false,
           "fileReplacements": [
             {
-              "replace": "apps/match/src/environments/environment.ts",
-              "with": "apps/match/src/environments/environment.prod.ts"
+              "replace": "apps/round/src/environments/environment.ts",
+              "with": "apps/round/src/environments/environment.prod.ts"
             }
           ]
         }
@@ -29,21 +29,21 @@
     "serve": {
       "executor": "@nrwl/node:execute",
       "options": {
-        "buildTarget": "match:build"
+        "buildTarget": "round:build"
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/match/**/*.ts"]
+        "lintFilePatterns": ["apps/round/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/match"],
+      "outputs": ["coverage/apps/round"],
       "options": {
-        "jestConfig": "apps/match/jest.config.js",
+        "jestConfig": "apps/round/jest.config.js",
         "passWithNoTests": true
       }
     }

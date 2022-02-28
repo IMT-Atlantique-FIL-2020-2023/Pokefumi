@@ -7,10 +7,10 @@ import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
-export class MatchService {
+export class RoundService {
 
     /**
-     * Get the result of a match for two given pokemon ids
+     * Get the result of a round for two given pokemon ids
      * @param id1 pokemon1 id
      * @param id2 pokemon2 id
      * @returns Pokemon The winning pokemon
@@ -22,7 +22,7 @@ export class MatchService {
     ): CancelablePromise<Pokemon> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/bagarre/{id1}/{id2}',
+            url: '/round/{id1}/{id2}',
             path: {
                 'id1': id1,
                 'id2': id2,
@@ -31,7 +31,7 @@ export class MatchService {
     }
 
     /**
-     * Get the result of a match for two given pokemon names
+     * Get the result of a round for two given pokemon names
      * @param name1 pokemon1 name
      * @param name2 pokemon2 name
      * @returns Pokemon The winning pokemon
@@ -43,7 +43,7 @@ export class MatchService {
     ): CancelablePromise<Pokemon> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/bagarre/name/{name1}/{name2}',
+            url: '/round/name/{name1}/{name2}',
             path: {
                 'name1': name1,
                 'name2': name2,

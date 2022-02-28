@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: Match service
+  title: Round service
   description: "To manage rounds in a match"
   license:
     name: Apache 2.0
@@ -11,8 +11,8 @@ servers:
 tags:
   - name: pokemon
     description: Pokemon infos
-  - name: match
-    description: Matchs infos
+  - name: round
+    description: rounds infos
 paths:
   /api:
     get:
@@ -92,7 +92,7 @@ paths:
               schema:
                 type: array
                 items:
-                 $ref: "#/components/schemas/TypePokemon"
+                  $ref: "#/components/schemas/TypePokemon"
   /types/{id}:
     get:
       tags:
@@ -134,7 +134,7 @@ paths:
   /round/{id1}/{id2}:
     get:
       tags:
-        - match
+        - round
       summary: Get the result of a round for two given pokemon ids
       parameters:
         - name: id1
@@ -159,7 +159,7 @@ paths:
   /round/name/{name1}/{name2}:
     get:
       tags:
-        - match
+        - round
       summary: Get the result of a round for two given pokemon names
       parameters:
         - name: name1
@@ -208,18 +208,18 @@ components:
       type: object
       properties:
         id:
-          description: id of the type 
+          description: id of the type
           type: integer
           format: int64
         name:
           description: label of the type
           type: string
-        faiblesses: 
+        faiblesses:
           description: list of weakness for a type
           type: array
           items:
             type: string
-        resistances: 
+        resistances:
           description: list of weakness for a type
           type: array
           items:

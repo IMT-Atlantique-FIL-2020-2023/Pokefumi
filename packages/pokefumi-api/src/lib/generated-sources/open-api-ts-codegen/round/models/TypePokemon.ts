@@ -15,11 +15,11 @@ export type TypePokemon = {
      */
     name?: string;
     /**
-     * liste des faiblesses du type
+     * list of weakness for a type
      */
     faiblesses?: Array<string>;
     /**
-     * liste des faiblesses du type
+     * list of weakness for a type
      */
     resistances?: Array<string>;
 };

@@ -3,15 +3,15 @@
 /* eslint-disable */
 
 /**
- * Array of matches
+ * Array of rounds
  */
-export type ArrayOfMatches = Array<{
+export type ArrayOfRounds = Array<{
     /**
      * Date of the aggregated day
      */
-    date?: string;
+    date: string;
     /**
-     * Date of matches for this day
+     * Number of rounds for this day
      */
-    numberOfMatches?: number;
+    numberOfRounds: number;
 }>;

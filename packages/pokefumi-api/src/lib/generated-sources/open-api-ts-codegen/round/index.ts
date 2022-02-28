@@ -10,5 +10,5 @@ export type { Pokemon } from './models/Pokemon';
 export type { TypePokemon } from './models/TypePokemon';
 
 export { DefaultService } from './services/DefaultService';
-export { MatchService } from './services/MatchService';
 export { PokemonService } from './services/PokemonService';
+export { RoundService } from './services/RoundService';

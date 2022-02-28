@@ -1,24 +1,6 @@
-import { Model } from 'objection';
 import { Pokemon } from './pokemon';
 
-export class Deck extends Model {
-  static get tableName() {
-    return 'deck';
-  }
-
-  static get relationMappings() {
-    return {
-      pokemons: {
-        relation: Model.ManyToManyRelation,
-        modelClass: Pokemon,
-        join: {
-          from: 'deck.pokemons',
-          to: 'pokemon.id',
-        },
-      },
-    };
-  }
-
+export class Deck {
   userId?: number;
   id?: number;
   name: string;

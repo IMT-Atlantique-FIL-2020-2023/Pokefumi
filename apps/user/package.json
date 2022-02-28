@@ -30,7 +30,6 @@
     "is-odd": "^3.0.1",
     "jokes-gco": "^1.0.17",
     "knex": "^1.0.1",
-    "objection": "^3.0.1",
     "pokenode-ts": "^1.10.1",
     "random-sort": "^2.6.9",
     "sqlite3": "^5.0.2",

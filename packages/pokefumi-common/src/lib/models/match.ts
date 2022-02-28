@@ -1,39 +1,6 @@
-import { Model } from 'objection';
 import { User } from './user';
 
-export class Match extends Model {
-  static get tableName() {
-    return 'match';
-  }
-
-  static get relationMappings() {
-    return {
-      round: {
-        relation: Model.HasManyRelation,
-        modelClass: Round,
-        join: {
-          from: 'match.round',
-          to: 'round.id',
-        },
-      },
-      joueur1: {
-        relation: Model.HasOneRelation,
-        modelClass: User,
-        join: {
-          from: 'match.joueur1',
-          to: 'user.id',
-        },
-      },
-      joueur2: {
-        relation: Model.HasOneRelation,
-        modelClass: User,
-        join: {
-          from: 'match.joueur2',
-          to: 'user.id',
-        },
-      },
-    };
-  }
+export class Match {
 
   id?: number;
   status: Status; //état du match

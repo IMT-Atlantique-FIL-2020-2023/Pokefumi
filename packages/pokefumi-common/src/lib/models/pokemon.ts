@@ -1,5 +1,3 @@
-import { Model } from 'objection';
-
 export type LabelTypePokemon =
   | 'flying'
   | 'poison'
@@ -20,10 +18,7 @@ export type LabelTypePokemon =
   | 'unknown'
   | 'shadow';
 
-export class TypePokemon extends Model {
-  static get tableName() {
-    return 'type_pokemon';
-  }
+export class TypePokemon  {
 
   id?: number;
   label: LabelTypePokemon;
@@ -31,25 +26,8 @@ export class TypePokemon extends Model {
   resistances: LabelTypePokemon[];
 }
 
-export class Pokemon extends Model {
-  static get tableName() {
-    return 'pokemon';
-  }
-
-  static get relationMappings() {
-    return {
-      type: {
-        relation: Model.ManyToManyRelation,
-        modelClass: TypePokemon,
-        join: {
-          from: 'pokemon.type',
-          to: 'type_pokemon.id',
-        },
-      },
-    };
-  }
-
+export class Pokemon{
   id?: number;
   name: string;
   types: TypePokemon[]; //un pokemon peut avoir plusieurs types
-}
+} 

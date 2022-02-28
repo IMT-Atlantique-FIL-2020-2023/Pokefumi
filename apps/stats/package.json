@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "generate": "openapi-generator-plus -c config.yml",
-    "generate-oats": "ts-node ./scripts/generate.ts"
+    "generate-oats": "ts-node ./scripts/generate.ts",
+    "postinstall": "npx prisma generate"
   },
   "dependencies": {
     "@oats-ts/openapi-express-server-adapter": "^0.0.14",
@@ -13,13 +14,15 @@
     "@oats-ts/openapi-parameter-deserialization": "0.0.14",
     "@oats-ts/openapi-parameter-serialization": "0.0.14",
     "@oats-ts/try": "0.0.14",
-    "@oats-ts/validators": "0.0.14"
+    "@oats-ts/validators": "0.0.14",
+    "@prisma/client": "^3.10.0"
   },
   "devDependencies": {
     "@oats-ts/openapi": "0.0.14",
     "@oats-ts/openapi-test-utils": "0.0.14",
     "@openapi-generator-plus/typescript-express-passport-server-generator": "^2.4.0",
     "openapi-generator-plus": "^1.0.0",
+    "prisma": "^3.10.0",
     "ts-node": "^10.5.0"
   }
 }

@@ -38,6 +38,8 @@ paths:
         - matches
       summary: Create a match
       operationId: createMatch
+      security:
+        - bearerAuth: []
       requestBody:
         description: Match to create
         content:
@@ -105,6 +107,8 @@ paths:
         - matches
       summary: Join a match
       operationId: joinMatch
+      security:
+        - bearerAuth: []
       parameters:
         - name: id
           in: path
@@ -145,8 +149,13 @@ paths:
         content:
           application/json:
             schema:
-              description: winner's id
-              type: integer
+              type: object
+              required:
+                - winnerId
+              properties:
+                winnerId:
+                  type: string
+                  description: The id of the winner
       responses:
         200:
           description: successful operation
@@ -157,6 +166,11 @@ paths:
         400:
           $ref: "#/components/responses/ErrorResponse"
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     DeckDto:
       type: array

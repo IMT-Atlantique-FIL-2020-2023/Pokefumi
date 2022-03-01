@@ -1,11 +1,13 @@
-FROM node:16.13.0
+FROM node:16
 ARG SERVICE=round
+ENV NX_CACHE_PROJECT_GRAPH=false
 RUN  npm i -g nx
 WORKDIR /app/pokefumi/apps/$SERVICE
 COPY package*.json ./
 RUN npm install
 COPY . .
 RUN nx run $SERVICE:install
+RUN nx dep-graph --file dep-graph.json
 RUN nx run $SERVICE:build
 ENV NODE_ENV=production
 ENV JWT_SECRET=ILIKEPOTATOES

@@ -3,6 +3,27 @@
   "sourceRoot": "apps/matchmaking/src",
   "projectType": "application",
   "targets": {
+    "install": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/matchmaking",
+        "command": "npm i"
+      }
+    },
+    "generate": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/matchmaking",
+        "command": "npx prisma generate"
+      }
+    },
+    "push": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/matchmaking",
+        "command": "npx prisma db push"
+      }
+    },
     "build": {
       "executor": "@nrwl/node:build",
       "outputs": ["{options.outputPath}"],

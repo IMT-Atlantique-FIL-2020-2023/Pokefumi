@@ -3,6 +3,27 @@
   "sourceRoot": "apps/user/src",
   "projectType": "application",
   "targets": {
+    "install": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/user",
+        "command": "npm i"
+      }
+    },
+    "generate": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/user",
+        "command": "npx prisma generate"
+      }
+    },
+    "push": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/user",
+        "command": "npx prisma db push"
+      }
+    },
     "build": {
       "executor": "@nrwl/node:build",
       "outputs": ["{options.outputPath}"],

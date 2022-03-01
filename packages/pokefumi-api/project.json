@@ -3,6 +3,19 @@
   "sourceRoot": "packages/pokefumi-api/src",
   "projectType": "library",
   "targets": {
+    "install": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "packages/pokefumi-api",
+        "command": "npm i"
+      }
+    },
+    "generate": {
+      "executor": "@nrwl/workspace:run-script",
+      "options": {
+        "script": "generate"
+      }
+    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],

@@ -81,7 +81,14 @@ app.get('/round/name/:name1/:name2', async (req, res) => {
 
 app.put('/match', async (req, res) => {
   try {
-    res.status(200).send(await resolveMatch(req.body.pokemonsA, req.body.pokemonsB));
+
+    const idMatch = req.body.idMatch
+    const idJoueur = req.body.idJoueur
+    const idDeck = req.body.idDeck
+
+    if (!idMatch || !idJoueur || !idDeck) throw "Mauvais arguments"
+
+    res.status(200).send(await resolveMatch(idMatch, idJoueur, idDeck));
   } catch (e) {
     res.status(e.response.status).send(e);
   }

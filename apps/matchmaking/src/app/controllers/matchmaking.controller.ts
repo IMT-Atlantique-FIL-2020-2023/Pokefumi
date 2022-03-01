@@ -43,6 +43,13 @@ async function checkDeckValidity(pokemonsIds: number[]) {
 }
 
 export async function createMatch(newMatch: CreateMatchDto, req: Express.Request) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
+  const count = await prisma.match.count({ where: { OR: [{ opponentId: req.user.id }, { authorId: req.user.id }] } });
+  if (count > 3) {
+    throw new Error('Too many matchs');
+  }
+
   const res = await User.UserService.getUserById(newMatch.opponnentId); // check user exists
   if (!res) {
     throw new Error('Opponent does not exist');

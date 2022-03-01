@@ -214,7 +214,7 @@ fetch('http://127.0.0.1:3333/auth/connect?username=string&password=string',
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|authentificated|string|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Authentificated, return the token|string|
 |401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|wrong credentials|None|
 
 <aside class="success">

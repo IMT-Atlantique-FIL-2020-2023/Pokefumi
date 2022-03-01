@@ -64,12 +64,12 @@ paths:
           required: true
       responses:
         "200":
-          description: authentificated
+          description: Authentificated, return the token
           content:
             application/json:
               schema:
                 type: string
-                description: JWT token
+                description: JWT token of authentificatied user
         "401":
           description: wrong credentials
   /users/{id}:

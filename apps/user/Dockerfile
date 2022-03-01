@@ -13,4 +13,5 @@ RUN nx run $SERVICE:build
 ENV NODE_ENV=production
 ENV JWT_SECRET=ILIKEPOTATOES
 EXPOSE 3333
-CMD [ "node", "dist/$SERVICE/main.js" ]
+ENV SERVICE ${SERVICE}
+CMD [ "node", "dist/${SERVICE}/main.js" ]

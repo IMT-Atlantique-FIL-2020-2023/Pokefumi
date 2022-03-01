@@ -13,6 +13,9 @@
 			"path": "apps/round"
 		},
 		{
+			"path": "apps/match"
+		},
+		{
 			"path": "."
 		}
 	],

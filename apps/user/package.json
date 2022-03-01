@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/IMT-Atlantique-FIL-2020-2023/Pokefumi#readme",
   "dependencies": {
-    "@prisma/client": "3.10",
+    "@prisma/client": "^3.10.0",
     "@types/jsonwebtoken": "^8.5.8",
     "axios": "^0.24.0",
     "better-sqlite3": "^7.4.6",
@@ -61,6 +61,7 @@
     "is-odd": "^3.0.1",
     "jokes-gco": "^1.0.17",
     "pokenode-ts": "^1.10.1",
+    "prisma": "^3.10.0",
     "random-sort": "^2.6.9",
     "sqlite": "^4.0.23",
     "sqlite-ts": "^0.1.0",

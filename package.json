@@ -562,6 +562,7 @@
     "ts-jest": "27.0.5"
   },
   "scripts": {
+    "postinstall": "nx affected --target=install --all",
     "build:all": "nx run-many --target=build --all",
     "build:since": "nx affected --target=build",
     "test:all": "nx run-many --target=test --all",

@@ -3,6 +3,12 @@
   "sourceRoot": "apps/user/src",
   "projectType": "application",
   "targets": {
+    "docs": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["npx widdershins apps/user/user.schema.yaml -o docs/user.md --language_tabs 'javascript:JavaScript'"]
+      }
+    },
     "install": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {

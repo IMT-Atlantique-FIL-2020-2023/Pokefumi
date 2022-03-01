@@ -3,6 +3,12 @@
   "sourceRoot": "apps/stats/src",
   "projectType": "application",
   "targets": {
+    "docs": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["npx widdershins apps/stats/stats.schema.yaml -o docs/stats.md --language_tabs 'javascript:JavaScript'"]
+      }
+    },
     "install": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {

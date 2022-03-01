@@ -3,6 +3,12 @@
   "sourceRoot": "apps/round/src",
   "projectType": "application",
   "targets": {
+    "docs": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["npx widdershins apps/round/round.schema.yaml -o docs/round.md --language_tabs 'javascript:JavaScript'"]
+      }
+    },
     "build": {
       "executor": "@nrwl/node:build",
       "outputs": ["{options.outputPath}"],

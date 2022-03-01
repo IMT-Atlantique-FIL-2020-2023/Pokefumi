@@ -559,7 +559,8 @@
     "eslint-config-prettier": "8.1.0",
     "jest": "27.2.3",
     "nx": "^13.7.1",
-    "ts-jest": "27.0.5"
+    "ts-jest": "27.0.5",
+    "widdershins": "^4.0.1"
   },
   "scripts": {
     "postinstall": "nx affected --target=install --all",

@@ -14,8 +14,8 @@ app.use(express.json());
 app.use(statsServiceCorsMiddleware('*'));
 app.use(createStatsServiceRouter(new StatsApiImpl(), new ExpressServerConfiguration()));
 
-const port = process.env.port || 3333;
-const server = app.listen(port, () => {
+const port = Number(process.env.PORT || 3337);
+const server = app.listen(port, '0.0.0.0', () => {
   console.log(`Listening at http://localhost:${port}`);
 });
 server.on('error', console.error);

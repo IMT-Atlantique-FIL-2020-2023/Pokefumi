@@ -29,7 +29,7 @@ export default async function resolveMatch(matchId: number, userId: number, deck
   // On récupère le match a partir de l'id fourni
   const match = await Matchmaking.MatchesService.getMatchById(matchId);
 
-  // Si le match n'existe pas, on revoie une erreur
+  // Si le match n'existe pas, on renvoie une erreur
   if (!match) throw "Le match n'existe pas ou a expiré"
 
   // On vérifie que l'utilisateur est autorisé a jouer

@@ -13,4 +13,4 @@ ENV NODE_ENV=production
 ENV JWT_SECRET=ILIKEPOTATOES
 EXPOSE 3335
 ENV SERVICE ${SERVICE}
-CMD [ "node", "dist/${SERVICE}/main.js" ]
+CMD node dist/apps/${SERVICE}/main.js

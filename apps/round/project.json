@@ -3,6 +3,26 @@
   "sourceRoot": "apps/round/src",
   "projectType": "application",
   "targets": {
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": false,
+        "tags": ["imt-a-pokefumi/round:latest"]
+      }
+    },
+    "docs": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["npx widdershins apps/round/round.schema.yaml -o docs/round.md --language_tabs 'javascript:JavaScript'"]
+      }
+    },
+    "install": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/round",
+        "command": "echo ok"
+      }
+    },
     "build": {
       "executor": "@nrwl/node:build",
       "outputs": ["{options.outputPath}"],

@@ -2,7 +2,7 @@
 import axios from 'axios'
 import lru from 'lru-cache'
 
-// import {  } from '@pokefumi/pokefumi-api'
+// import { Matchmaking } from '@pokefumi/pokefumi-api'
 
 const cache = new lru({
   max: 500,
@@ -12,11 +12,12 @@ const cache = new lru({
 
 const url_match = 'localhost:3335/match'
 export default async function resolveMatch(idMatch: number): Promise<Match> {
-  
+
   // On récupère le match a partir de l'id fourni
-  const res = await User.UserService.getUserById(newMatch.opponnentId); // check user exists
+  const match = await Matchmaking.MatchmakingService.getMatchById(idMatch);
 
   // Si le match n'existe pas, on revoie une erreur
+  if (!match) throw "Le match n'existe pas ou a expiré"
 
   // Si le match existe, on attends que les deux joueurs aient fourni leur pokemon
 

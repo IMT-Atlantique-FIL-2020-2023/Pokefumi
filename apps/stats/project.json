@@ -3,6 +3,40 @@
   "sourceRoot": "apps/stats/src",
   "projectType": "application",
   "targets": {
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": false,
+        "tags": ["imt-a-pokefumi/stats:latest"]
+      }
+    },
+    "docs": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["npx widdershins apps/stats/stats.schema.yaml -o docs/stats.md --language_tabs 'javascript:JavaScript'"]
+      }
+    },
+    "install": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/stats",
+        "command": "npm i"
+      }
+    },
+    "generate": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/stats",
+        "commands": ["npx prisma generate", "npm run generate-oats"]
+      }
+    },
+    "push": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/stats",
+        "command": "npx prisma db push"
+      }
+    },
     "build": {
       "executor": "@nrwl/node:build",
       "outputs": ["{options.outputPath}"],
@@ -10,7 +44,8 @@
         "outputPath": "dist/apps/stats",
         "main": "apps/stats/src/main.ts",
         "tsConfig": "apps/stats/tsconfig.app.json",
-        "assets": ["apps/stats/src/assets"]
+        "assets": ["apps/stats/src/assets"],
+        "webpackConfig": "webpack/webpack.config.js"
       },
       "configurations": {
         "production": {

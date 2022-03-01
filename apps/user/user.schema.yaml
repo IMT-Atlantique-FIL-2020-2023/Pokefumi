@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: User service
-  description: 'Because we need users'
+  description: "Because we need users"
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -17,6 +17,7 @@ paths:
       tags:
         - user
       summary: List of all users
+      operationId: getAllUsers
       responses:
         200:
           description: successful operation
@@ -25,37 +26,65 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/User'
+                  $ref: "#/components/schemas/User"
     post:
       tags:
         - user
       summary: Add a new user
+      operationId: createUser
       requestBody:
         description: Optional description in *Markdown*
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
 
       responses:
-        '201':
+        "201":
           description: Created
-        '409':
+        "409":
           description: unsuccessful operation
-
+  /auth/connect:
+    post:
+      tags:
+        - user
+      summary: Connect the user
+      operationId: connectUser
+      parameters:
+        - in: query
+          name: username
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: password
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Authentificated, return the token
+          content:
+            application/json:
+              schema:
+                type: string
+                description: JWT token of authentificatied user
+        "401":
+          description: wrong credentials
   /users/{id}:
     get:
       tags:
         - user
       summary: Retrieves a specific user
+      operationId: getUserById
       parameters:
         - in: path
           required: true
           name: id
           schema:
             type: integer
-            minimum: 1
+            minimum: 0
           description: The user ID
       responses:
         200:
@@ -63,7 +92,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
 components:
   schemas:
     User:

@@ -3,6 +3,40 @@
   "sourceRoot": "apps/matchmaking/src",
   "projectType": "application",
   "targets": {
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": false,
+        "tags": ["imt-a-pokefumi/matchmaking:latest"]
+      }
+    },
+    "docs": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["npx widdershins apps/matchmaking/matchmaking.schema.yaml -o docs/matchmaking.md --language_tabs 'javascript:JavaScript'"]
+      }
+    },
+    "install": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/matchmaking",
+        "command": "npm i"
+      }
+    },
+    "generate": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/matchmaking",
+        "command": "npx prisma generate"
+      }
+    },
+    "push": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/matchmaking",
+        "command": "npx prisma db push"
+      }
+    },
     "build": {
       "executor": "@nrwl/node:build",
       "outputs": ["{options.outputPath}"],
@@ -10,7 +44,8 @@
         "outputPath": "dist/apps/matchmaking",
         "main": "apps/matchmaking/src/main.ts",
         "tsConfig": "apps/matchmaking/tsconfig.app.json",
-        "assets": ["apps/matchmaking/src/assets"]
+        "assets": ["apps/matchmaking/src/assets"],
+        "webpackConfig": "webpack/webpack.config.js"
       },
       "configurations": {
         "production": {

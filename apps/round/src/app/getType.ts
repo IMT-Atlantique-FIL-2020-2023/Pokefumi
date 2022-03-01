@@ -20,8 +20,8 @@ export async function getTypeByName(name: string): Promise<TypePokemon> {
 async function buildTypePokemon(pokemon: any): Promise<TypePokemon> {
   const type: TypePokemon = {
     label: pokemon.name as LabelTypePokemon,
-    faiblesses: pokemon.damage_relations.double_damage_from.map(e => e.name) as LabelTypePokemon[],
-    resistances: pokemon.damage_relations.half_damage_from.map(e => e.name) as LabelTypePokemon[],
+    faiblesses: pokemon.damage_relations.double_damage_from.map((e: any) => e.name) as LabelTypePokemon[],
+    resistances: pokemon.damage_relations.half_damage_from.map((e: any) => e.name) as LabelTypePokemon[],
   } as TypePokemon;
 
   return type;

@@ -24,34 +24,34 @@ Ci-dessous voici un description succinte de quelques endpoint. La documentation 
 
 ### User
 Pour gérer les informations de chaque utilisateur et la création de nouveaux utilisateurs.
-#### /users
+#### ```/users```
 GET : Renvoie la liste de tous les utilisateurs existants en BDD
 POST: Crée un nouvel utilisateur
 > comment activer la version post et la version get ?
-#### /users/{id}
+#### ```/users/{id}```
 GET : Cherche un utilisateur par son id et le renvoie
 
 ### Match
-Pour gérer le déroulement d'un combat, en confrontant deux à deux chaque pokemon et en donnant le score.
-#### /api
+Pour gérer le déroulement d'un combat, en confrontant deux à deux chaque pokemon et en donnant le score. A chaque round, les joeuurs choississent un pokemon de leur deck et l'api renvoie le résultat de la confrontation.
+
+#### ```/api```
 GET : Vérifie si la connexion avec l'api est disponible et renvoie le résultat
 > Quelle api ? La pokeAPI ?
-#### /pokemons
+#### ```/pokemons```
 GET : Renvoie la liste des pokemons existants
-#### /pokemons/{id}
+#### ```/pokemons/{id}```
 GET : Renvoie un pokemon spécifique selon son id
-#### /pokemons/name/{name}
+#### ```/pokemons/name/{name}```
 GET : Renvoie un pokemon spécifique selon son nom
-#### /types
+#### ```/types```
 GET : Renvoie la liste des types de pokemon existants
-#### /types/{id}
+#### ```/types/{id}```
 GET : Renvoie un type spécifique selon son id
-#### /types/name/{name}
+#### ```/types/name/{name}```
 GET : Renvoie un type spécifique selon son nom
-#### /bagarre/{id1}/{id2}
-GET : Renvoie le résultat d'un round confrontant deux pokemon identifiés selon leurs id
-> Pourquoi ne pas avoir fait une requete sous la forme /bagarre/{id1}&{id2} comme pour des url ?
-#### /bagarre/name/{name1}/{name2}
+#### ```/round/{id1}/{id2}```
+GET : Renvoie le résultat d'un round confrontant deux pokemon identifiés selon leurs id.
+#### ```/round/name/{name1}/{name2}```
 GET : Renvoie le résultat d'un round confrontant deux pokemon identifiés selon leurs noms
 
 ### Matchmaking 
@@ -59,15 +59,15 @@ Pour gérer les invitations à un match vers un autre joueur ou afficher les mat
 
 ### Stats
 Pour gérer les statitiques liés à un utilisateur ou sur les matchs en général (scores, victoire, ) sur les 30 derniers jours.
-#### /matchs/count-a-day-last-30-days
+#### ```/matchs/count-a-day-last-30-days```
 GET : Renvoie le nombre de matchs réalisés dans les 30 derniers jours
 > TODO à vérifier si total des 30j ou si nb de chaque jour ou si nb max du mois
-#### /pokemons/{id}/number-of-matchs
+#### ```/pokemons/{id}/number-of-matchs```
 GET : Renvoie le nombre de matchs où un pokemon spécifique a participé
-#### /pokemons/{id}/number-of-victories
+#### ```/pokemons/{id}/number-of-victories```
 GET : Renvoie le nombre de matchs où un pokemon spécifique a participé et qui ont été gagnés
 > TODO : est-ce que c'est le match qui doit être gagné ou le round du pokemon ?
-#### /pokemons/matchs
+#### ```/pokemons/matchs```
 GET : Renvoie la liste des pokemons avec leur nombre de participation dans des matchs
 > Sur une date limite ?
 

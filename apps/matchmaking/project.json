@@ -3,6 +3,13 @@
   "sourceRoot": "apps/matchmaking/src",
   "projectType": "application",
   "targets": {
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": false,
+        "tags": ["imt-a-pokefumi/matchmaking:latest"]
+      }
+    },
     "docs": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {

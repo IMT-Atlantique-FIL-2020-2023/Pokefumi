@@ -12,11 +12,23 @@ Pour le déroulement d'une partie, voilà ce qu'il se passe (en considérant que
 - Lorsque les 10 rounds ont été réalisés, le joueur vainqueur du match est celui qui aura accumulé le plus de points.
 - Le salon est clos. Pour lancer une nouvelle partie, le joueur revient à l'étape 1.
 
+## Pour bien commencer
+
 Pour lancer : utiliser le devcontainer, ou installer nx en global (faire la commande dans un terminal ): `npm i -g nx`.
 Version de nodejs conseillée : 16.X.X
-Ensuite pour lancer le user service : `nx run user:serve`.
-Pour lancer le matchmaking service :  `nx run matchmaking:serve`.
-> TODO à compléter en donnant des indications sur les commandes à utiliser et les requêtes
+
+1. Installer les dépendances `npm i && nx affected --target=install --all`
+2. Générer tous les clients prisma `nx affected --target=generate --all`
+3. Créer les BDD sqlite `nx affected --target=push --all`
+4. Ensuite pour lancer le user service : `nx run user:serve`. Pour lancer le matchmaking service :  `nx run matchmaking:serve`.
+
+## Liste des targets nx
+
+- `nx affected --target=docs --all` : génère tous les fichiers de documentation à partir des fichier openapi de chaque service
+- `nx affected --target=generate --all` : génère tous les clients prisma de chaque service `npx prisma generate`, les clients http de chaque service [packages/pokefumi-api/src/lib/generated-sources/](packages/pokefumi-api/src/lib/generated-sources/) et le serveur du service stats [apps/stats/src/app/generated-oats/](apps/stats/src/app/generated-oats/)
+- `nx affected --target=install --all` : installe toutes les dépendances de chaque service `npm install`
+- `nx affected --target=push --all` : créer toutes les base de données sqlite de chaque service et synchronise les schémas de BDD `npx prisma db push`
+- `nx affected --target=docker --all` : build les images docker de chaque service
 
 ## Description des différents services
 
@@ -45,7 +57,7 @@ Voir la documentation de l'API ici [docs/matchmaking.md](docs/matchmaking.md)
 
 ### Stats
 
-Pour gérer les statitiques liés à un utilisateur ou sur les matchs en général (scores, victoire, ) sur les 30 derniers jours.
+Pour gérer les statistiques liés à un utilisateur ou sur les matchs en général (scores, victoire, ) sur les 30 derniers jours.
 
 Voir la documentation de l'API ici [docs/stats.md](docs/stats.md)
 

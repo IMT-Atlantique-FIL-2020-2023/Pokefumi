@@ -549,6 +549,7 @@
     "@nrwl/node": "^13.7.1",
     "@nrwl/tao": "latest",
     "@nrwl/workspace": "latest",
+    "@nx-tools/nx-docker": "^2.3.0",
     "@types/express": "4.17.13",
     "@types/form-data": "^2.5.0",
     "@types/jest": "27.0.2",
@@ -563,7 +564,6 @@
     "widdershins": "^4.0.1"
   },
   "scripts": {
-    "postinstall": "nx affected --target=install --all",
     "build:all": "nx run-many --target=build --all",
     "build:since": "nx affected --target=build",
     "test:all": "nx run-many --target=test --all",

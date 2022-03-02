@@ -1,0 +1,30 @@
+{
+  "root": "packages/pokefumi-e2e",
+  "sourceRoot": "packages/pokefumi-e2e/src",
+  "projectType": "library",
+  "implicitDependencies": ["stats", "user", "matchmaking", "round"],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/pokefumi-e2e/**/*.ts"]
+      }
+    },
+    "test-e2e": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/pokefumi-e2e"],
+      "options": {
+        "jestConfig": "packages/pokefumi-e2e/jest.config.js",
+        "passWithNoTests": true
+      },
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "dependencies"
+        }
+      ]
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,6 @@
+build:
+  docker:
+    pokefumi-stats: apps/stats/Dockerfile
+    pokefumi-user: apps/user/Dockerfile
+    pokefumi-matchmaking: apps/matchmaking/Dockerfile
+    pokefumi-round: apps/round/Dockerfile

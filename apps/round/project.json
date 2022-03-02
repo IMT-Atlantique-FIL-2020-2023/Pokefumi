@@ -30,6 +30,13 @@
         "command": "echo nothing to generate"
       }
     },
+    "push": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/round",
+        "command": "echo nothing to push"
+      }
+    },
     "build": {
       "executor": "@nrwl/node:build",
       "outputs": ["{options.outputPath}"],

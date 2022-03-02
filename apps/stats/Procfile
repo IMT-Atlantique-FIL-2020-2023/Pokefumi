@@ -1,1 +1,1 @@
-web: npm i && cd ../../ && npx nx run stats:build && node 
+web: nx run stats:install && npx nx run stats:build && node dist/apps/stats/main.js

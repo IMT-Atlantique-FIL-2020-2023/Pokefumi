@@ -9,7 +9,6 @@
     "generate:stats": "openapi -i ../../apps/stats/*.schema.*ml -o src/lib/generated-sources/open-api-ts-codegen/stats -c axios",
     "generate:user": "openapi -i ../../apps/user/*.schema.*ml -o src/lib/generated-sources/open-api-ts-codegen/user -c axios",
     "generate:round": "openapi -i ../../apps/round/*.schema.*ml -o src/lib/generated-sources/open-api-ts-codegen/round -c axios",
-    "generate:match": "openapi -i ../../apps/match/*.schema.*ml -o src/lib/generated-sources/open-api-ts-codegen/match -c axios",
     "generate:matchmaking": "openapi -i ../../apps/matchmaking/*.schema.*ml -o src/lib/generated-sources/open-api-ts-codegen/matchmaking -c axios"
   },
   "author": "",

@@ -45,7 +45,7 @@ export class UserService {
      * Connect the user
      * @param username
      * @param password
-     * @returns string authentificated
+     * @returns string Authentificated, return the token
      * @throws ApiError
      */
     public static connectUser(

@@ -10,8 +10,27 @@
     "target": "es6",
     "sourceMap": true,
     "paths": {
-      "@pokefumi/pokefumi-api": ["packages/pokefumi-api/src/index.ts"],
-      "@pokefumi/pokefumi-common": ["packages/pokefumi-common/src/index.ts"]
+      "@pokefumi/pokefumi-api": [
+        "packages/pokefumi-api/src/index.ts"
+      ],
+      "@pokefumi/pokefumi-common": [
+        "packages/pokefumi-common/src/index.ts"
+      ],
+      "@pokefumi/pokefumi-e2e": [
+        "packages/pokefumi-e2e/src/index.ts"
+      ],
+      "@pokefumi/pokefumi-stats": [
+        "apps/stats/src"
+      ],
+      "@pokefumi/pokefumi-round": [
+        "apps/round/src"
+      ],
+      "@pokefumi/pokefumi-matchmaking": [
+        "apps/matchmaking/src"
+      ],
+      "@pokefumi/pokefumi-user": [
+        "apps/user/src"
+      ]
     }
   }
 }

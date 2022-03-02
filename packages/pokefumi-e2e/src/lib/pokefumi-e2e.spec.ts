@@ -13,8 +13,8 @@ beforeAll(async () => {
     });
   }
   await Promise.all([
-    waitUntil(async () => (await User.UserService.getAllUsers().catch(() => null)) !== null, { intervalBetweenAttempts: 500 }),
-    // waitUntil(async () => (await Matchmaking.MatchesService.getAllMatches().catch(() => null)) !== null),
+    //waitUntil(async () => (await User.UserService.getAllUsers().catch(() => null)) !== null, { intervalBetweenAttempts: 500 }),
+    waitUntil(async () => (await Matchmaking.MatchesService.getAllMatches().catch(() => null), { intervalBetweenAttempts: 500 }) !== null),
     // waitUntil(async () => (await Round.DefaultService.get().catch(() => null)) !== null),
     // waitUntil(async () => (await Stats.RoundService.getRoundsAdayLast30Days().catch(() => null)) !== null),
   ]);

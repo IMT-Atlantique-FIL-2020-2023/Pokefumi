@@ -23,6 +23,13 @@
         "command": "echo ok"
       }
     },
+    "generate": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/round",
+        "command": "echo nothing to generate"
+      }
+    },
     "build": {
       "executor": "@nrwl/node:build",
       "outputs": ["{options.outputPath}"],

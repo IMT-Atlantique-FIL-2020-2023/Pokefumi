@@ -565,7 +565,7 @@
     "widdershins": "^4.0.1"
   },
   "scripts": {
-    "heroku-postbuild": "NODE_ENV=development nx run $PROJECT_NAME:install && nx build $PROJECT_NAME --prod",
+    "heroku-postbuild": "NODE_ENV=development nx run $PROJECT_NAME:install && nx run $PROJECT_NAME:generate && nx run $PROJECT_NAME:push && nx build $PROJECT_NAME",
     "build:all": "nx run-many --target=build --all",
     "build:since": "nx affected --target=build",
     "test:all": "nx run-many --target=test --all",

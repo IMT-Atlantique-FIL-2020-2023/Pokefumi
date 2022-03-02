@@ -1,6 +1,6 @@
 import lru from 'lru-cache';
 import { v4 as uuidv4 } from 'uuid';
-import { Matchmaking, Users, Round as Rounds } from '@pokefumi/pokefumi-api';
+import { Matchmaking, User as Users, Round as Rounds } from '@pokefumi/pokefumi-api';
 import { Round, Match, User } from '@pokefumi/pokefumi-common';
 
 const RELOAD_DELAY = 1000;
@@ -28,7 +28,7 @@ function getCacheMatchId(id: number) {
 
 @return match mis a jour
 */
-export default async function resolveMatch(matchId: number, userId: number, deckId: number): Promise<Match> {
+export default async function resolveMatch(matchId: number, userId: number, deckId: number): Promise<Matchmaking.MatchDto> {
   // On récupère le match a partir de l'id fourni
   const match = await Matchmaking.MatchesService.getMatchById(matchId);
 
@@ -103,19 +103,19 @@ export default async function resolveMatch(matchId: number, userId: number, deck
     }
   }
 
-  const joueur1 = await Users.UserService.getUserById(match.authorId);
-  const joueur2 = await Users.UserService.getUserById(match.opponnentId);
+  // const joueur1 = await Users.UserService.getUserById(match.authorId);
+  // const joueur2 = await Users.UserService.getUserById(match.opponnentId);
 
   // On renvoie enfin le match mis a jour
   return {
     id: match.id,
-    status: isLastMatch ? 'FINISHED' : 'PLAYING',
-    isPublic: true,
-    joueur1: joueur1 as User,
-    joueur2: joueur2 as User,
-    gagnant: isLastMatch && (isWinner ? userId : opponentId),
-    round: rounds,
-    createdAt: new Date(match.createdAt),
-    updatedAt: new Date(match.updatedAt),
-  } as Match;
+    status: isLastMatch ? Matchmaking.MatchDto.status.FINISHED : Matchmaking.MatchDto.status.STARTED,
+    authorId: match.authorId,
+    opponnentId: match.opponnentId,
+    winnerId: isLastMatch && (isWinner ? userId : opponentId),
+    createdAt: match.createdAt,
+    updatedAt: match.updatedAt,
+    authorPokemons: match.authorPokemons,
+    opponentPokemons: match.opponentPokemons,
+  };
 }

@@ -10,14 +10,14 @@ const JWT_SECRET = 'ILIKETOTESTPOTATOES';
 const processes: ExecaChildProcess[] = [];
 const author = {
   username: faker.internet.userName(),
-  password: faker.internet.password(),
+  password: 'password',
   statut: 'online',
   score: 0,
 };
 
 const opponent = {
   username: faker.internet.userName(),
-  password: faker.internet.password(),
+  password: 'motdepasse',
   statut: 'online',
   score: 0,
 };
@@ -37,16 +37,22 @@ beforeAll(async () => {
   console.error = () => {};
 
   // nettoyage des BDDs
-  for (const db of ['stats', 'user', 'matchmaking']) {
+  // une bdd par table
+  for (const db of [
+    ['stats', 'StatRound'],
+    ['user', 'User'],
+    ['matchmaking', 'Match'],
+  ]) {
     const conn = knex({
       client: 'sqlite3',
       connection: {
-        filename: join(__dirname, '../../../../apps', db, `prisma/${db}.sqlite`),
+        filename: join(__dirname, '../../../../apps', db[0], `prisma/${db[0]}.sqlite`),
       },
     });
     try {
-      await tableClean.cleanTables(conn, ['Match', 'User', 'StatRound'], true);
+      await tableClean.cleanTables(conn, [db[1]], true);
     } catch (e) {}
+    conn.destroy();
   }
 
   // on fork chaque processus node pour chaque service. Bref on les lance tous en meme temps

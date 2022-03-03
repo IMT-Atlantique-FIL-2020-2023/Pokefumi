@@ -12,8 +12,8 @@ module.exports = (config, context) => {
       ],
     },
     externals: {
-      "_http_common": "commonjs2 _http_common",
-      "encoding": "commonjs2 encoding"
-    }
+      _http_common: 'commonjs2 _http_common',
+      encoding: 'commonjs2 encoding',
+    },
   };
 };

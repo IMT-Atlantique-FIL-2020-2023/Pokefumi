@@ -28,6 +28,7 @@ export const register = async (app: express.Application) => {
 
   app.get(
     '/matchs/invitation',
+    jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] }),
     asyncHandler(async (req, res) => {
       res.status(200).json(await MatchMakingController.listInvitations(req));
     }),

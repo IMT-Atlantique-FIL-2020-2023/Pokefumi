@@ -2,5 +2,9 @@
   "devDependencies": {
     "@types/lru-cache": "^7.4.0",
     "@types/uuid": "^8.3.4"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express-jwt": "^6.1.1"
   }
 }

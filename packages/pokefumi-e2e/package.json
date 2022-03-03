@@ -11,8 +11,7 @@
   "dependencies": {
     "@faker-js/faker": "^6.0.0-alpha.7",
     "execa": "^5.1.1",
-    "r": "^0.0.5",
-    "signal-exit": "^3.0.7"
+    "r": "^0.0.5"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.16.7",

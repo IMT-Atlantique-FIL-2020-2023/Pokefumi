@@ -3,7 +3,6 @@ import { User, Matchmaking, Round, Stats } from '@pokefumi/pokefumi-api';
 import { node, ExecaChildProcess } from 'execa';
 import { faker } from '@faker-js/faker';
 import { join } from 'path';
-import onExit from 'signal-exit';
 
 const JWT_SECRET = 'ILIKETOTESTPOTATOES';
 const processes: ExecaChildProcess[] = [];
@@ -113,6 +112,31 @@ describe('simple scenario', () => {
       });
       expect(match).toEqual(expect.objectContaining({ authorId: global.authorId, opponentId: global.opponentId }));
       global.matchId = match.id!;
+    });
+
+    it('should not create a match with invalid pokemons', async () => {
+      Matchmaking.OpenAPI.TOKEN = global.authorToken;
+
+      const m1 = async () =>
+        await Matchmaking.MatchesService.createMatch({
+          opponentId: global.opponentId,
+          deck: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15],
+        });
+      await expect(m1()).rejects.toThrow();
+
+      const m2 = async () =>
+        await Matchmaking.MatchesService.createMatch({
+          opponentId: global.opponentId,
+          deck: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        });
+      await expect(m2()).rejects.toThrow();
+
+      const m3 = async () =>
+        await Matchmaking.MatchesService.createMatch({
+          opponentId: global.opponentId,
+          deck: [1, 2, 3, 4, 5, 6, 7, 8, 9, -5],
+        });
+      await expect(m3()).rejects.toThrow();
     });
 
     it('should appears in match list', async () => {

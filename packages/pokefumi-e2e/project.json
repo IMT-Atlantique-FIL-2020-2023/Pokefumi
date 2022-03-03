@@ -11,6 +11,13 @@
         "lintFilePatterns": ["packages/pokefumi-e2e/**/*.ts"]
       }
     },
+   "install": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "packages/pokefumi-e2e",
+        "command": "npm i"
+      }
+    },
     "test-e2e": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/packages/pokefumi-e2e"],

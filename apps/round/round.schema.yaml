@@ -7,7 +7,7 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 0.0.1
 servers:
-  - url: https://127.0.0.1:3335
+  - url: http://127.0.0.1:3335
 tags:
   - name: pokemon
     description: Pokemon infos

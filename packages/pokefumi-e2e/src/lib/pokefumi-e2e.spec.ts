@@ -56,7 +56,8 @@ beforeAll(async () => {
         env: {
           JWT_SECRET,
         },
-        stdio: 'pipe',
+        stdin: process.stdin,
+        stdout: process.stdout,
         cleanup: true,
         cwd: join(__dirname, '../../../../'),
         detached: false,
@@ -201,6 +202,7 @@ describe('simple scenario', () => {
 });
 
 afterAll(() => {
+  console.log('Killing childrens, oh noooo !');
   // on kill tous les processus
   processes.forEach(p => p.kill());
 });

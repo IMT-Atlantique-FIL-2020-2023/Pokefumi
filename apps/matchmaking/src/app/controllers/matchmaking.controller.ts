@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 
 export const DeckDtoSchema = z.number().int().array().min(10).max(10);
 export type DeckDto = z.TypeOf<typeof DeckDtoSchema>;
-export const CreateMatchSchema = z.object({ opponnentId: z.number().int(), deck: DeckDtoSchema });
+export const CreateMatchSchema = z.object({ opponentId: z.number().int(), deck: DeckDtoSchema });
 export type CreateMatchDto = z.TypeOf<typeof CreateMatchSchema>;
 export const MatchIdSchema = z.object({ id: z.string().regex(/^\d+$/) });
 export type MatchIdPath = z.TypeOf<typeof MatchIdSchema>;
@@ -50,7 +50,7 @@ export async function createMatch(newMatch: CreateMatchDto, req: Express.Request
     throw new Error('Too many matchs');
   }
 
-  const res = await User.UserService.getUserById(newMatch.opponnentId); // check user exists
+  const res = await User.UserService.getUserById(newMatch.opponentId); // check user exists
   if (!res) {
     throw new Error('Opponent does not exist');
   }
@@ -62,7 +62,7 @@ export async function createMatch(newMatch: CreateMatchDto, req: Express.Request
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
         authorId: req.user.id,
-        opponentId: newMatch.opponnentId,
+        opponentId: newMatch.opponentId,
         authorPokemons: newMatch.deck.join(' '),
         status: 'waitingInvite',
       },

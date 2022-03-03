@@ -101,7 +101,7 @@ This operation does not require authentication
 
 ```javascript
 const inputBody = '{
-  "opponnentId": 0,
+  "opponentId": 0,
   "deck": [
     0,
     0,
@@ -143,7 +143,7 @@ fetch('http://127.0.0.1:3334/matchs',
 
 ```json
 {
-  "opponnentId": 0,
+  "opponentId": 0,
   "deck": [
     0,
     0,
@@ -199,7 +199,7 @@ fetch('http://127.0.0.1:3334/matchs',
     0
   ],
   "authorId": 0,
-  "opponnentId": 0,
+  "opponentId": 0,
   "status": "waitingInvite",
   "winnerId": null
 }
@@ -297,7 +297,7 @@ fetch('http://127.0.0.1:3334/matchs/{id}',
     0
   ],
   "authorId": 0,
-  "opponnentId": 0,
+  "opponentId": 0,
   "status": "waitingInvite",
   "winnerId": null
 }
@@ -478,7 +478,7 @@ fetch('http://127.0.0.1:3334/matchs/{id}/join',
     0
   ],
   "authorId": 0,
-  "opponnentId": 0,
+  "opponentId": 0,
   "status": "waitingInvite",
   "winnerId": null
 }
@@ -593,7 +593,7 @@ fetch('http://127.0.0.1:3334/internal/matches/{id}/close',
     0
   ],
   "authorId": 0,
-  "opponnentId": 0,
+  "opponentId": 0,
   "status": "waitingInvite",
   "winnerId": null
 }
@@ -662,7 +662,7 @@ Deck of the player
 
 ```json
 {
-  "opponnentId": 0,
+  "opponentId": 0,
   "deck": [
     0,
     0,
@@ -683,7 +683,7 @@ Deck of the player
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|opponnentId|integer|true|none|Id of the opponent|
+|opponentId|integer|true|none|Id of the opponent|
 |deck|[[PokemonID](#schemapokemonid)]|false|none|Deck of the player|
 
 <h2 id="tocS_MatchDto">MatchDto</h2>
@@ -723,7 +723,7 @@ Deck of the player
     0
   ],
   "authorId": 0,
-  "opponnentId": 0,
+  "opponentId": 0,
   "status": "waitingInvite",
   "winnerId": null
 }
@@ -740,7 +740,7 @@ Deck of the player
 |authorPokemons|[integer]|true|none|The pokemons ids of the author|
 |opponentPokemons|[integer]|false|none|The pokemons ids of the opponent|
 |authorId|integer|true|none|The id of the author|
-|opponnentId|integer|true|none|The id of the opponent|
+|opponentId|integer|true|none|The id of the opponent|
 |status|string|true|none|The status of the match|
 |winnerId|integer|false|none|The id of the winner|
 

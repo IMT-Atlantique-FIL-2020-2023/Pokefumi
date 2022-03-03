@@ -115,7 +115,8 @@ const inputBody = '{
   "password": "string"
 }';
 const headers = {
-  'Content-Type':'application/json'
+  'Content-Type':'application/json',
+  'Accept':'application/json'
 };
 
 fetch('http://127.0.0.1:3333/users',
@@ -152,13 +153,27 @@ fetch('http://127.0.0.1:3333/users',
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|body|body|[User](#schemauser)|true|Optional description in *Markdown*|
+|body|body|[User](#schemauser)|true|none|
+
+> Example responses
+
+> 201 Response
+
+```json
+{
+  "id": 0,
+  "username": "string",
+  "statut": "string",
+  "score": 0,
+  "password": "string"
+}
+```
 
 <h3 id="createuser-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Created|None|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Created|[User](#schemauser)|
 |409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|unsuccessful operation|None|
 
 <aside class="success">

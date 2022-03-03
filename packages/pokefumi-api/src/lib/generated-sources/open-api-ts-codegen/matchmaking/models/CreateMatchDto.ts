@@ -8,7 +8,7 @@ export type CreateMatchDto = {
     /**
      * Id of the opponent
      */
-    opponnentId: number;
+    opponentId: number;
     /**
      * Deck of the player
      */

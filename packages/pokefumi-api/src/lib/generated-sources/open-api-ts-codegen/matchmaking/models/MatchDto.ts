@@ -30,7 +30,7 @@ export type MatchDto = {
     /**
      * The id of the opponent
      */
-    opponnentId: number;
+    opponentId: number;
     /**
      * The status of the match
      */

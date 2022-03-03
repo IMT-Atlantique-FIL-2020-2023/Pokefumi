@@ -22,7 +22,7 @@ Because we need statistics
 
 Base URLs:
 
-* <a href="https://127.0.0.1:3337">https://127.0.0.1:3337</a>
+* <a href="http://127.0.0.1:3337">http://127.0.0.1:3337</a>
 
 License: <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>
 
@@ -42,7 +42,7 @@ const headers = {
   'Accept':'application/json'
 };
 
-fetch('https://127.0.0.1:3337/pokemons/{id}/number-of-rounds',
+fetch('http://127.0.0.1:3337/pokemons/{id}/number-of-rounds',
 {
   method: 'GET',
 
@@ -119,7 +119,7 @@ const headers = {
   'Accept':'application/json'
 };
 
-fetch('https://127.0.0.1:3337/pokemons/{id}/number-of-victories',
+fetch('http://127.0.0.1:3337/pokemons/{id}/number-of-victories',
 {
   method: 'GET',
 
@@ -196,7 +196,7 @@ const headers = {
   'Accept':'application/json'
 };
 
-fetch('https://127.0.0.1:3337/pokemons/rounds',
+fetch('http://127.0.0.1:3337/pokemons/rounds',
 {
   method: 'GET',
 
@@ -255,7 +255,7 @@ const headers = {
   'Accept':'application/json'
 };
 
-fetch('https://127.0.0.1:3337/rounds/count-a-day-last-30-days',
+fetch('http://127.0.0.1:3337/rounds/count-a-day-last-30-days',
 {
   method: 'GET',
 
@@ -317,7 +317,7 @@ const headers = {
   'Accept':'application/json'
 };
 
-fetch('https://127.0.0.1:3337/stats',
+fetch('http://127.0.0.1:3337/stats',
 {
   method: 'PUT',
   body: inputBody,

@@ -36,7 +36,7 @@ export default async function resolveMatch(matchId: number, userId: number, deck
   if (!match) throw "Le match n'existe pas ou a expiré";
 
   // On vérifie que l'utilisateur est autorisé a jouer
-  if (![match.authorId, match.opponnentId].includes(userId)) throw "Le joueur n'est pas authorisé sur ce match";
+  if (![match.authorId, match.opponentId].includes(userId)) throw "Le joueur n'est pas authorisé sur ce match";
 
   // On determine si le joueur actuel est le propriétaire
   const isHost = match.authorId === userId;
@@ -57,7 +57,7 @@ export default async function resolveMatch(matchId: number, userId: number, deck
   let isLastToPlay = true; // On vérifie lequel des joueurs joue en dernier
 
   // On attends que les deux joueurs aient fourni leur pokemon
-  const opponentId = isHost ? match.opponnentId : match.authorId;
+  const opponentId = isHost ? match.opponentId : match.authorId;
   let opponentPokemon = cache.get(getCacheUserId(opponentId));
 
   while (!opponentPokemon) {
@@ -104,14 +104,14 @@ export default async function resolveMatch(matchId: number, userId: number, deck
   }
 
   // const joueur1 = await Users.UserService.getUserById(match.authorId);
-  // const joueur2 = await Users.UserService.getUserById(match.opponnentId);
+  // const joueur2 = await Users.UserService.getUserById(match.opponentId);
 
   // On renvoie enfin le match mis a jour
   return {
     id: match.id,
     status: isLastMatch ? Matchmaking.MatchDto.status.FINISHED : Matchmaking.MatchDto.status.STARTED,
     authorId: match.authorId,
-    opponnentId: match.opponnentId,
+    opponentId: match.opponentId,
     winnerId: isLastMatch && (isWinner ? userId : opponentId),
     createdAt: match.createdAt,
     updatedAt: match.updatedAt,

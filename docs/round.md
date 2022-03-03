@@ -22,7 +22,7 @@ To manage rounds in a match
 
 Base URLs:
 
-* <a href="https://127.0.0.1:3335">https://127.0.0.1:3335</a>
+* <a href="http://127.0.0.1:3335">http://127.0.0.1:3335</a>
 
 License: <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>
 
@@ -38,7 +38,7 @@ const headers = {
   'Accept':'application/json'
 };
 
-fetch('https://127.0.0.1:3335/api',
+fetch('http://127.0.0.1:3335/api',
 {
   method: 'GET',
 
@@ -98,7 +98,7 @@ const headers = {
   'Accept':'application/json'
 };
 
-fetch('https://127.0.0.1:3335/pokemons',
+fetch('http://127.0.0.1:3335/pokemons',
 {
   method: 'GET',
 
@@ -178,7 +178,7 @@ const headers = {
   'Accept':'application/json'
 };
 
-fetch('https://127.0.0.1:3335/pokemons/{id}',
+fetch('http://127.0.0.1:3335/pokemons/{id}',
 {
   method: 'GET',
 
@@ -245,7 +245,7 @@ const headers = {
   'Accept':'application/json'
 };
 
-fetch('https://127.0.0.1:3335/pokemons/name/{name}',
+fetch('http://127.0.0.1:3335/pokemons/name/{name}',
 {
   method: 'GET',
 
@@ -312,7 +312,7 @@ const headers = {
   'Accept':'application/json'
 };
 
-fetch('https://127.0.0.1:3335/types',
+fetch('http://127.0.0.1:3335/types',
 {
   method: 'GET',
 
@@ -382,7 +382,7 @@ const headers = {
   'Accept':'application/json'
 };
 
-fetch('https://127.0.0.1:3335/types/{id}',
+fetch('http://127.0.0.1:3335/types/{id}',
 {
   method: 'GET',
 
@@ -443,7 +443,7 @@ const headers = {
   'Accept':'application/json'
 };
 
-fetch('https://127.0.0.1:3335/types/name/{name}',
+fetch('http://127.0.0.1:3335/types/name/{name}',
 {
   method: 'GET',
 
@@ -508,7 +508,7 @@ const headers = {
   'Accept':'application/json'
 };
 
-fetch('https://127.0.0.1:3335/round/{id1}/{id2}',
+fetch('http://127.0.0.1:3335/round/{id1}/{id2}',
 {
   method: 'GET',
 
@@ -576,7 +576,7 @@ const headers = {
   'Accept':'application/json'
 };
 
-fetch('https://127.0.0.1:3335/round/name/{name1}/{name2}',
+fetch('http://127.0.0.1:3335/round/name/{name1}/{name2}',
 {
   method: 'GET',
 

@@ -182,9 +182,9 @@ components:
     CreateMatchDto:
       type: object
       required:
-        - opponnentId
+        - opponentId
       properties:
-        opponnentId:
+        opponentId:
           type: integer
           description: Id of the opponent
         deck:
@@ -201,7 +201,7 @@ components:
         - createdAt
         - updatedAt
         - authorId
-        - opponnentId
+        - opponentId
         - status
         - authorPokemons
       properties:
@@ -233,7 +233,7 @@ components:
         authorId:
           type: integer
           description: The id of the author
-        opponnentId:
+        opponentId:
           type: integer
           description: The id of the opponent
         status:

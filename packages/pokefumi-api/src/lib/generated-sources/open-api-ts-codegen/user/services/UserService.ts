@@ -23,13 +23,13 @@ export class UserService {
 
     /**
      * Add a new user
-     * @param requestBody Optional description in *Markdown*
-     * @returns any Created
+     * @param requestBody
+     * @returns User Created
      * @throws ApiError
      */
     public static createUser(
         requestBody: User,
-    ): CancelablePromise<any> {
+    ): CancelablePromise<User> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/users',

@@ -1,12 +1,12 @@
 _id: env_e1fd75ac35e0298afe35a46a60eef46ea98c163b
 type: Environment
 parentId: wrk_02b7d060b92a4d1e8ea235cfc915f88d
-modified: 1642583532775
+modified: 1642584109989
 created: 1642580539208
 name: Base Environment
 data:
   base_url: "{{ scheme }}://{{ host }}{{ base_path }}"
-  baseurl: http://0.0.0.0:5000
+  baseurl: http://127.0.0.1:8081
 dataPropertyOrder:
   "&":
     - baseurl

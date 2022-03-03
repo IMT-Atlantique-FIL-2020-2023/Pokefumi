@@ -1,0 +1,40 @@
+_id: req_8f4c531432ac41fd8e43f8f6863eadb8
+type: Request
+parentId: fld_a4c2dd44c8484dbe8beac365a8a1aee0
+modified: 1646344640467
+created: 1646323004591
+url: http://localhost:3334/matchs/17/join
+name: Join
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    [
+    	1,
+    	2,
+    	3,
+    	4,
+    	5,
+    	6,
+    	7,
+    	8,
+    	9,
+    	10
+    ]
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_b80e6e36ad2d4788ab38065afdb6a1f2
+authentication:
+  type: bearer
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjQ2MzIyOTgyLCJleHAiOjE2NDYzNjYxODJ9.l20Yuux-MVwJ3q3rxUUj25lkX8Obf4aQv2CXygA0zag
+metaSortKey: -1646323004591
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

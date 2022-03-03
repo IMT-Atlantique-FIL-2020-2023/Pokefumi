@@ -1,0 +1,21 @@
+_id: req_6d1ac02d656641159db027b1636458e5
+type: Request
+parentId: fld_34faf1943b1849e4b242e42fb464b179
+modified: 1646322981233
+created: 1646322976777
+url: http://localhost:3333/auth/connect?username=string1&password=string
+name: Connect user opponent
+description: ""
+method: POST
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1646322681549
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

@@ -1,15 +1,16 @@
 _id: spc_25372c743f8149b9a3eb466780ed8bf4
 type: ApiSpec
 parentId: wrk_02b7d060b92a4d1e8ea235cfc915f88d
-modified: 1643791843394
+modified: 1646084766642
 created: 1642580539198
-fileName: user.openapi.json
+fileName: pokefumi.yaml
 contents: |-
   {
-     "openapi": "3.0.1",
+     "swagger": "2.0",
      "info": {
-        "title": "Pokefumi swagger",
         "description": "",
+        "version": "1.0.0",
+        "title": "Pokefumi swagger",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
            "email": "apiteam@swagger.io"
@@ -17,14 +18,10 @@ contents: |-
         "license": {
            "name": "Apache 2.0",
            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
-        "version": "1.0.0"
-     },
-     "servers": [
-        {
-           "url": "http://localhost:3333/"
         }
-     ],
+     },
+     "host": "localhost:3333",
+     "basePath": "/",
      "tags": [
         {
            "name": "users",
@@ -40,12 +37,10 @@ contents: |-
               "summary": "Find All Users",
               "responses": {
                  "200": {
-                    "description": "OK",
-                    "content": {}
+                    "description": "OK"
                  },
                  "500": {
-                    "description": "Server Error",
-                    "content": {}
+                    "description": "Server Error"
                  }
               }
            },
@@ -54,36 +49,31 @@ contents: |-
                  "users"
               ],
               "summary": "Add User",
-              "requestBody": {
-                 "description": "user Data",
-                 "content": {
-                    "*/*": {
-                       "schema": {
-                          "$ref": "#/components/schemas/users"
-                       }
+              "parameters": [
+                 {
+                    "name": "body",
+                    "in": "body",
+                    "description": "user Data",
+                    "required": true,
+                    "schema": {
+                       "$ref": "#/definitions/users"
                     }
-                 },
-                 "required": true
-              },
+                 }
+              ],
               "responses": {
                  "201": {
-                    "description": "Created",
-                    "content": {}
+                    "description": "Created"
                  },
                  "400": {
-                    "description": "Bad Request",
-                    "content": {}
+                    "description": "Bad Request"
                  },
                  "409": {
-                    "description": "Conflict",
-                    "content": {}
+                    "description": "Conflict"
                  },
                  "500": {
-                    "description": "Server Error",
-                    "content": {}
+                    "description": "Server Error"
                  }
-              },
-              "x-codegen-request-body-name": "body"
+              }
            }
         },
         "/users/{id}": {
@@ -98,23 +88,18 @@ contents: |-
                     "in": "path",
                     "description": "User Id",
                     "required": true,
-                    "schema": {
-                       "type": "integer"
-                    }
+                    "type": "integer"
                  }
               ],
               "responses": {
                  "200": {
-                    "description": "OK",
-                    "content": {}
+                    "description": "OK"
                  },
                  "409": {
-                    "description": "Conflict",
-                    "content": {}
+                    "description": "Conflict"
                  },
                  "500": {
-                    "description": "Server Error",
-                    "content": {}
+                    "description": "Server Error"
                  }
               }
            },
@@ -129,41 +114,32 @@ contents: |-
                     "in": "path",
                     "description": "user Id",
                     "required": true,
+                    "type": "integer"
+                 },
+                 {
+                    "name": "body",
+                    "in": "body",
+                    "description": "user Data",
+                    "required": true,
                     "schema": {
-                       "type": "integer"
+                       "$ref": "#/definitions/users"
                     }
                  }
               ],
-              "requestBody": {
-                 "description": "user Data",
-                 "content": {
-                    "*/*": {
-                       "schema": {
-                          "$ref": "#/components/schemas/users"
-                       }
-                    }
-                 },
-                 "required": true
-              },
               "responses": {
                  "200": {
-                    "description": "OK",
-                    "content": {}
+                    "description": "OK"
                  },
                  "400": {
-                    "description": "Bad Request",
-                    "content": {}
+                    "description": "Bad Request"
                  },
                  "409": {
-                    "description": "Conflict",
-                    "content": {}
+                    "description": "Conflict"
                  },
                  "500": {
-                    "description": "Server Error",
-                    "content": {}
+                    "description": "Server Error"
                  }
-              },
-              "x-codegen-request-body-name": "body"
+              }
            },
            "delete": {
               "tags": [
@@ -176,48 +152,48 @@ contents: |-
                     "in": "path",
                     "description": "user Id",
                     "required": true,
-                    "schema": {
-                       "type": "integer"
-                    }
+                    "type": "integer"
                  }
               ],
               "responses": {
                  "200": {
-                    "description": "OK",
-                    "content": {}
+                    "description": "OK"
                  },
                  "409": {
-                    "description": "Conflict",
-                    "content": {}
+                    "description": "Conflict"
                  },
                  "500": {
-                    "description": "Server Error",
-                    "content": {}
+                    "description": "Server Error"
                  }
               }
            }
         }
      },
-     "components": {
-        "schemas": {
-           "users": {
-              "required": [
-                 "email",
-                 "password"
-              ],
-              "type": "object",
-              "properties": {
-                 "username": {
-                    "type": "string",
-                    "description": "user name"
-                 },
-                 "password": {
-                    "type": "string",
-                    "description": "user Password"
-                 }
+     "definitions": {
+        "users": {
+           "type": "object",
+           "required": [
+              "email",
+              "password"
+           ],
+           "properties": {
+              "id": {
+                 "type": "integer",
+                 "description": "user Id"
+              },
+              "email": {
+                 "type": "string",
+                 "description": "user Email"
+              },
+              "password": {
+                 "type": "string",
+                 "description": "user Password"
               }
            }
         }
-     }
+     },
+     "schemes": [
+        "http"
+     ]
   }
 contentType: yaml

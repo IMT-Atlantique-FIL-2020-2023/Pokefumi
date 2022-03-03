@@ -1,0 +1,21 @@
+_id: req_f72f751cc998432797aed8614113feca
+type: Request
+parentId: fld_a4c2dd44c8484dbe8beac365a8a1aee0
+modified: 1646323053786
+created: 1646323044431
+url: http://localhost:3334/matchs/17
+name: Get match by id
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1646322998098.5
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

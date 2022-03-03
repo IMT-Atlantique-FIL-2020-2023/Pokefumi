@@ -1,0 +1,43 @@
+_id: req_e1cfd5f9d9564a1f99a1ab6197f6041b
+type: Request
+parentId: fld_a4c2dd44c8484dbe8beac365a8a1aee0
+modified: 1646323864685
+created: 1646322838804
+url: http://localhost:3334/matchs
+name: Create match
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"opponentId": 0,
+    	"deck": [
+    		1,
+    		2,
+    		3,
+    		4,
+    		5,
+    		6,
+    		7,
+    		8,
+    		9,
+    		10
+    	]
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_6edf55f70c3c48b88ea6102f9f6721ea
+authentication:
+  type: bearer
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiaWF0IjoxNjQ2MzIyNzY5LCJleHAiOjE2NDYzNjU5Njl9.WZM-AuS7MCP-E9ncQ-mKOLdwkaBxWHvcTStQCX6Rz3Q
+metaSortKey: -1646322838804
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

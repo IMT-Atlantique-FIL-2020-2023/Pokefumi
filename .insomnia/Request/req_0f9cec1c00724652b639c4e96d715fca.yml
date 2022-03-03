@@ -1,0 +1,21 @@
+_id: req_0f9cec1c00724652b639c4e96d715fca
+type: Request
+parentId: fld_34faf1943b1849e4b242e42fb464b179
+modified: 1646322749476
+created: 1646322728906
+url: http://localhost:3333/users
+name: List users
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1646322681524
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

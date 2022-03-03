@@ -1,0 +1,21 @@
+_id: req_4d38bd40e95843018adf52d2bc6be65f
+type: Request
+parentId: fld_a4c2dd44c8484dbe8beac365a8a1aee0
+modified: 1646322991606
+created: 1646322991606
+url: ""
+name: List invitations
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1646322991606
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

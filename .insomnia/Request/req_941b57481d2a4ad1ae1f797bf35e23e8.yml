@@ -1,0 +1,32 @@
+_id: req_941b57481d2a4ad1ae1f797bf35e23e8
+type: Request
+parentId: fld_2fcc543eb6374ebfacec0963f549756f
+modified: 1646344634425
+created: 1646323120113
+url: http://127.0.0.1:3335/match
+name: Try round
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"idMatch": 17,
+    	"idDeck": 0
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_bf4319db953a4e5ea1d7e2e8a8f329a7
+authentication:
+  type: bearer
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjQ2MzIyOTgyLCJleHAiOjE2NDYzNjYxODJ9.l20Yuux-MVwJ3q3rxUUj25lkX8Obf4aQv2CXygA0zag
+metaSortKey: -1646323120113
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

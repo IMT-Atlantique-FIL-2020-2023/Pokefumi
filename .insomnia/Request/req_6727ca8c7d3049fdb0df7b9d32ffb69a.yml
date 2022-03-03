@@ -1,0 +1,21 @@
+_id: req_6727ca8c7d3049fdb0df7b9d32ffb69a
+type: Request
+parentId: fld_a4c2dd44c8484dbe8beac365a8a1aee0
+modified: 1646322804151
+created: 1646322795275
+url: http://0.0.0.0:3334/matchs
+name: List matchs
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1646322795275
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

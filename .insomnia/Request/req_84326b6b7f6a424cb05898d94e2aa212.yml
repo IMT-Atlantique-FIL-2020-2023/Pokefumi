@@ -1,0 +1,21 @@
+_id: req_84326b6b7f6a424cb05898d94e2aa212
+type: Request
+parentId: fld_34faf1943b1849e4b242e42fb464b179
+modified: 1646322768842
+created: 1646322681574
+url: http://localhost:3333/auth/connect?username=string&password=string
+name: Connect user
+description: ""
+method: POST
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1646322681574
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

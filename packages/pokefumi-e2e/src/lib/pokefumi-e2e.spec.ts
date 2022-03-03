@@ -123,6 +123,16 @@ describe('simple scenario', () => {
       expect(tokenOpponent).toBeTruthy();
       global.opponentToken = tokenOpponent;
     });
+
+    it('should not connect with an invalid password', async () => {
+      const t = () => User.UserService.connectUser(author.username, 'badpassword');
+      await expect(t()).rejects.toThrow();
+    });
+
+    it('should not connect with an invalid username', async () => {
+      const t = () => User.UserService.connectUser('badusername##########', 'badpassword');
+      await expect(t()).rejects.toThrow();
+    });
   });
 
   /*

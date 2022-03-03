@@ -3,6 +3,10 @@
   "version": "0.0.0",
   "description": "Poke-fu-mi est une application qui permet d'organiser des combats entre maîtres Pokémon mais les règles ne sont pas exactement celles du jeu classique.",
   "main": "ecosystem.config.js",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "dependencies": {
     "@types/lru-cache": "^7.4.0",
     "@types/uuid": "^8.3.4",

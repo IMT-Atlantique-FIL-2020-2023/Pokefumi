@@ -1,5 +1,5 @@
 import UserRepository from '../repository/user.repository';
-import { User } from '@prisma/client';
+import { User } from '@prisma/client/user';
 const userRepository = new UserRepository();
 
 const listUsers = async () => {

@@ -10,7 +10,7 @@ import { GetNumberOfVictoriesByPokemonResponse } from './generated-oats/response
 import { GetPokemonsWithNumberOfRoundsResponse } from './generated-oats/responses/GetPokemonsWithNumberOfRoundsResponse';
 import { UploadStatRowServerRequest } from './generated-oats/requests/UploadStatRowServerRequest';
 import { UploadStatRowResponse } from './generated-oats/responses/UploadStatRowResponse';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client/stats';
 import { AppError } from './generated-oats/types/AppError';
 import { ArrayOfRounds } from './generated-oats/types/ArrayOfRounds';
 

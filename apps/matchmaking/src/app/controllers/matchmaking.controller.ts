@@ -1,4 +1,4 @@
-import { PrismaClient, Match } from '@prisma/client';
+import { PrismaClient, Match } from '@prisma/client/matchmaking';
 import { z } from 'zod';
 import { User } from '@pokefumi/pokefumi-api';
 import { PokemonClient } from 'pokenode-ts';

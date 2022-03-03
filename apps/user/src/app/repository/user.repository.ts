@@ -1,4 +1,4 @@
-import { PrismaClient, User } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client/user';
 import { createHash } from 'crypto';
 import * as jwt from 'jsonwebtoken';
 export default class UserRepository {

@@ -33,16 +33,18 @@ paths:
       summary: Add a new user
       operationId: createUser
       requestBody:
-        description: Optional description in *Markdown*
         required: true
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/User"
-
       responses:
         "201":
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
         "409":
           description: unsuccessful operation
   /auth/connect:

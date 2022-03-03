@@ -3,19 +3,21 @@ import { User, Matchmaking, Round, Stats } from '@pokefumi/pokefumi-api';
 import { node, ExecaChildProcess } from 'execa';
 import { faker } from '@faker-js/faker';
 import { join } from 'path';
+import knex from 'knex';
+import tableClean from 'knex-tablecleaner';
 
 const JWT_SECRET = 'ILIKETOTESTPOTATOES';
 const processes: ExecaChildProcess[] = [];
 const author = {
   username: faker.internet.userName(),
-  password: faker.internet.password(),
+  password: 'password',
   statut: 'online',
   score: 0,
 };
 
 const opponent = {
   username: faker.internet.userName(),
-  password: faker.internet.password(),
+  password: 'motdepasse',
   statut: 'online',
   score: 0,
 };
@@ -30,6 +32,29 @@ declare global {
 }
 
 beforeAll(async () => {
+  // juste pour empêcher les messages d'erreurs dans la console
+  const tmp = console.error;
+  console.error = () => {};
+
+  // nettoyage des BDDs
+  // une bdd par table
+  for (const db of [
+    ['stats', 'StatRound'],
+    ['user', 'User'],
+    ['matchmaking', 'Match'],
+  ]) {
+    const conn = knex({
+      client: 'sqlite3',
+      connection: {
+        filename: join(__dirname, '../../../../apps', db[0], `prisma/${db[0]}.sqlite`),
+      },
+    });
+    try {
+      await tableClean.cleanTables(conn, [db[1]], true);
+    } catch (e) {}
+    conn.destroy();
+  }
+
   // on fork chaque processus node pour chaque service. Bref on les lance tous en meme temps
   for (const name of ['stats', 'user', 'round', 'matchmaking']) {
     processes.push(
@@ -37,7 +62,8 @@ beforeAll(async () => {
         env: {
           JWT_SECRET,
         },
-        stdio: 'pipe',
+        stdin: process.stdin,
+        stdout: process.stdout,
         cleanup: true,
         cwd: join(__dirname, '../../../../'),
         detached: false,
@@ -51,6 +77,7 @@ beforeAll(async () => {
     waitUntil(async () => (await Round.DefaultService.get().catch(e => {})) !== undefined, { intervalBetweenAttempts: 500 }),
     waitUntil(async () => (await Stats.RoundService.getRoundsAdayLast30Days().catch(e => {})) !== undefined, { intervalBetweenAttempts: 500 }),
   ]);
+  console.error = tmp;
 }, 20 * 1000);
 
 describe('simple scenario', () => {
@@ -95,6 +122,16 @@ describe('simple scenario', () => {
       const tokenOpponent = await User.UserService.connectUser(opponent.username, opponent.password);
       expect(tokenOpponent).toBeTruthy();
       global.opponentToken = tokenOpponent;
+    });
+
+    it('should not connect with an invalid password', async () => {
+      const t = () => User.UserService.connectUser(author.username, 'badpassword');
+      await expect(t()).rejects.toThrow();
+    });
+
+    it('should not connect with an invalid username', async () => {
+      const t = () => User.UserService.connectUser('badusername##########', 'badpassword');
+      await expect(t()).rejects.toThrow();
     });
   });
 
@@ -181,6 +218,7 @@ describe('simple scenario', () => {
 });
 
 afterAll(() => {
+  console.log('Killing childrens, oh noooo !');
   // on kill tous les processus
   processes.forEach(p => p.kill());
 });

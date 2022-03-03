@@ -1,15 +1,19 @@
 import express from 'express';
+import cors from 'cors';
+import jwt from 'express-jwt';
+import { config } from 'dotenv';
 
 import getListPokemons from './app/getListPokemons';
 import getListTypes from './app/getListTypes';
 import { getType, getTypeByName } from './app/getType';
 import { getPokemon, getPokemonByName } from './app/getPokemon';
 import { getRoundPokemon, getRoundPokemonByName } from './app/getRoundPokemon';
-
-import resolveMatch from './app/resolveMatch'
+config();
+import resolveMatch from './app/resolveMatch';
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(cors());
 
 app.get('/api', (req, res) => {
   res.status(200).send({ message: 'Welcome to match!' });
@@ -79,18 +83,19 @@ app.get('/round/name/:name1/:name2', async (req, res) => {
   }
 });
 
-app.put('/match', async (req, res) => {
+app.put('/match', jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] }), async (req, res) => {
   try {
+    const idMatch = req?.body?.idMatch;
+    //@ts-ignore
+    const idJoueur = req?.user?.id;
+    const idDeck = req?.body?.idDeck;
 
-    const idMatch = req.body.idMatch
-    const idJoueur = req.body.idJoueur
-    const idDeck = req.body.idDeck
-
-    if (!idMatch || !idJoueur || !idDeck) throw "Mauvais arguments"
+    if (idMatch === undefined || idJoueur === undefined || idDeck === undefined) throw new Error('Mauvais arguments');
 
     res.status(200).send(await resolveMatch(idMatch, idJoueur, idDeck));
   } catch (e) {
-    res.status(e.response.status).send(e);
+    console.error(e);
+    res.status(500).send(e);
   }
 });
 

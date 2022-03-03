@@ -3,6 +3,8 @@ import { User, Matchmaking, Round, Stats } from '@pokefumi/pokefumi-api';
 import { node, ExecaChildProcess } from 'execa';
 import { faker } from '@faker-js/faker';
 import { join } from 'path';
+import knex from 'knex';
+import tableClean from 'knex-tablecleaner';
 
 const JWT_SECRET = 'ILIKETOTESTPOTATOES';
 const processes: ExecaChildProcess[] = [];
@@ -30,6 +32,23 @@ declare global {
 }
 
 beforeAll(async () => {
+  // juste pour empêcher les messages d'erreurs dans la console
+  const tmp = console.error;
+  console.error = () => {};
+
+  // nettoyage des BDDs
+  for (const db of ['stats', 'user', 'matchmaking']) {
+    const conn = knex({
+      client: 'sqlite3',
+      connection: {
+        filename: join(__dirname, '../../../../apps', db, `prisma/${db}.sqlite`),
+      },
+    });
+    try {
+      await tableClean.cleanTables(conn, ['Match', 'User', 'StatRound'], true);
+    } catch (e) {}
+  }
+
   // on fork chaque processus node pour chaque service. Bref on les lance tous en meme temps
   for (const name of ['stats', 'user', 'round', 'matchmaking']) {
     processes.push(
@@ -51,6 +70,7 @@ beforeAll(async () => {
     waitUntil(async () => (await Round.DefaultService.get().catch(e => {})) !== undefined, { intervalBetweenAttempts: 500 }),
     waitUntil(async () => (await Stats.RoundService.getRoundsAdayLast30Days().catch(e => {})) !== undefined, { intervalBetweenAttempts: 500 }),
   ]);
+  console.error = tmp;
 }, 20 * 1000);
 
 describe('simple scenario', () => {

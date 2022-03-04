@@ -1,6 +1,5 @@
 FROM node:16
 ARG SERVICE=round
-ENV NX_CACHE_PROJECT_GRAPH=false
 RUN  npm i -g nx
 WORKDIR /app/pokefumi/apps/$SERVICE
 COPY package*.json ./

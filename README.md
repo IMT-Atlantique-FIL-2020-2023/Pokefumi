@@ -12,7 +12,7 @@ Pour le déroulement d'une partie, voilà ce qu'il se passe (en considérant que
 - Lorsque les 10 rounds ont été réalisés, le joueur vainqueur du match est celui qui aura accumulé le plus de points.
 - Le salon est clos. Pour lancer une nouvelle partie, le joueur revient à l'étape 1.
 
-## Pour bien commencer
+## Pour bien commencer (sans docker-compose)
 
 Pour lancer : utiliser le devcontainer, ou installer nx en global (faire la commande dans un terminal ): `npm i -g nx`.
 Version de nodejs conseillée : 16.X.X
@@ -21,6 +21,12 @@ Version de nodejs conseillée : 16.X.X
 2. Générer tous les clients prisma `nx affected --target=generate --all`
 3. Créer les BDD sqlite `nx affected --target=push --all`
 4. Ensuite pour lancer le user service : `nx run user:serve`. Pour lancer le matchmaking service :  `nx run matchmaking:serve`.
+
+## Pour bien commencer (sans docker-compose)
+
+Pour lancer : 
+
+- `docker-compose up`: lance tous les services
 
 ## Liste des targets nx
 

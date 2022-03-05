@@ -8,4 +8,5 @@ export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { User } from './models/User';
 
+export { InternalService } from './services/InternalService';
 export { UserService } from './services/UserService';

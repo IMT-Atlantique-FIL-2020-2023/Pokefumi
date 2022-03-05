@@ -29,6 +29,8 @@ export default class UserRepository {
 
   async createUser(data: User): Promise<User> {
     data.password = createHash('sha256').update(data.password).digest('base64');
+    data.score = 0;
+    data.statut = 'online';
     const user = await this.prisma.user.create({
       data,
     });
@@ -46,5 +48,19 @@ export default class UserRepository {
       throw new Error('Invalid credentials');
     }
     return jwt.sign({ id: res.id }, process.env.JWT_SECRET, { expiresIn: '12h' });
+  }
+
+  async incrementScore(id: number) {
+    const user = await this.prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        score: {
+          increment: 1,
+        },
+      },
+    });
+    return user;
   }
 }

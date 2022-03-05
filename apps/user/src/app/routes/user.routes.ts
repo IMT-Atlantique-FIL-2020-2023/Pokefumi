@@ -30,4 +30,14 @@ export const register = async (app: express.Application) => {
       res.status(409).json(e.message);
     }
   });
+
+  app.put('/internal/users/:id/increment-score', async (req, res) => {
+    try {
+      const user_id = Number(req.params.id);
+      await UserController.incrementScore(user_id);
+      res.status(200).json({});
+    } catch (e) {
+      res.status(404).json(e.message);
+    }
+  });
 };

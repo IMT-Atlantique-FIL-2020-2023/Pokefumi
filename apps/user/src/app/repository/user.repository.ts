@@ -29,6 +29,8 @@ export default class UserRepository {
 
   async createUser(data: User): Promise<User> {
     data.password = createHash('sha256').update(data.password).digest('base64');
+    data.score = 0;
+    data.statut = 'online';
     const user = await this.prisma.user.create({
       data,
     });

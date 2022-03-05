@@ -18,12 +18,17 @@ export class InternalService {
      */
     public static closeMatch(
         id: number,
-        requestBody?: {
+        requestBody?: ({
             /**
-             * The id of the winner
+             * The id of the winner. If the winner is a draw, the winnerId is null and the match status is set to finished
              */
-            winnerId: string;
-        },
+            winnerId: number;
+        } | {
+            /**
+             * If the match is a draw
+             */
+            isDraw: boolean;
+        }),
     ): CancelablePromise<MatchDto> {
         return __request(OpenAPI, {
             method: 'POST',

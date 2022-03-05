@@ -36,7 +36,7 @@ export type MatchDto = {
      */
     status: MatchDto.status;
     /**
-     * The id of the winner
+     * The id of the winner. If the winner is a draw, the winnerId is null and the match status is set to finished
      */
     winnerId?: number;
 };

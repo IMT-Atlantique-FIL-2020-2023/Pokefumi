@@ -29,12 +29,13 @@ declare global {
   var authorToken: string;
   var opponentToken: string;
   var matchId: number;
+  var matchId2: number;
 }
 
 beforeAll(async () => {
   // juste pour empêcher les messages d'erreurs dans la console
   const tmp = console.error;
-
+  console.error = () => {};
   // nettoyage des BDDs
   // une bdd par table
   for (const db of [
@@ -214,6 +215,109 @@ describe('simple scenario', () => {
       const invitations = await Matchmaking.MatchesService.getAllMatchesWaitingForInvitation();
       expect(invitations).not.toEqual(expect.arrayContaining([expect.objectContaining({ id: global.matchId, authorId: global.authorId })]));
     });
+  });
+});
+
+/*
+###############################################################################################
+# Round service
+###############################################################################################
+*/
+describe('rounds-service', () => {
+  beforeAll(async () => {
+    Matchmaking.OpenAPI.TOKEN = global.authorToken;
+    let match = await Matchmaking.MatchesService.createMatch({
+      opponentId: global.opponentId,
+      deck: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    });
+    expect(match).toEqual(expect.objectContaining({ authorId: global.authorId, opponentId: global.opponentId }));
+    global.matchId2 = match.id!;
+
+    Matchmaking.OpenAPI.TOKEN = global.opponentToken;
+    match = await Matchmaking.MatchesService.joinMatch(global.matchId, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+    expect(match).toEqual(
+      expect.objectContaining({
+        id: global.matchId,
+        authorId: global.authorId,
+        opponentId: global.opponentId,
+        opponentPokemons: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      }),
+    );
+
+    const invitations = await Matchmaking.MatchesService.getAllMatchesWaitingForInvitation();
+    expect(invitations).not.toEqual(expect.arrayContaining([expect.objectContaining({ id: global.matchId, authorId: global.authorId })]));
+  });
+
+  const callWithHost = async (idxPokemonDeck: number) => {
+    Matchmaking.OpenAPI.TOKEN = global.authorToken;
+    await Round.RoundService.playRound({
+      idMatch: global.matchId2,
+      idxPokemonDeck: idxPokemonDeck,
+    });
+  };
+
+  const callWithOpponent = async (idxPokemonDeck: number) => {
+    Matchmaking.OpenAPI.TOKEN = global.opponentToken;
+    await Round.RoundService.playRound({
+      idMatch: global.matchId2,
+      idxPokemonDeck: idxPokemonDeck,
+    });
+  };
+
+  it('Host should win', async () => {
+    const winnerPokemon = 25;
+    const looserPokemon = 80;
+
+    for (let i = 0; i < 10; i++) {
+      const roundResults = await Promise.all([await callWithHost(winnerPokemon), await callWithOpponent(looserPokemon)]);
+
+      expect(roundResults).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            roundWinner: global.authorId,
+            pokemonWinner: winnerPokemon,
+            roundLooser: global.opponentId,
+            pokemonLooser: looserPokemon,
+            roundIndex: i + 1,
+          }),
+          expect.objectContaining({
+            roundWinner: global.authorId,
+            pokemonWinner: winnerPokemon,
+            roundLooser: global.opponentId,
+            pokemonLooser: looserPokemon,
+            roundIndex: i + 1,
+          }),
+        ]),
+      );
+    }
+  });
+
+  it('Host should loose', async () => {
+    const winnerPokemon = 13;
+    const looserPokemon = 3;
+
+    for (let i = 0; i < 10; i++) {
+      const roundResults = await Promise.all([await callWithHost(looserPokemon), await callWithOpponent(winnerPokemon)]);
+
+      expect(roundResults).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            roundWinner: global.opponentId,
+            pokemonWinner: winnerPokemon,
+            roundLooser: global.authorId,
+            pokemonLooser: looserPokemon,
+            roundIndex: i + 1,
+          }),
+          expect.objectContaining({
+            roundWinner: global.opponentId,
+            pokemonWinner: winnerPokemon,
+            roundLooser: global.authorId,
+            pokemonLooser: looserPokemon,
+            roundIndex: i + 1,
+          }),
+        ]),
+      );
+    }
   });
 });
 

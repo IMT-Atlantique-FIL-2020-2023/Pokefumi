@@ -21,25 +21,36 @@ export class StatsApiImpl implements StatsServiceApi<ExpressParameters> {
   }
   uploadStatRow(request: UploadStatRowServerRequest): Promise<UploadStatRowResponse> {
     return fluent(request.body).get(
-      async (body): Promise<UploadStatRowResponse> => ({
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        body: await this.prisma.statRound.upsert({
-          where: {
-            idPokemon_dateMatch_idMatch_team: {
-              dateMatch: body.dateMatch,
-              idMatch: body.idMatch,
-              idPokemon: body.idPokemon,
-              team: body.team,
+      async (body): Promise<UploadStatRowResponse> => {
+        if (!body) {
+          return {
+            body: null,
+            statusCode: 400,
+            headers: undefined,
+            mimeType: 'application/json',
+          };
+        }
+
+        return {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          body: await this.prisma.statRound.upsert({
+            where: {
+              idPokemon_dateMatch_idMatch_team: {
+                dateMatch: body.dateMatch,
+                idMatch: body.idMatch,
+                idPokemon: body.idPokemon,
+                team: body.team,
+              },
             },
-          },
-          update: body,
-          create: body,
-        }),
-        statusCode: 200,
-        headers: undefined,
-        mimeType: 'application/json',
-      }),
+            update: body,
+            create: body,
+          }),
+          statusCode: 200,
+          headers: undefined,
+          mimeType: 'application/json',
+        };
+      },
       async (issues: Issue[]): Promise<UploadStatRowResponse> => ({
         body: issues.map(stringify).map((message): AppError => ({ message, code: 0 })),
         headers: undefined,
@@ -52,13 +63,13 @@ export class StatsApiImpl implements StatsServiceApi<ExpressParameters> {
     return {
       body: await this.prisma.$queryRaw<ArrayOfRounds>`
 SELECT 
-  strftime('%d-%m-%Y', dateMatch) as date, 
-  COUNT(*) as numberOfMatches 
+  strftime('%d-%m-%Y', dateMatch / 1000, 'unixepoch') as date,
+  COUNT(*) as numberOfRounds
 FROM 
-  'statRound' 
+  'StatRound' 
 WHERE 
-  dateMatch >= date('now', '-30 day') 
-GROUP BY 
+  dateMatch >= CAST((julianday('now') - 2440587.5)*86400000 AS INTEGER) - 1000 * 60 * 60 * 24 * 30 
+GROUP BY
   date;
 `,
       statusCode: 200,

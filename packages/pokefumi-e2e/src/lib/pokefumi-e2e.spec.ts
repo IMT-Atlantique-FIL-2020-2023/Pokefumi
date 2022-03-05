@@ -63,6 +63,7 @@ beforeAll(async () => {
         },
         stdin: process.stdin,
         stdout: process.stdout,
+        stderr: process.stderr,
         cleanup: true,
         cwd: join(__dirname, '../../../../'),
         detached: false,
@@ -287,7 +288,8 @@ describe('stats-service', () => {
 
   it('should return the number of matchs of the last month', async () => {
     const res = await Stats.RoundService.getRoundsAdayLast30Days();
-    expect(res);
+    expect(res).toEqual(expect.arrayContaining([expect.objectContaining({ numberOfRounds: 4 }), expect.objectContaining({ numberOfRounds: 2 })]));
+    expect(res).not.toEqual(expect.arrayContaining([expect.objectContaining({ numberOfRounds: 1 })]));
   });
 
   it('should return the number of matchs for the pokemon', async () => {

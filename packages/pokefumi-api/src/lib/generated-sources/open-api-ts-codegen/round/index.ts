@@ -7,6 +7,7 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { Pokemon } from './models/Pokemon';
+export type { RoundResultDto } from './models/RoundResultDto';
 export type { TypePokemon } from './models/TypePokemon';
 
 export { DefaultService } from './services/DefaultService';

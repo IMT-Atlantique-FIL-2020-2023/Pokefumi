@@ -15,7 +15,7 @@ export class PokemonService {
      * @returns Pokemon The list of pokemons
      * @throws ApiError
      */
-    public static get(): CancelablePromise<Array<Pokemon>> {
+    public static getPokemons(): CancelablePromise<Array<Pokemon>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/pokemons',
@@ -28,7 +28,7 @@ export class PokemonService {
      * @returns Pokemon The pokemon for a given id
      * @throws ApiError
      */
-    public static get1(
+    public static getPokemonById(
         id: number,
     ): CancelablePromise<Pokemon> {
         return __request(OpenAPI, {
@@ -46,7 +46,7 @@ export class PokemonService {
      * @returns Pokemon The pokemon for a given name
      * @throws ApiError
      */
-    public static get2(
+    public static getPokemonByName(
         name: string,
     ): CancelablePromise<Pokemon> {
         return __request(OpenAPI, {
@@ -63,7 +63,7 @@ export class PokemonService {
      * @returns TypePokemon The list of types
      * @throws ApiError
      */
-    public static get3(): CancelablePromise<Array<TypePokemon>> {
+    public static getTypes(): CancelablePromise<Array<TypePokemon>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/types',
@@ -76,7 +76,7 @@ export class PokemonService {
      * @returns TypePokemon The type for a given id
      * @throws ApiError
      */
-    public static get4(
+    public static getTypeById(
         id: number,
     ): CancelablePromise<TypePokemon> {
         return __request(OpenAPI, {
@@ -94,7 +94,7 @@ export class PokemonService {
      * @returns TypePokemon The type for a given name
      * @throws ApiError
      */
-    public static get5(
+    public static getTypeByName(
         name: string,
     ): CancelablePromise<TypePokemon> {
         return __request(OpenAPI, {

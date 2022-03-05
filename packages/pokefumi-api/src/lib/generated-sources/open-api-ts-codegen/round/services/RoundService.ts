@@ -2,6 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Pokemon } from '../models/Pokemon';
+import type { RoundResultDto } from '../models/RoundResultDto';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -16,7 +17,7 @@ export class RoundService {
      * @returns Pokemon The winning pokemon
      * @throws ApiError
      */
-    public static get(
+    public static getRoundsResultById(
         id1: string,
         id2: string,
     ): CancelablePromise<Pokemon> {
@@ -37,7 +38,7 @@ export class RoundService {
      * @returns Pokemon The winning pokemon
      * @throws ApiError
      */
-    public static get1(
+    public static getRoundsResultByName(
         name1: string,
         name2: string,
     ): CancelablePromise<Pokemon> {
@@ -47,6 +48,26 @@ export class RoundService {
             path: {
                 'name1': name1,
                 'name2': name2,
+            },
+        });
+    }
+
+    /**
+     * Play the round for a given user and a given match
+     * @param requestBody
+     * @returns RoundResultDto The winning pokemon
+     * @throws ApiError
+     */
+    public static playRound(
+        requestBody?: any,
+    ): CancelablePromise<RoundResultDto> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/match',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                408: `Timeout the other player didn't responded within the allowed delay`,
             },
         });
     }

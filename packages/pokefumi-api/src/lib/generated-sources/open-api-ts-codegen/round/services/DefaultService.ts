@@ -12,7 +12,7 @@ export class DefaultService {
      * @returns any successful operation
      * @throws ApiError
      */
-    public static get(): CancelablePromise<{
+    public static getApi(): CancelablePromise<{
         message?: string;
     }> {
         return __request(OpenAPI, {

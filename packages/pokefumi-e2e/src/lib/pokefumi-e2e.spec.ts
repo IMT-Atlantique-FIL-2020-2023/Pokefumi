@@ -74,7 +74,7 @@ beforeAll(async () => {
   await Promise.all([
     waitUntil(async () => (await User.UserService.getAllUsers().catch(e => {})) !== undefined, { intervalBetweenAttempts: 500 }),
     waitUntil(async () => (await Matchmaking.MatchesService.getAllMatches().catch(e => {})) !== undefined, { intervalBetweenAttempts: 500 }),
-    waitUntil(async () => (await Round.DefaultService.get().catch(e => {})) !== undefined, { intervalBetweenAttempts: 500 }),
+    waitUntil(async () => (await Round.DefaultService.getApi().catch(e => {})) !== undefined, { intervalBetweenAttempts: 500 }),
     waitUntil(async () => (await Stats.RoundService.getRoundsAdayLast30Days().catch(e => {})) !== undefined, { intervalBetweenAttempts: 500 }),
   ]);
   console.error = tmp;
@@ -213,6 +213,43 @@ describe('simple scenario', () => {
       );
       const invitations = await Matchmaking.MatchesService.getAllMatchesWaitingForInvitation();
       expect(invitations).not.toEqual(expect.arrayContaining([expect.objectContaining({ id: global.matchId, authorId: global.authorId })]));
+    });
+  });
+  describe('stats-service', () => {
+    beforeAll(async () => {
+      // envoi de stats de test
+      const invalidDate = new Date();
+      invalidDate.setMonth(invalidDate.getMonth() - 3);
+      const testData = [
+        {
+          dateMatch: new Date().toISOString(),
+          team: 0,
+          idMatch: 5,
+          idPokemon: 6,
+          victory: false,
+        },
+        {
+          dateMatch: new Date().toISOString(),
+          team: 1,
+          idMatch: 8,
+          idPokemon: 9,
+          victory: true,
+        },
+        {
+          dateMatch: invalidDate.toISOString(),
+          team: 1,
+          idMatch: 5,
+          idPokemon: 6,
+          victory: true,
+        },
+      ];
+      for (const data of testData) {
+        await Stats.StatsService.uploadStatRow(data);
+      }
+    });
+    it("shouldn't work if you upload an invalid stats row", async () => {
+      const t = () => Stats.StatsService.uploadStatRow();
+      await expect(t()).rejects.toThrow();
     });
   });
 });

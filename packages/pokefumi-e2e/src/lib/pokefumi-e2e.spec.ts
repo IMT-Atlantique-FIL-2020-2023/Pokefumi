@@ -234,10 +234,10 @@ describe('rounds-service', () => {
     global.matchId2 = match.id!;
 
     Matchmaking.OpenAPI.TOKEN = global.opponentToken;
-    match = await Matchmaking.MatchesService.joinMatch(global.matchId, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+    match = await Matchmaking.MatchesService.joinMatch(global.matchId2, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     expect(match).toEqual(
       expect.objectContaining({
-        id: global.matchId,
+        id: global.matchId2,
         authorId: global.authorId,
         opponentId: global.opponentId,
         opponentPokemons: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -249,16 +249,16 @@ describe('rounds-service', () => {
   });
 
   const callWithHost = async (idxPokemonDeck: number) => {
-    Matchmaking.OpenAPI.TOKEN = global.authorToken;
-    await Round.RoundService.playRound({
+    Round.OpenAPI.TOKEN = global.authorToken;
+    return await Round.RoundService.playRound({
       idMatch: global.matchId2,
       idxPokemonDeck: idxPokemonDeck,
     });
   };
 
   const callWithOpponent = async (idxPokemonDeck: number) => {
-    Matchmaking.OpenAPI.TOKEN = global.opponentToken;
-    await Round.RoundService.playRound({
+    Round.OpenAPI.TOKEN = global.opponentToken;
+    return await Round.RoundService.playRound({
       idMatch: global.matchId2,
       idxPokemonDeck: idxPokemonDeck,
     });
@@ -269,7 +269,7 @@ describe('rounds-service', () => {
     const looserPokemon = 80;
 
     for (let i = 0; i < 10; i++) {
-      const roundResults = await Promise.all([await callWithHost(winnerPokemon), await callWithOpponent(looserPokemon)]);
+      const roundResults = await Promise.all([callWithHost(winnerPokemon), callWithOpponent(looserPokemon)]);
 
       expect(roundResults).toEqual(
         expect.arrayContaining([
@@ -297,7 +297,7 @@ describe('rounds-service', () => {
     const looserPokemon = 3;
 
     for (let i = 0; i < 10; i++) {
-      const roundResults = await Promise.all([await callWithHost(looserPokemon), await callWithOpponent(winnerPokemon)]);
+      const roundResults = await Promise.all([callWithHost(looserPokemon), callWithOpponent(winnerPokemon)]);
 
       expect(roundResults).toEqual(
         expect.arrayContaining([

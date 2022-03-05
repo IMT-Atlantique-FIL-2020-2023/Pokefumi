@@ -13,7 +13,7 @@ export const CreateMatchSchema = z.object({ opponentId: z.number().int(), deck: 
 export type CreateMatchDto = z.TypeOf<typeof CreateMatchSchema>;
 export const MatchIdSchema = z.object({ id: z.string().regex(/^\d+$/) });
 export type MatchIdPath = z.TypeOf<typeof MatchIdSchema>;
-export const CloseDtoSchema = z.object({ winnerId: z.number().int() });
+export const CloseDtoSchema = z.object({ winnerId: z.number().int() }).or(z.object({ isDraw: z.literal(true) }));
 export type CloseDto = z.TypeOf<typeof CloseDtoSchema>;
 
 const transformMatchToDto = (match: Match) => ({
@@ -104,7 +104,8 @@ export async function joinMatch(id: number, deck: DeckDto) {
   );
 }
 
-export async function closeMatch(id: number, { winnerId }: CloseDto) {
+export async function closeMatch(id: number, close: CloseDto) {
+  const winnerId = 'winnerId' in close ? close.winnerId : null;
   return await prisma.match.updateMany({
     where: { id, status: 'started' },
     data: { status: 'finished', winnerId },

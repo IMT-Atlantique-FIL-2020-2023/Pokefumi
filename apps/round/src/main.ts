@@ -23,7 +23,7 @@ app.get('/pokemons', async (req, res) => {
   try {
     res.status(200).send(await getListPokemons());
   } catch (e) {
-    res.status(e.response.status).send(e);
+    res.status(e.status).send(e);
   }
 });
 
@@ -31,7 +31,7 @@ app.get('/pokemons/:id', async (req, res) => {
   try {
     res.status(200).send(await getPokemon(Number(req.params.id)));
   } catch (e) {
-    res.status(e.response.status).send(e);
+    res.status(e.status).send(e);
   }
 });
 
@@ -39,7 +39,7 @@ app.get('/pokemons/name/:name', async (req, res) => {
   try {
     res.status(200).send(await getPokemonByName(req.params.name));
   } catch (e) {
-    res.status(e.response.status).send(e);
+    res.status(e.status).send(e);
   }
 });
 
@@ -47,7 +47,7 @@ app.get('/types', async (req, res) => {
   try {
     res.status(200).send(await getListTypes());
   } catch (e) {
-    res.status(e.response.status).send(e);
+    res.status(e.status).send(e);
   }
 });
 
@@ -55,7 +55,7 @@ app.get('/types/:id', async (req, res) => {
   try {
     res.status(200).send(await getType(Number(req.params.id)));
   } catch (e) {
-    res.status(e.response.status).send(e);
+    res.status(e.status).send(e);
   }
 });
 
@@ -63,7 +63,7 @@ app.get('/types/name/:name', async (req, res) => {
   try {
     res.status(200).send(await getTypeByName(req.params.name));
   } catch (e) {
-    res.status(e.response.status).send(e);
+    res.status(e.status).send(e);
   }
 });
 
@@ -71,7 +71,7 @@ app.get('/round/:id1/:id2', async (req, res) => {
   try {
     res.status(200).send(await getRoundPokemon(Number(req.params.id1), Number(req.params.id2)));
   } catch (e) {
-    res.status(e.response.status).send(e);
+    res.status(e.status).send(e);
   }
 });
 
@@ -79,7 +79,7 @@ app.get('/round/name/:name1/:name2', async (req, res) => {
   try {
     res.status(200).send(await getRoundPokemonByName(req.params.name1, req.params.name2));
   } catch (e) {
-    res.status(e.response.status).send(e);
+    res.status(e.status).send(e);
   }
 });
 
@@ -88,14 +88,13 @@ app.put('/match', jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] })
     const idMatch = req?.body?.idMatch;
     //@ts-ignore
     const idJoueur = req?.user?.id;
-    const idDeck = req?.body?.idDeck;
+    const idxPokemonDeck = req?.body?.idxPokemonDeck;
 
-    if (idMatch === undefined || idJoueur === undefined || idDeck === undefined) throw new Error('Mauvais arguments');
+    if (idMatch === undefined || idJoueur === undefined || idxPokemonDeck === undefined) throw new Error('Mauvais arguments');
 
-    res.status(200).send(await resolveMatch(idMatch, idJoueur, idDeck));
+    res.status(200).send(await resolveMatch(idMatch, idJoueur, idxPokemonDeck));
   } catch (e) {
-    console.error(e);
-    res.status(500).send(e);
+    res.status(e.status).send(e);
   }
 });
 

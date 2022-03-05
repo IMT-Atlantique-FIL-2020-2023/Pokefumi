@@ -24,11 +24,11 @@ function getCacheMatchId(id: number) {
 /*
 @param matchId id du match en cours
 @param userId id de l'utilisateur jouant 
-@param deckId index du pokemon dans le deck du joueur
+@param deckPokemonIdx index du pokemon dans le deck du joueur
 
 @return match mis a jour
 */
-export default async function resolveMatch(matchId: number, userId: number, deckId: number): Promise<Matchmaking.MatchDto> {
+export default async function resolveMatch(matchId: number, userId: number, deckPokemonIdx: number): Promise<Matchmaking.MatchDto> {
   // On récupère le match a partir de l'id fourni
   const match = await Matchmaking.MatchesService.getMatchById(matchId);
 
@@ -41,7 +41,7 @@ export default async function resolveMatch(matchId: number, userId: number, deck
   // On determine si le joueur actuel est le propriétaire
   const isHost = match.authorId === userId;
   const pokemons = isHost ? match.authorPokemons : match.opponentPokemons;
-  const playerPokemon = pokemons[deckId];
+  const playerPokemon = pokemons[deckPokemonIdx];
 
   // Si le match existe, on récupère ou crée les rounds dans le cache
   let rounds: Round[] = cache.get(getCacheMatchId(match.id)) as Round[];

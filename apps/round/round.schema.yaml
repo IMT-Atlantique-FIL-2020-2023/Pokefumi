@@ -17,6 +17,7 @@ paths:
   /api:
     get:
       summary: Check is the api is up
+      operationId: getApi
       responses:
         200:
           description: successful operation
@@ -32,6 +33,7 @@ paths:
       tags:
         - pokemon
       summary: Get the list of existing pokemons
+      operationId: getPokemons
       responses:
         200:
           description: The list of pokemons
@@ -46,6 +48,7 @@ paths:
       tags:
         - pokemon
       summary: Get the pokemon for a given id
+      operationId: getPokemonById
       parameters:
         - name: id
           in: path
@@ -65,6 +68,7 @@ paths:
       tags:
         - pokemon
       summary: Get the pokemon for a given name
+      operationId: getPokemonByName
       parameters:
         - name: name
           in: path
@@ -84,6 +88,7 @@ paths:
       tags:
         - pokemon
       summary: Get the list of existing types
+      operationId: getTypes
       responses:
         200:
           description: The list of types
@@ -98,6 +103,7 @@ paths:
       tags:
         - pokemon
       summary: Get the type for a given id
+      operationId: getTypeById
       parameters:
         - name: id
           in: path
@@ -117,6 +123,7 @@ paths:
       tags:
         - pokemon
       summary: Get the type for a given name
+      operationId: getTypeByName
       parameters:
         - name: name
           in: path
@@ -136,6 +143,7 @@ paths:
       tags:
         - round
       summary: Get the result of a round for two given pokemon ids
+      operationId: getRoundsResultById
       parameters:
         - name: id1
           in: path
@@ -161,6 +169,7 @@ paths:
       tags:
         - round
       summary: Get the result of a round for two given pokemon names
+      operationId: getRoundsResultByName
       parameters:
         - name: name1
           in: path
@@ -181,8 +190,45 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Pokemon"
+  /match:
+    put:
+      tags:
+          - round
+      security:
+        - bearerAuth: []
+      summary: Play the round for a given user and a given match
+      operationId: playRound
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - idMatch
+                - idxPokemonDeck
+              properties:
+                idMatch:
+                  description: id of the match
+                  type: integer
+                idxPokemonDeck:
+                  description: id of the pokemon in the deck
+                  type: integer
+      responses:
+        200:
+          description: The winning pokemon
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RoundResultDto"
+        408:
+          description: Timeout the other player didn't responded within the allowed delay
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   schemas:
     Pokemon:
       title: Pokemon
@@ -224,3 +270,27 @@ components:
           type: array
           items:
             type: string
+
+            
+    RoundResultDto:
+      title: RoundResultDto
+      description: "The result for a round"
+      type: object
+      required: 
+        - roundWinner
+        - pokemonWinner
+        - roundLooser
+        - pokemonLooser
+      properties:
+        roundWinner: 
+          description: the id of the winner
+          type: integer
+        pokemonWinner:
+          description: the pokeApi id of the winner's pokemon
+          type: integer
+        roundLooser:
+          description: the id of the looser
+          type: integer
+        pokemonLooser:
+          description: the pokeApi id of the looser's pokemon
+          type: integer

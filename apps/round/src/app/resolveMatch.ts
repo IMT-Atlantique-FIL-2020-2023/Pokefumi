@@ -92,6 +92,7 @@ export default async function resolveMatch(matchId: number, userId: number, deck
       winner: isWinner ? userId : opponentId,
     } as Round);
 
+    /*
     Stats.StatsService.uploadStatRow({
       dateMatch: new Date().toISOString(),
       idMatch: matchId,
@@ -107,9 +108,10 @@ export default async function resolveMatch(matchId: number, userId: number, deck
       team: isHost ? 0 : 1,
       victory: !isWinner
     })
+    */
   }
 
-  const isLastMatch = rounds.length === ROUND_COUNT;
+  const isLastMatch = rounds.length >= ROUND_COUNT;
 
   if (isLastToPlay) {
     cache.set(getCacheMatchId(match.id), rounds); // On met a jour dans le cache

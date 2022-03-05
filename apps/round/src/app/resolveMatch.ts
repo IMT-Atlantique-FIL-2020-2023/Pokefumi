@@ -120,13 +120,13 @@ export default async function resolveMatch(matchId: number, userId: number, deck
 
     // Si c'étais le dernier round, on termines le match
     if (isLastMatch) {
-      let score = rounds.reduce((acc, cur) => acc + (userId === cur.winner ? 1 : -1), 0)
+      const score = rounds.reduce((acc, cur) => acc + (userId === cur.winner ? 1 : -1), 0)
 
-      if (score === 0) score = Math.random() - 0.5 // cas de match NUL : attribution ALEATOIRE et NON MERITEE (merci Simon)...
-
-      await Matchmaking.InternalService.closeMatch(matchId, {
-        winnerId: String(score > 0 ? userId : opponentId)
-      });
+      if (score === 0) {
+        await Matchmaking.InternalService.closeMatch(matchId, { isDraw: true });
+      } else {
+        await Matchmaking.InternalService.closeMatch(matchId, {  winnerId: score > 0 ? userId : opponentId  });
+      }
     }
   }
 

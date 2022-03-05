@@ -123,8 +123,13 @@ export async function joinMatch(id: number, deck: DeckDto, req: Express.Request)
 
 export async function closeMatch(id: number, close: CloseDto) {
   const winnerId = 'winnerId' in close ? close.winnerId : null;
-  return await prisma.match.updateMany({
+
+  const res = await prisma.match.updateMany({
     where: { id, status: 'started' },
     data: { status: 'finished', winnerId },
   });
+  if (winnerId !== null) {
+    User.InternalService.incrementUserScore(winnerId);
+  }
+  return res;
 }

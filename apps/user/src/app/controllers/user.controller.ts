@@ -18,4 +18,8 @@ const connectUser = async (username: string, password: string) => {
   return await userRepository.connect(username, password);
 };
 
-export { listUsers, getUserById, addUser, connectUser };
+const incrementScore = async (id: number) => {
+  return await userRepository.incrementScore(id);
+};
+
+export { listUsers, getUserById, addUser, connectUser, incrementScore };

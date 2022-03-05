@@ -49,4 +49,18 @@ export default class UserRepository {
     }
     return jwt.sign({ id: res.id }, process.env.JWT_SECRET, { expiresIn: '12h' });
   }
+
+  async incrementScore(id: number) {
+    const user = await this.prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        score: {
+          increment: 1,
+        },
+      },
+    });
+    return user;
+  }
 }

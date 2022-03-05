@@ -80,6 +80,9 @@ export class UserService {
             path: {
                 'id': id,
             },
+            errors: {
+                401: `invalid credentials`,
+            },
         });
     }
 

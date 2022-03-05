@@ -95,6 +95,31 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
+        401:
+          description: invalid credentials
+  /internal/users/{id}/increment-score:
+    put:
+      tags:
+        - internal
+      summary: Increment the score of a user by 1
+      operationId: incrementUserScore
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: integer
+            minimum: 0
+          description: The user ID
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        404:
+          description: user not found
 components:
   schemas:
     User:

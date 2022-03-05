@@ -22,4 +22,8 @@ export type RoundResultDto = {
      * the pokeApi id of the looser's pokemon
      */
     pokemonLooser: number;
+    /**
+     * the index of the round
+     */
+    roundIndex: number;
 };

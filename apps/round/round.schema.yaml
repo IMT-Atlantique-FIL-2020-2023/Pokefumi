@@ -193,7 +193,7 @@ paths:
   /match:
     put:
       tags:
-          - round
+        - round
       security:
         - bearerAuth: []
       summary: Play the round for a given user and a given match
@@ -271,18 +271,18 @@ components:
           items:
             type: string
 
-            
     RoundResultDto:
       title: RoundResultDto
       description: "The result for a round"
       type: object
-      required: 
+      required:
         - roundWinner
         - pokemonWinner
         - roundLooser
         - pokemonLooser
+        - roundIndex
       properties:
-        roundWinner: 
+        roundWinner:
           description: the id of the winner
           type: integer
         pokemonWinner:
@@ -294,3 +294,8 @@ components:
         pokemonLooser:
           description: the pokeApi id of the looser's pokemon
           type: integer
+        roundIndex:
+          description: the index of the round
+          type: integer
+          minimum: 0
+          maximum: 9

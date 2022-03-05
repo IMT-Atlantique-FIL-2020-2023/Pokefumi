@@ -215,42 +215,96 @@ describe('simple scenario', () => {
       expect(invitations).not.toEqual(expect.arrayContaining([expect.objectContaining({ id: global.matchId, authorId: global.authorId })]));
     });
   });
-  describe('stats-service', () => {
-    beforeAll(async () => {
-      // envoi de stats de test
-      const invalidDate = new Date();
-      invalidDate.setMonth(invalidDate.getMonth() - 3);
-      const testData = [
-        {
-          dateMatch: new Date().toISOString(),
-          team: 0,
-          idMatch: 5,
-          idPokemon: 6,
-          victory: false,
-        },
-        {
-          dateMatch: new Date().toISOString(),
-          team: 1,
-          idMatch: 8,
-          idPokemon: 9,
-          victory: true,
-        },
-        {
-          dateMatch: invalidDate.toISOString(),
-          team: 1,
-          idMatch: 5,
-          idPokemon: 6,
-          victory: true,
-        },
-      ];
-      for (const data of testData) {
-        await Stats.StatsService.uploadStatRow(data);
-      }
-    });
-    it("shouldn't work if you upload an invalid stats row", async () => {
-      const t = () => Stats.StatsService.uploadStatRow();
-      await expect(t()).rejects.toThrow();
-    });
+});
+
+describe('stats-service', () => {
+  beforeAll(async () => {
+    // envoi de stats de test
+    const invalidDate = new Date();
+    invalidDate.setMonth(invalidDate.getMonth() - 3);
+
+    const twoDaysAgo = new Date();
+    twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+
+    const testData = [
+      {
+        dateMatch: new Date().toISOString(),
+        team: 0,
+        idMatch: 5,
+        idPokemon: 6,
+        victory: false,
+      },
+      {
+        dateMatch: new Date().toISOString(),
+        team: 1,
+        idMatch: 8,
+        idPokemon: 9,
+        victory: false,
+      },
+      {
+        dateMatch: new Date().toISOString(),
+        team: 1,
+        idMatch: 9,
+        idPokemon: 9,
+        victory: true,
+      },
+      {
+        dateMatch: new Date().toISOString(),
+        team: 0,
+        idMatch: 5,
+        idPokemon: 12,
+        victory: true,
+      },
+      {
+        dateMatch: twoDaysAgo.toISOString(),
+        team: 1,
+        idMatch: 5,
+        idPokemon: 12,
+        victory: false,
+      },
+      {
+        dateMatch: twoDaysAgo.toISOString(),
+        team: 1,
+        idMatch: 9,
+        idPokemon: 13,
+        victory: false,
+      },
+      {
+        dateMatch: invalidDate.toISOString(),
+        team: 1,
+        idMatch: 5,
+        idPokemon: 10,
+        victory: true,
+      },
+    ];
+    for (const data of testData) {
+      await Stats.StatsService.uploadStatRow(data);
+    }
+  });
+  it("shouldn't work if you upload an invalid stats row", async () => {
+    const t = () => Stats.StatsService.uploadStatRow();
+    await expect(t()).rejects.toThrow();
+  });
+
+  it('should return the number of matchs of the last month', async () => {
+    const res = await Stats.RoundService.getRoundsAdayLast30Days();
+    expect(res);
+  });
+
+  it('should return the number of matchs for the pokemon', async () => {
+    const res = await Stats.PokemonService.getNumberOfRoundsByPokemon(9);
+    expect(res).toEqual(expect.objectContaining({ id: 9, numberOfRounds: 2 }));
+
+    const res6 = await Stats.PokemonService.getNumberOfRoundsByPokemon(6);
+    expect(res6).toEqual(expect.objectContaining({ id: 6, numberOfRounds: 1 }));
+  });
+
+  it('should return the number of victories for the pokemon', async () => {
+    const res = await Stats.PokemonService.getNumberOfVictoriesByPokemon(9);
+    expect(res).toEqual(expect.objectContaining({ id: 9, numberOfVictories: 1 }));
+
+    const res6 = await Stats.PokemonService.getNumberOfVictoriesByPokemon(6);
+    expect(res6).toEqual(expect.objectContaining({ id: 6, numberOfVictories: 0 }));
   });
 });
 

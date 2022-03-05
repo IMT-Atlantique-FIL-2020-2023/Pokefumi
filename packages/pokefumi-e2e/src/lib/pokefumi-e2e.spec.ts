@@ -34,7 +34,6 @@ declare global {
 beforeAll(async () => {
   // juste pour empêcher les messages d'erreurs dans la console
   const tmp = console.error;
-  console.error = () => {};
 
   // nettoyage des BDDs
   // une bdd par table

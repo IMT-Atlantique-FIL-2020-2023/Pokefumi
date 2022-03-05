@@ -44,7 +44,7 @@ export const register = async (app: express.Application) => {
     jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] }),
     asyncHandler(async (req, res) => {
       const match_id = Number(req.params.id);
-      res.status(200).json(await MatchMakingController.joinMatch(match_id, req.body));
+      res.status(200).json(await MatchMakingController.joinMatch(match_id, req.body, req));
     }),
   );
 

@@ -43,9 +43,14 @@ async function checkDeckValidity(pokemonsIds: number[]) {
 }
 
 export async function createMatch(newMatch: CreateMatchDto, req: Express.Request) {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore
-  const count = await prisma.match.count({ where: { OR: [{ opponentId: req.user.id }, { authorId: req.user.id }] } });
+  const count = await prisma.match.count({
+    where: {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      OR: [{ opponentId: req.user.id }, { authorId: req.user.id }],
+      status: { in: ['waitingInvite', 'started'] },
+    },
+  });
   if (count > 3) {
     throw new Error('Too many matchs');
   }
@@ -86,11 +91,23 @@ export async function listInvitations(req: Express.Request) {
   });
 }
 
-export async function joinMatch(id: number, deck: DeckDto) {
+export async function joinMatch(id: number, deck: DeckDto, req: Express.Request) {
   const match = await prisma.match.findUnique({ where: { id } });
   if (match?.status !== 'waitingInvite') {
     throw new Error('Match is not available');
   }
+  const count = await prisma.match.count({
+    where: {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      OR: [{ opponentId: req.user.id }, { authorId: req.user.id }],
+      status: { in: ['waitingInvite', 'started'] },
+    },
+  });
+  if (count > 3) {
+    throw new Error('Too many matchs');
+  }
+
   checkDeckValidity(deck); // check if pokemons are valid;
 
   return transformMatchToDto(

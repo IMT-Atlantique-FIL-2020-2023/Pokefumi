@@ -26,9 +26,15 @@ Base URLs:
 
 License: <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>
 
+# Authentication
+
+- HTTP Authentication, scheme: bearer 
+
 <h1 id="round-service-default">Default</h1>
 
-## get__api
+## getApi
+
+<a id="opIdgetApi"></a>
 
 > Code samples
 
@@ -66,13 +72,13 @@ fetch('http://127.0.0.1:3335/api',
 }
 ```
 
-<h3 id="get__api-responses">Responses</h3>
+<h3 id="getapi-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
 |200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|successful operation|Inline|
 
-<h3 id="get__api-responseschema">Response Schema</h3>
+<h3 id="getapi-responseschema">Response Schema</h3>
 
 Status Code **200**
 
@@ -88,7 +94,9 @@ This operation does not require authentication
 
 Pokemon infos
 
-## get__pokemons
+## getPokemons
+
+<a id="opIdgetPokemons"></a>
 
 > Code samples
 
@@ -141,13 +149,13 @@ fetch('http://127.0.0.1:3335/pokemons',
 ]
 ```
 
-<h3 id="get__pokemons-responses">Responses</h3>
+<h3 id="getpokemons-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
 |200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|The list of pokemons|Inline|
 
-<h3 id="get__pokemons-responseschema">Response Schema</h3>
+<h3 id="getpokemons-responseschema">Response Schema</h3>
 
 Status Code **200**
 
@@ -168,7 +176,9 @@ Status Code **200**
 This operation does not require authentication
 </aside>
 
-## get__pokemons_{id}
+## getPokemonById
+
+<a id="opIdgetPokemonById"></a>
 
 > Code samples
 
@@ -196,7 +206,7 @@ fetch('http://127.0.0.1:3335/pokemons/{id}',
 
 *Get the pokemon for a given id*
 
-<h3 id="get__pokemons_{id}-parameters">Parameters</h3>
+<h3 id="getpokemonbyid-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -225,7 +235,7 @@ fetch('http://127.0.0.1:3335/pokemons/{id}',
 }
 ```
 
-<h3 id="get__pokemons_{id}-responses">Responses</h3>
+<h3 id="getpokemonbyid-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -235,7 +245,9 @@ fetch('http://127.0.0.1:3335/pokemons/{id}',
 This operation does not require authentication
 </aside>
 
-## get__pokemons_name_{name}
+## getPokemonByName
+
+<a id="opIdgetPokemonByName"></a>
 
 > Code samples
 
@@ -263,7 +275,7 @@ fetch('http://127.0.0.1:3335/pokemons/name/{name}',
 
 *Get the pokemon for a given name*
 
-<h3 id="get__pokemons_name_{name}-parameters">Parameters</h3>
+<h3 id="getpokemonbyname-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -292,7 +304,7 @@ fetch('http://127.0.0.1:3335/pokemons/name/{name}',
 }
 ```
 
-<h3 id="get__pokemons_name_{name}-responses">Responses</h3>
+<h3 id="getpokemonbyname-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -302,7 +314,9 @@ fetch('http://127.0.0.1:3335/pokemons/name/{name}',
 This operation does not require authentication
 </aside>
 
-## get__types
+## getTypes
+
+<a id="opIdgetTypes"></a>
 
 > Code samples
 
@@ -349,13 +363,13 @@ fetch('http://127.0.0.1:3335/types',
 ]
 ```
 
-<h3 id="get__types-responses">Responses</h3>
+<h3 id="gettypes-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
 |200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|The list of types|Inline|
 
-<h3 id="get__types-responseschema">Response Schema</h3>
+<h3 id="gettypes-responseschema">Response Schema</h3>
 
 Status Code **200**
 
@@ -372,7 +386,9 @@ Status Code **200**
 This operation does not require authentication
 </aside>
 
-## get__types_{id}
+## getTypeById
+
+<a id="opIdgetTypeById"></a>
 
 > Code samples
 
@@ -400,7 +416,7 @@ fetch('http://127.0.0.1:3335/types/{id}',
 
 *Get the type for a given id*
 
-<h3 id="get__types_{id}-parameters">Parameters</h3>
+<h3 id="gettypebyid-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -423,7 +439,7 @@ fetch('http://127.0.0.1:3335/types/{id}',
 }
 ```
 
-<h3 id="get__types_{id}-responses">Responses</h3>
+<h3 id="gettypebyid-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -433,7 +449,9 @@ fetch('http://127.0.0.1:3335/types/{id}',
 This operation does not require authentication
 </aside>
 
-## get__types_name_{name}
+## getTypeByName
+
+<a id="opIdgetTypeByName"></a>
 
 > Code samples
 
@@ -461,7 +479,7 @@ fetch('http://127.0.0.1:3335/types/name/{name}',
 
 *Get the type for a given name*
 
-<h3 id="get__types_name_{name}-parameters">Parameters</h3>
+<h3 id="gettypebyname-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -484,7 +502,7 @@ fetch('http://127.0.0.1:3335/types/name/{name}',
 }
 ```
 
-<h3 id="get__types_name_{name}-responses">Responses</h3>
+<h3 id="gettypebyname-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -498,7 +516,9 @@ This operation does not require authentication
 
 rounds infos
 
-## get__round_{id1}_{id2}
+## getRoundsResultById
+
+<a id="opIdgetRoundsResultById"></a>
 
 > Code samples
 
@@ -526,7 +546,7 @@ fetch('http://127.0.0.1:3335/round/{id1}/{id2}',
 
 *Get the result of a round for two given pokemon ids*
 
-<h3 id="get__round_{id1}_{id2}-parameters">Parameters</h3>
+<h3 id="getroundsresultbyid-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -556,7 +576,7 @@ fetch('http://127.0.0.1:3335/round/{id1}/{id2}',
 }
 ```
 
-<h3 id="get__round_{id1}_{id2}-responses">Responses</h3>
+<h3 id="getroundsresultbyid-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -566,7 +586,9 @@ fetch('http://127.0.0.1:3335/round/{id1}/{id2}',
 This operation does not require authentication
 </aside>
 
-## get__round_name_{name1}_{name2}
+## getRoundsResultByName
+
+<a id="opIdgetRoundsResultByName"></a>
 
 > Code samples
 
@@ -594,7 +616,7 @@ fetch('http://127.0.0.1:3335/round/name/{name1}/{name2}',
 
 *Get the result of a round for two given pokemon names*
 
-<h3 id="get__round_name_{name1}_{name2}-parameters">Parameters</h3>
+<h3 id="getroundsresultbyname-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -624,7 +646,7 @@ fetch('http://127.0.0.1:3335/round/name/{name1}/{name2}',
 }
 ```
 
-<h3 id="get__round_name_{name1}_{name2}-responses">Responses</h3>
+<h3 id="getroundsresultbyname-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -632,6 +654,81 @@ fetch('http://127.0.0.1:3335/round/name/{name1}/{name2}',
 
 <aside class="success">
 This operation does not require authentication
+</aside>
+
+## playRound
+
+<a id="opIdplayRound"></a>
+
+> Code samples
+
+```javascript
+const inputBody = '{
+  "idMatch": 0,
+  "idxPokemonDeck": 0
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('http://127.0.0.1:3335/match',
+{
+  method: 'PUT',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+`PUT /match`
+
+*Play the round for a given user and a given match*
+
+> Body parameter
+
+```json
+{
+  "idMatch": 0,
+  "idxPokemonDeck": 0
+}
+```
+
+<h3 id="playround-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|object|false|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "roundWinner": 0,
+  "pokemonWinner": 0,
+  "roundLooser": 0,
+  "pokemonLooser": 0
+}
+```
+
+<h3 id="playround-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|The winning pokemon|[RoundResultDto](#schemaroundresultdto)|
+|408|[Request Timeout](https://tools.ietf.org/html/rfc7231#section-6.5.7)|Timeout the other player didn't responded within the allowed delay|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
 </aside>
 
 # Schemas
@@ -704,4 +801,32 @@ TypePokemon
 |name|string|false|none|label of the type|
 |faiblesses|[string]|false|none|list of weakness for a type|
 |resistances|[string]|false|none|list of weakness for a type|
+
+<h2 id="tocS_RoundResultDto">RoundResultDto</h2>
+<!-- backwards compatibility -->
+<a id="schemaroundresultdto"></a>
+<a id="schema_RoundResultDto"></a>
+<a id="tocSroundresultdto"></a>
+<a id="tocsroundresultdto"></a>
+
+```json
+{
+  "roundWinner": 0,
+  "pokemonWinner": 0,
+  "roundLooser": 0,
+  "pokemonLooser": 0
+}
+
+```
+
+RoundResultDto
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|roundWinner|integer|true|none|the id of the winner|
+|pokemonWinner|integer|true|none|the pokeApi id of the winner's pokemon|
+|roundLooser|integer|true|none|the id of the looser|
+|pokemonLooser|integer|true|none|the pokeApi id of the looser's pokemon|
 

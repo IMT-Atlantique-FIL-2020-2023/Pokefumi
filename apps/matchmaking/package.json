@@ -24,7 +24,6 @@
     "zod-express-middleware": "^1.4.0"
   },
   "devDependencies": {
-    "@types/form-data": "^2.5.0",
     "prisma": "^3.10.0"
   }
 }

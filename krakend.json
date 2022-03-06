@@ -388,7 +388,7 @@
       "backend": [
         {
           "url_pattern": "/auth/connect",
-          "encoding": "json",
+          "encoding": "string",
           "method": "POST",
           "host": ["http://user:3333"],
           "disable_host_sanitize": false
@@ -406,6 +406,7 @@
         {
           "url_pattern": "/users",
           "encoding": "json",
+          "is_collection": true,
           "method": "GET",
           "host": ["http://user:3333"],
           "disable_host_sanitize": false

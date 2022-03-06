@@ -1,19 +1,15 @@
 {
-  "version": 2,
+  "version": "2",
+  "timeout": "3000ms",
+  "cache_ttl": "300s",
+  "output_encoding": "json",
+  "name": "Pokefumi-API",
   "extra_config": {
     "github_com/devopsfaith/krakend-cors": {
-      "allow_origins": [
-        "*"
-      ],
-      "expose_headers": [
-        "Content-Length"
-      ],
+      "allow_origins": ["*"],
+      "expose_headers": ["Content-Length"],
       "max_age": "12h",
-      "allow_methods": [
-        "GET",
-        "HEAD",
-        "POST"
-      ],
+      "allow_methods": ["GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS"],
       "allow_credentials": true
     },
     "github_com/devopsfaith/krakend-gologging": {
@@ -24,34 +20,415 @@
       "format": "logstash"
     }
   },
-  "timeout": "3000ms",
-  "cache_ttl": "300s",
-  "output_encoding": "json",
-  "name": "user",
   "port": 8000,
   "endpoints": [
     {
-      "endpoint": "/users",
+      "endpoint": "/matchmakingservice/matchs",
       "method": "GET",
       "output_encoding": "json",
-      "extra_config": {
-        "github.com/devopsfaith/krakend-jose/validator": {
-          "alg": "HS256"
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/matchs",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["http://matchmaking:3334"],
+          "disable_host_sanitize": false
         }
-      },
+      ],
+      "headers_to_pass": ["Content-Type"]
+    },
+    {
+      "endpoint": "/matchmakingservice/matchs",
+      "method": "PUT",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/matchs",
+          "encoding": "json",
+          "method": "PUT",
+          "host": ["http://matchmaking:3334"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type", "Authorization"]
+    },
+    {
+      "endpoint": "/matchmakingservice/matchs/invitation",
+      "method": "GET",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/matchs/invitation",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["http://matchmaking:3334"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type"]
+    },
+    {
+      "endpoint": "/matchmakingservice/matchs/{id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/matchs/{id}",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["http://matchmaking:3334"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type"]
+    },
+    {
+      "endpoint": "/matchmakingservice/matchs/{id}/join",
+      "method": "POST",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/matchs/{id}/join",
+          "encoding": "json",
+          "method": "POST",
+          "host": ["http://matchmaking:3334"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type", "Authorization"]
+    },
+    {
+      "endpoint": "/roundservice/round/{id1}/{id2}",
+      "method": "GET",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/round/{id1}/{id2}",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["http://round:3335"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type"]
+    },
+    {
+      "endpoint": "/roundservice/types/name/{name}",
+      "method": "GET",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/types/name/{name}",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["http://round:3335"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type"]
+    },
+    {
+      "endpoint": "/roundservice/match",
+      "method": "PUT",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/match",
+          "encoding": "json",
+          "method": "PUT",
+          "host": ["http://round:3335"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type", "Authorization"]
+    },
+    {
+      "endpoint": "/roundservice/pokemons",
+      "method": "GET",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/pokemons",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["http://round:3335"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type"]
+    },
+    {
+      "endpoint": "/roundservice/pokemons/name/{name}",
+      "method": "GET",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/pokemons/name/{name}",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["http://round:3335"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type"]
+    },
+    {
+      "endpoint": "/roundservice/pokemons/{id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/pokemons/{id}",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["http://round:3335"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type"]
+    },
+    {
+      "endpoint": "/roundservice/round/name/{name1}/{name2}",
+      "method": "GET",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/round/name/{name1}/{name2}",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["http://round:3335"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type"]
+    },
+    {
+      "endpoint": "/roundservice/types",
+      "method": "GET",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/types",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["http://round:3335"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type"]
+    },
+    {
+      "endpoint": "/roundservice/types/{id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/types/{id}",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["http://round:3335"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type"]
+    },
+    {
+      "endpoint": "/roundservice/api",
+      "method": "GET",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/api",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["http://round:3335"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type"]
+    },
+    {
+      "endpoint": "/statsservice/pokemons/rounds",
+      "method": "GET",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/pokemons/rounds",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["http://stats:3337"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type"]
+    },
+    {
+      "endpoint": "/statsservice/pokemons/{id}/number-of-rounds",
+      "method": "GET",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/pokemons/{id}/number-of-rounds",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["http://stats:3337"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type"]
+    },
+    {
+      "endpoint": "/statsservice/pokemons/{id}/number-of-victories",
+      "method": "GET",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/pokemons/{id}/number-of-victories",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["http://stats:3337"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type"]
+    },
+    {
+      "endpoint": "/statsservice/rounds/count-a-day-last-30-days",
+      "method": "GET",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/rounds/count-a-day-last-30-days",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["http://stats:3337"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type"]
+    },
+    {
+      "endpoint": "/statsservice/stats",
+      "method": "PUT",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/stats",
+          "encoding": "json",
+          "method": "PUT",
+          "host": ["http://stats:3337"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type"]
+    },
+    {
+      "endpoint": "/userservice/users/{id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/users/{id}",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["http://user:3333"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type"]
+    },
+    {
+      "endpoint": "/userservice/auth/connect",
+      "method": "POST",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": ["username", "password"],
+      "backend": [
+        {
+          "url_pattern": "/auth/connect",
+          "encoding": "json",
+          "method": "POST",
+          "host": ["http://user:3333"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type"]
+    },
+    {
+      "endpoint": "/userservice/users",
+      "method": "GET",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
       "backend": [
         {
           "url_pattern": "/users",
           "encoding": "json",
-          "sd": "static",
           "method": "GET",
-          "extra_config": {},
-          "host": [
-            "http://127.0.0.1:3333"
-          ],
+          "host": ["http://user:3333"],
           "disable_host_sanitize": false
         }
-      ]
+      ],
+      "headers_to_pass": ["Content-Type"]
+    },
+    {
+      "endpoint": "/userservice/users",
+      "method": "POST",
+      "output_encoding": "json",
+      "timeout": "3000ms",
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/users",
+          "encoding": "json",
+          "method": "POST",
+          "host": ["http://user:3333"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": ["Content-Type"]
     }
   ]
 }

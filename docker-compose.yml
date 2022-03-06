@@ -3,19 +3,49 @@ version: '3.3'
 services:
   user:
     build:
-     context: ./
-     dockerfile: apps/user/Dockerfile
+      context: ./
+      dockerfile: apps/user/Dockerfile
+    environment:
+      - JWT_SECRET=ILIKEPOTATOES
+      - BASE_URL_USER=http://user:3333
+      - BASE_URL_ROUND=http://round:3335
+      - BASE_URL_STATS=http://stats:3337
+      - BASE_URL_MATCHMAKING=http://matchmaking:3334
   matchmaking:
     build:
-     context: ./
-     dockerfile: apps/matchmaking/Dockerfile
+      context: ./
+      dockerfile: apps/matchmaking/Dockerfile
+    environment:
+      - JWT_SECRET=ILIKEPOTATOES
+      - BASE_URL_USER=http://user:3333
+      - BASE_URL_ROUND=http://round:3335
+      - BASE_URL_STATS=http://stats:3337
+      - BASE_URL_MATCHMAKING=http://matchmaking:3334
   round:
     build:
-     context: ./
-     dockerfile: apps/round/Dockerfile
+      context: ./
+      dockerfile: apps/round/Dockerfile
+    environment:
+      - JWT_SECRET=ILIKEPOTATOES
+      - BASE_URL_USER=http://user:3333
+      - BASE_URL_ROUND=http://round:3335
+      - BASE_URL_STATS=http://stats:3337
+      - BASE_URL_MATCHMAKING=http://matchmaking:3334
   stats:
     build:
-     context: ./
-     dockerfile: apps/stats/Dockerfile
-    
-
+      context: ./
+      dockerfile: apps/stats/Dockerfile
+    environment:
+      - JWT_SECRET=ILIKEPOTATOES
+      - BASE_URL_USER=http://user:3333
+      - BASE_URL_ROUND=http://round:3335
+      - BASE_URL_STATS=http://stats:3337
+      - BASE_URL_MATCHMAKING=http://matchmaking:3334
+  api-gateway:
+    image: devopsfaith/krakend:1.4
+    restart: unless-stopped
+    command: run --config /etc/krakend/config.json
+    volumes:
+      - ./krakend.json:/etc/krakend/config.json
+    ports:
+      - 8000:8000

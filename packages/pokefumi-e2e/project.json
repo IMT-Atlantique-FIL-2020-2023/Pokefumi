@@ -11,7 +11,7 @@
         "lintFilePatterns": ["packages/pokefumi-e2e/**/*.ts"]
       }
     },
-   "install": {
+    "install": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "cwd": "packages/pokefumi-e2e",
@@ -26,6 +26,10 @@
         "passWithNoTests": true
       },
       "dependsOn": [
+        {
+          "target": "push",
+          "projects": "dependencies"
+        },
         {
           "target": "build",
           "projects": "dependencies"

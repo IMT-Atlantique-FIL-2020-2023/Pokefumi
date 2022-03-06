@@ -77,7 +77,7 @@ export default async function resolveMatch(matchId: number, userId: number, deck
   // On met les rounds a jour
   const pokemonPlayer1 = await getPokemon((isHost ? playerPokemon : opponentPokemon) as number);
   const pokemonPlayer2 = await getPokemon((isHost ? opponentPokemon : playerPokemon) as number);
-
+  const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
   if (isLastToPlay) {
     rounds.push({
       id: Math.random(),
@@ -96,6 +96,8 @@ export default async function resolveMatch(matchId: number, userId: number, deck
       team: isHost ? 1 : 0,
       victory: !isWinner,
     });
+
+    await wait(100);
 
     Stats.StatsService.uploadStatRow({
       dateMatch: new Date().toISOString(),

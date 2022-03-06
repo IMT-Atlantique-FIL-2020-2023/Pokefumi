@@ -1,13 +1,8 @@
-import { waitUntil } from 'async-wait-until';
 import { User, Matchmaking, Round, Stats } from '@pokefumi/pokefumi-api';
-import { node, ExecaChildProcess } from 'execa';
 import { faker } from '@faker-js/faker';
-import { join } from 'path';
-import knex from 'knex';
-import tableClean from 'knex-tablecleaner';
+import { clearDbs, killChildrens, launchAllProcess } from './utils-e2e';
 
 const JWT_SECRET = 'ILIKETOTESTPOTATOES';
-const processes: ExecaChildProcess[] = [];
 const author = {
   username: faker.internet.userName(),
   password: 'password',
@@ -21,7 +16,8 @@ const opponent = {
   statut: 'online',
   score: 0,
 };
-// WORKAROUND: permet de passer une valeur entre les tests : impliquent qu'ils soient executer en séquentiel
+
+// WORKAROUND: permet de passer une valeur entre les tests : impliquent qu'ils soient executés en séquentiel
 export interface global {}
 declare global {
   var authorId: number;
@@ -38,46 +34,9 @@ beforeAll(async () => {
   console.error = () => {};
   // nettoyage des BDDs
   // une bdd par table
-  for (const db of [
-    ['stats', 'StatRound'],
-    ['user', 'User'],
-    ['matchmaking', 'Match'],
-  ]) {
-    const conn = knex({
-      client: 'sqlite3',
-      connection: {
-        filename: join(__dirname, '../../../../apps', db[0], `prisma/${db[0]}.sqlite`),
-      },
-    });
-    try {
-      await tableClean.cleanTables(conn, [db[1]], true);
-    } catch (e) {}
-    conn.destroy();
-  }
-
+  await clearDbs();
   // on fork chaque processus node pour chaque service. Bref on les lance tous en meme temps
-  for (const name of ['stats', 'user', 'round', 'matchmaking']) {
-    processes.push(
-      node(join(__dirname, '../../../../', `dist/apps/${name}/main.js`), {
-        env: {
-          JWT_SECRET,
-        },
-        stdin: process.stdin,
-        stdout: process.stdout,
-        stderr: process.stderr,
-        cleanup: true,
-        cwd: join(__dirname, '../../../../'),
-        detached: false,
-      }),
-    );
-  }
-  // on attend que tous les services soient up
-  await Promise.all([
-    waitUntil(async () => (await User.UserService.getAllUsers().catch(e => {})) !== undefined, { intervalBetweenAttempts: 500 }),
-    waitUntil(async () => (await Matchmaking.MatchesService.getAllMatches().catch(e => {})) !== undefined, { intervalBetweenAttempts: 500 }),
-    waitUntil(async () => (await Round.DefaultService.getApi().catch(e => {})) !== undefined, { intervalBetweenAttempts: 500 }),
-    waitUntil(async () => (await Stats.RoundService.getRoundsAdayLast30Days().catch(e => {})) !== undefined, { intervalBetweenAttempts: 500 }),
-  ]);
+  await launchAllProcess({ JWT_SECRET });
   console.error = tmp;
 }, 20 * 1000);
 
@@ -216,113 +175,130 @@ describe('simple scenario', () => {
       expect(invitations).not.toEqual(expect.arrayContaining([expect.objectContaining({ id: global.matchId, authorId: global.authorId })]));
     });
   });
-});
-
-/*
+  /*
 ###############################################################################################
 # Round service
 ###############################################################################################
 */
-describe('rounds-service', () => {
-  beforeAll(async () => {
-    Matchmaking.OpenAPI.TOKEN = global.authorToken;
-    let match = await Matchmaking.MatchesService.createMatch({
-      opponentId: global.opponentId,
-      deck: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    });
-    expect(match).toEqual(expect.objectContaining({ authorId: global.authorId, opponentId: global.opponentId }));
-    global.matchId2 = match.id!;
-
-    Matchmaking.OpenAPI.TOKEN = global.opponentToken;
-    match = await Matchmaking.MatchesService.joinMatch(global.matchId2, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-    expect(match).toEqual(
-      expect.objectContaining({
-        id: global.matchId2,
-        authorId: global.authorId,
+  describe('rounds-service', () => {
+    beforeEach(async () => {
+      Matchmaking.OpenAPI.TOKEN = global.authorToken;
+      let match = await Matchmaking.MatchesService.createMatch({
         opponentId: global.opponentId,
-        opponentPokemons: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      }),
-    );
+        deck: [13, 3, 25, 80, 5, 6, 7, 8, 9, 10],
+      });
+      expect(match).toEqual(expect.objectContaining({ authorId: global.authorId, opponentId: global.opponentId }));
+      global.matchId2 = match.id!;
 
-    const invitations = await Matchmaking.MatchesService.getAllMatchesWaitingForInvitation();
-    expect(invitations).not.toEqual(expect.arrayContaining([expect.objectContaining({ id: global.matchId, authorId: global.authorId })]));
-  });
-
-  const callWithHost = async (idxPokemonDeck: number) => {
-    Round.OpenAPI.TOKEN = global.authorToken;
-    return await Round.RoundService.playRound({
-      idMatch: global.matchId2,
-      idxPokemonDeck: idxPokemonDeck,
-    });
-  };
-
-  const callWithOpponent = async (idxPokemonDeck: number) => {
-    Round.OpenAPI.TOKEN = global.opponentToken;
-    return await Round.RoundService.playRound({
-      idMatch: global.matchId2,
-      idxPokemonDeck: idxPokemonDeck,
-    });
-  };
-
-  it('Host should win', async () => {
-    const winnerPokemon = 25;
-    const looserPokemon = 80;
-
-    for (let i = 0; i < 10; i++) {
-      const roundResults = await Promise.all([callWithHost(winnerPokemon), callWithOpponent(looserPokemon)]);
-
-      expect(roundResults).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            roundWinner: global.authorId,
-            pokemonWinner: winnerPokemon,
-            roundLooser: global.opponentId,
-            pokemonLooser: looserPokemon,
-            roundIndex: i + 1,
-          }),
-          expect.objectContaining({
-            roundWinner: global.authorId,
-            pokemonWinner: winnerPokemon,
-            roundLooser: global.opponentId,
-            pokemonLooser: looserPokemon,
-            roundIndex: i + 1,
-          }),
-        ]),
+      Matchmaking.OpenAPI.TOKEN = global.opponentToken;
+      match = await Matchmaking.MatchesService.joinMatch(global.matchId2, [13, 3, 25, 80, 5, 6, 7, 8, 9, 10]);
+      expect(match).toEqual(
+        expect.objectContaining({
+          id: global.matchId2,
+          authorId: global.authorId,
+          opponentId: global.opponentId,
+          opponentPokemons: [13, 3, 25, 80, 5, 6, 7, 8, 9, 10],
+        }),
       );
-    }
-  });
 
-  it('Host should loose', async () => {
-    const winnerPokemon = 13;
-    const looserPokemon = 3;
+      const invitations = await Matchmaking.MatchesService.getAllMatchesWaitingForInvitation();
+      expect(invitations).not.toEqual(expect.arrayContaining([expect.objectContaining({ id: global.matchId, authorId: global.authorId })]));
+    });
 
-    for (let i = 0; i < 10; i++) {
-      const roundResults = await Promise.all([callWithHost(looserPokemon), callWithOpponent(winnerPokemon)]);
+    const callWithHost = async (idxPokemonDeck: number) => {
+      Round.OpenAPI.TOKEN = global.authorToken;
+      return await Round.RoundService.playRound({
+        idMatch: global.matchId2,
+        idxPokemonDeck: idxPokemonDeck,
+      });
+    };
 
-      expect(roundResults).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            roundWinner: global.opponentId,
-            pokemonWinner: winnerPokemon,
-            roundLooser: global.authorId,
-            pokemonLooser: looserPokemon,
-            roundIndex: i + 1,
-          }),
-          expect.objectContaining({
-            roundWinner: global.opponentId,
-            pokemonWinner: winnerPokemon,
-            roundLooser: global.authorId,
-            pokemonLooser: looserPokemon,
-            roundIndex: i + 1,
-          }),
-        ]),
+    const callWithOpponent = async (idxPokemonDeck: number) => {
+      Round.OpenAPI.TOKEN = global.opponentToken;
+      return await Round.RoundService.playRound({
+        idMatch: global.matchId2,
+        idxPokemonDeck: idxPokemonDeck,
+      });
+    };
+    jest.setTimeout(1000 * 50);
+    it('should win every rounds and close the match and increment stats', async () => {
+      const winnerPokemonIdx = 2;
+      const looserPokemonIdx = 3;
+      for (let i = 0; i < 10; i++) {
+        console.log(`running round ${i}`);
+        const roundResults = await Promise.all([callWithHost(winnerPokemonIdx), callWithOpponent(looserPokemonIdx)]);
+        expect(roundResults).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              roundWinner: global.authorId,
+              pokemonWinner: 25,
+              roundLooser: global.opponentId,
+              pokemonLooser: 80,
+              roundIndex: i + 1,
+            }),
+            expect.objectContaining({
+              roundWinner: global.authorId,
+              pokemonWinner: 25,
+              roundLooser: global.opponentId,
+              pokemonLooser: 80,
+              roundIndex: i + 1,
+            }),
+          ]),
+        );
+      }
+      const match = await Matchmaking.MatchesService.getMatchById(global.matchId2);
+      expect(match).toEqual<Matchmaking.MatchDto>(
+        expect.objectContaining({
+          id: global.matchId2,
+          authorId: global.authorId,
+          opponentId: global.opponentId,
+          status: Matchmaking.MatchDto.status.FINISHED,
+        }),
       );
-    }
+      const roundPokemon1 = await Stats.PokemonService.getNumberOfRoundsByPokemon(25);
+      expect(roundPokemon1).toEqual(expect.objectContaining({ id: 25, numberOfRounds: 10 }));
+
+      const roundPokemon2 = await Stats.PokemonService.getNumberOfRoundsByPokemon(80);
+      expect(roundPokemon2).toEqual(expect.objectContaining({ id: 80, numberOfRounds: 10 }));
+
+      const victoriesPokemon1 = await Stats.PokemonService.getNumberOfVictoriesByPokemon(25);
+      expect(victoriesPokemon1).toEqual(expect.objectContaining({ id: 25, numberOfVictories: 10 }));
+    });
+    jest.setTimeout(1000 * 50);
+    it('should loose every rounds and close the match and increment stats', async () => {
+      const winnerPokemonIdx = 0;
+      const looserPokemonIdx = 1;
+
+      for (let i = 0; i < 10; i++) {
+        console.log(`running round ${i}`);
+        const roundResults = await Promise.all([callWithHost(looserPokemonIdx), callWithOpponent(winnerPokemonIdx)]);
+
+        expect(roundResults).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              roundWinner: global.opponentId,
+              pokemonWinner: 13,
+              roundLooser: global.authorId,
+              pokemonLooser: 3,
+              roundIndex: i + 1,
+            }),
+            expect.objectContaining({
+              roundWinner: global.opponentId,
+              pokemonWinner: 13,
+              roundLooser: global.authorId,
+              pokemonLooser: 3,
+              roundIndex: i + 1,
+            }),
+          ]),
+        );
+      }
+    });
   });
 });
 
 describe('stats-service', () => {
   beforeAll(async () => {
+    await clearDbs();
     // envoi de stats de test
     const invalidDate = new Date();
     invalidDate.setMonth(invalidDate.getMonth() - 3);
@@ -416,5 +392,5 @@ describe('stats-service', () => {
 afterAll(() => {
   console.log('Killing childrens, oh noooo !');
   // on kill tous les processus
-  processes.forEach(p => p.kill());
+  killChildrens();
 });

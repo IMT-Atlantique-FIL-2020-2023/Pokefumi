@@ -4,10 +4,10 @@ import { Matchmaking, User as Users, Round as Rounds, Stats } from '@pokefumi/po
 import { Round } from '@pokefumi/pokefumi-common';
 import { waitUntil } from 'async-wait-until';
 
-import {getRoundPokemon} from './getRoundPokemon'
-import {getPokemon} from './getPokemon'
+import { getRoundPokemon } from './getRoundPokemon';
+import { getPokemon } from './getPokemon';
 
-const RELOAD_DELAY = 500;
+const RELOAD_DELAY = 100; // délai entre chaque vérification dans le cache
 const ROUND_COUNT = 10;
 
 const cache = new lru({
@@ -25,13 +25,13 @@ function getCacheMatchId(id: number) {
   return `match_${id}`;
 }
 
-/*
-@param matchId id du match en cours
-@param userId id de l'utilisateur jouant 
-@param deckPokemonIdx index du pokemon dans le deck du joueur
-
-@return match mis a jour
-*/
+/**
+ * @param matchId id du match en cours
+ * @param userId id de l'utilisateur jouant
+ * @param deckPokemonIdx index du pokemon dans le deck du joueur
+ *
+ * @return match mis a jour
+ */
 export default async function resolveMatch(matchId: number, userId: number, deckPokemonIdx: number): Promise<Rounds.RoundResultDto> {
   // On récupère le match a partir de l'id fourni
   const match = await Matchmaking.MatchesService.getMatchById(matchId);
@@ -42,8 +42,7 @@ export default async function resolveMatch(matchId: number, userId: number, deck
   // On vérifie que l'utilisateur est autorisé a jouer
   if (![match.authorId, match.opponentId].includes(userId)) throw new Error("Le joueur n'est pas authorisé sur ce match");
 
-  
-  if (match.status !== Matchmaking.MatchDto.status.STARTED) throw new Error("Le match est déjà terminé ou n'a pas commencé")
+  if (match.status !== Matchmaking.MatchDto.status.STARTED) throw new Error("Le match est déjà terminé ou n'a pas commencé");
 
   // On determine si le joueur actuel est le propriétaire
   const isHost = match.authorId === userId;
@@ -67,8 +66,8 @@ export default async function resolveMatch(matchId: number, userId: number, deck
   const isLastToPlay = cache.get(getCacheUserId(opponentId)) !== undefined; // On vérifie lequel des joueurs joue en dernier
 
   // On attends l'adversaire, c'est donc lui qui joue en dernier
-   await waitUntil(() => cache.get(getCacheUserId(opponentId)) !== undefined, { intervalBetweenAttempts: RELOAD_DELAY, timeout: 30000 })
-  
+  await waitUntil(() => cache.get(getCacheUserId(opponentId)) !== undefined, { intervalBetweenAttempts: RELOAD_DELAY, timeout: 30000 });
+
   const opponentPokemon = cache.get(getCacheUserId(opponentId)) as number;
 
   // On calcule le résultat du round et on complète le match
@@ -78,8 +77,6 @@ export default async function resolveMatch(matchId: number, userId: number, deck
   // On met les rounds a jour
   const pokemonPlayer1 = await getPokemon((isHost ? playerPokemon : opponentPokemon) as number);
   const pokemonPlayer2 = await getPokemon((isHost ? opponentPokemon : playerPokemon) as number);
-
-  console.log(`${userId} : ${isLastToPlay}`)
 
   if (isLastToPlay) {
     rounds.push({
@@ -92,23 +89,21 @@ export default async function resolveMatch(matchId: number, userId: number, deck
       winner: isWinner ? userId : opponentId,
     } as Round);
 
-    /*
     Stats.StatsService.uploadStatRow({
       dateMatch: new Date().toISOString(),
       idMatch: matchId,
       idPokemon: pokemonPlayer1.id,
       team: isHost ? 1 : 0,
-      victory: isWinner
-    })
-    
+      victory: !isWinner,
+    });
+
     Stats.StatsService.uploadStatRow({
       dateMatch: new Date().toISOString(),
       idMatch: matchId,
       idPokemon: pokemonPlayer2.id,
       team: isHost ? 0 : 1,
-      victory: !isWinner
-    })
-    */
+      victory: isWinner,
+    });
   }
 
   const isLastMatch = rounds.length >= ROUND_COUNT;
@@ -122,22 +117,22 @@ export default async function resolveMatch(matchId: number, userId: number, deck
 
     // Si c'étais le dernier round, on termines le match
     if (isLastMatch) {
-      const score = rounds.reduce((acc, cur) => acc + (userId === cur.winner ? 1 : -1), 0)
+      const score = rounds.reduce((acc, cur) => acc + (userId === cur.winner ? 1 : -1), 0);
 
       if (score === 0) {
         await Matchmaking.InternalService.closeMatch(matchId, { isDraw: true });
       } else {
-        await Matchmaking.InternalService.closeMatch(matchId, {  winnerId: score > 0 ? userId : opponentId  });
+        await Matchmaking.InternalService.closeMatch(matchId, { winnerId: score > 0 ? userId : opponentId });
       }
     }
   }
 
   // On renvoie enfin le match mis a jour
   return {
-      roundIndex: rounds.length,
-      roundWinner: isWinner ? userId : opponentId,
-      pokemonWinner: isWinner ? playerPokemon : opponentPokemon,
-      roundLooser: isWinner ? opponentId : userId,
-      pokemonLooser: isWinner ? opponentPokemon : playerPokemon,
+    roundIndex: rounds.length,
+    roundWinner: isWinner ? userId : opponentId,
+    pokemonWinner: isWinner ? playerPokemon : opponentPokemon,
+    roundLooser: isWinner ? opponentId : userId,
+    pokemonLooser: isWinner ? opponentPokemon : playerPokemon,
   };
 }

@@ -68,7 +68,7 @@ SELECT
 FROM 
   'StatRound' 
 WHERE 
-  dateMatch >= CAST((julianday('now') - 2440587.5)*86400000 AS INTEGER) - 1000 * 60 * 60 * 24 * 30 
+  dateMatch >= CAST((julianday('now') - 2440587.5)*86400000 AS INTEGER) - 1000 * 60 * 60 * 24 * 30
 GROUP BY
   date;
 `,

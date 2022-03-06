@@ -13,7 +13,9 @@
     "docs": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "commands": ["npx widdershins apps/matchmaking/matchmaking.schema.yaml -o docs/matchmaking.md --language_tabs 'javascript:JavaScript'"]
+        "commands": [
+          "npx widdershins apps/matchmaking/matchmaking.schema.yaml -o docs/matchmaking.md --language_tabs 'shell:Shell' 'javascript:JavaScript'"
+        ]
       }
     },
     "install": {

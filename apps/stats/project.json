@@ -13,7 +13,7 @@
     "docs": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "commands": ["npx widdershins apps/stats/stats.schema.yaml -o docs/stats.md --language_tabs 'javascript:JavaScript'"]
+        "commands": ["npx widdershins apps/stats/stats.schema.yaml -o docs/stats.md --language_tabs 'shell:Shell' 'javascript:JavaScript'"]
       }
     },
     "install": {

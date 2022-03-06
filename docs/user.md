@@ -1,8 +1,10 @@
 ---
 title: User service v0.0.1
 language_tabs:
+  - shell: Shell
   - javascript: JavaScript
 language_clients:
+  - shell: ""
   - javascript: ""
 toc_footers: []
 includes: []
@@ -35,6 +37,13 @@ users informations and manipulations
 <a id="opIdgetAllUsers"></a>
 
 > Code samples
+
+```shell
+# You can also use wget
+curl -X GET http://127.0.0.1:3333/users \
+  -H 'Accept: application/json'
+
+```
 
 ```javascript
 
@@ -105,6 +114,14 @@ This operation does not require authentication
 <a id="opIdcreateUser"></a>
 
 > Code samples
+
+```shell
+# You can also use wget
+curl -X POST http://127.0.0.1:3333/users \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json'
+
+```
 
 ```javascript
 const inputBody = '{
@@ -186,6 +203,13 @@ This operation does not require authentication
 
 > Code samples
 
+```shell
+# You can also use wget
+curl -X POST http://127.0.0.1:3333/auth/connect?username=string&password=string \
+  -H 'Accept: application/json'
+
+```
+
 ```javascript
 
 const headers = {
@@ -242,6 +266,13 @@ This operation does not require authentication
 
 > Code samples
 
+```shell
+# You can also use wget
+curl -X GET http://127.0.0.1:3333/users/{id} \
+  -H 'Accept: application/json'
+
+```
+
 ```javascript
 
 const headers = {
@@ -291,6 +322,77 @@ fetch('http://127.0.0.1:3333/users/{id}',
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
 |200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|successful operation|[User](#schemauser)|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|invalid credentials|None|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+<h1 id="user-service-internal">internal</h1>
+
+## incrementUserScore
+
+<a id="opIdincrementUserScore"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X PUT http://127.0.0.1:3333/internal/users/{id}/increment-score \
+  -H 'Accept: application/json'
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json'
+};
+
+fetch('http://127.0.0.1:3333/internal/users/{id}/increment-score',
+{
+  method: 'PUT',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+`PUT /internal/users/{id}/increment-score`
+
+*Increment the score of a user by 1*
+
+<h3 id="incrementuserscore-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|id|path|integer|true|The user ID|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "id": 0,
+  "username": "string",
+  "statut": "string",
+  "score": 0,
+  "password": "string"
+}
+```
+
+<h3 id="incrementuserscore-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|successful operation|[User](#schemauser)|
+|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|user not found|None|
 
 <aside class="success">
 This operation does not require authentication

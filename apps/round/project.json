@@ -13,7 +13,7 @@
     "docs": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "commands": ["npx widdershins apps/round/round.schema.yaml -o docs/round.md --language_tabs 'javascript:JavaScript'"]
+        "commands": ["npx widdershins apps/round/round.schema.yaml -o docs/round.md --language_tabs 'shell:Shell' 'javascript:JavaScript'"]
       }
     },
     "install": {

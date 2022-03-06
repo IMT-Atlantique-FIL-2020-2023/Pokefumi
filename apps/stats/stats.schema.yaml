@@ -40,7 +40,7 @@ paths:
     get:
       tags:
         - round
-      summary: Number of rounds a day for the last 30 days
+      summary: Number of rounds a day for the last 30 days. 1 round per player play. It means that's the double of rounds played
       operationId: getRoundsAdayLast30Days
       responses:
         200:

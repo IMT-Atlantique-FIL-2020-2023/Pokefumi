@@ -1,8 +1,10 @@
 ---
 title: Round service v0.0.1
 language_tabs:
+  - shell: Shell
   - javascript: JavaScript
 language_clients:
+  - shell: ""
   - javascript: ""
 toc_footers: []
 includes: []
@@ -37,6 +39,13 @@ License: <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a
 <a id="opIdgetApi"></a>
 
 > Code samples
+
+```shell
+# You can also use wget
+curl -X GET http://127.0.0.1:3335/api \
+  -H 'Accept: application/json'
+
+```
 
 ```javascript
 
@@ -99,6 +108,13 @@ Pokemon infos
 <a id="opIdgetPokemons"></a>
 
 > Code samples
+
+```shell
+# You can also use wget
+curl -X GET http://127.0.0.1:3335/pokemons \
+  -H 'Accept: application/json'
+
+```
 
 ```javascript
 
@@ -182,6 +198,13 @@ This operation does not require authentication
 
 > Code samples
 
+```shell
+# You can also use wget
+curl -X GET http://127.0.0.1:3335/pokemons/{id} \
+  -H 'Accept: application/json'
+
+```
+
 ```javascript
 
 const headers = {
@@ -251,6 +274,13 @@ This operation does not require authentication
 
 > Code samples
 
+```shell
+# You can also use wget
+curl -X GET http://127.0.0.1:3335/pokemons/name/{name} \
+  -H 'Accept: application/json'
+
+```
+
 ```javascript
 
 const headers = {
@@ -319,6 +349,13 @@ This operation does not require authentication
 <a id="opIdgetTypes"></a>
 
 > Code samples
+
+```shell
+# You can also use wget
+curl -X GET http://127.0.0.1:3335/types \
+  -H 'Accept: application/json'
+
+```
 
 ```javascript
 
@@ -392,6 +429,13 @@ This operation does not require authentication
 
 > Code samples
 
+```shell
+# You can also use wget
+curl -X GET http://127.0.0.1:3335/types/{id} \
+  -H 'Accept: application/json'
+
+```
+
 ```javascript
 
 const headers = {
@@ -454,6 +498,13 @@ This operation does not require authentication
 <a id="opIdgetTypeByName"></a>
 
 > Code samples
+
+```shell
+# You can also use wget
+curl -X GET http://127.0.0.1:3335/types/name/{name} \
+  -H 'Accept: application/json'
+
+```
 
 ```javascript
 
@@ -521,6 +572,13 @@ rounds infos
 <a id="opIdgetRoundsResultById"></a>
 
 > Code samples
+
+```shell
+# You can also use wget
+curl -X GET http://127.0.0.1:3335/round/{id1}/{id2} \
+  -H 'Accept: application/json'
+
+```
 
 ```javascript
 
@@ -592,6 +650,13 @@ This operation does not require authentication
 
 > Code samples
 
+```shell
+# You can also use wget
+curl -X GET http://127.0.0.1:3335/round/name/{name1}/{name2} \
+  -H 'Accept: application/json'
+
+```
+
 ```javascript
 
 const headers = {
@@ -662,6 +727,15 @@ This operation does not require authentication
 
 > Code samples
 
+```shell
+# You can also use wget
+curl -X PUT http://127.0.0.1:3335/match \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
 ```javascript
 const inputBody = '{
   "idMatch": 0,
@@ -715,7 +789,8 @@ fetch('http://127.0.0.1:3335/match',
   "roundWinner": 0,
   "pokemonWinner": 0,
   "roundLooser": 0,
-  "pokemonLooser": 0
+  "pokemonLooser": 0,
+  "roundIndex": 9
 }
 ```
 
@@ -814,7 +889,8 @@ TypePokemon
   "roundWinner": 0,
   "pokemonWinner": 0,
   "roundLooser": 0,
-  "pokemonLooser": 0
+  "pokemonLooser": 0,
+  "roundIndex": 9
 }
 
 ```
@@ -829,4 +905,5 @@ RoundResultDto
 |pokemonWinner|integer|true|none|the pokeApi id of the winner's pokemon|
 |roundLooser|integer|true|none|the id of the looser|
 |pokemonLooser|integer|true|none|the pokeApi id of the looser's pokemon|
+|roundIndex|integer|true|none|the index of the round|
 

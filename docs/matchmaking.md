@@ -1,8 +1,10 @@
 ---
 title: Matchmaking service v0.0.1
 language_tabs:
+  - shell: Shell
   - javascript: JavaScript
 language_clients:
+  - shell: ""
   - javascript: ""
 toc_footers: []
 includes: []
@@ -39,6 +41,13 @@ Everything related to a match
 <a id="opIdgetAllMatches"></a>
 
 > Code samples
+
+```shell
+# You can also use wget
+curl -X GET http://127.0.0.1:3334/matchs \
+  -H 'Accept: application/json'
+
+```
 
 ```javascript
 
@@ -98,6 +107,15 @@ This operation does not require authentication
 <a id="opIdcreateMatch"></a>
 
 > Code samples
+
+```shell
+# You can also use wget
+curl -X PUT http://127.0.0.1:3334/matchs \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
 
 ```javascript
 const inputBody = '{
@@ -233,6 +251,13 @@ bearerAuth
 
 > Code samples
 
+```shell
+# You can also use wget
+curl -X GET http://127.0.0.1:3334/matchs/{id} \
+  -H 'Accept: application/json'
+
+```
+
 ```javascript
 
 const headers = {
@@ -319,6 +344,13 @@ This operation does not require authentication
 
 > Code samples
 
+```shell
+# You can also use wget
+curl -X GET http://127.0.0.1:3334/matchs/invitation \
+  -H 'Accept: application/json'
+
+```
+
 ```javascript
 
 const headers = {
@@ -382,6 +414,15 @@ This operation does not require authentication
 <a id="opIdjoinMatch"></a>
 
 > Code samples
+
+```shell
+# You can also use wget
+curl -X POST http://127.0.0.1:3334/matchs/{id}/join \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
 
 ```javascript
 const inputBody = '[
@@ -516,9 +557,17 @@ For internal communication
 
 > Code samples
 
+```shell
+# You can also use wget
+curl -X POST http://127.0.0.1:3334/internal/matches/{id}/close \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json'
+
+```
+
 ```javascript
 const inputBody = '{
-  "winnerId": "string"
+  "winnerId": 0
 }';
 const headers = {
   'Content-Type':'application/json',
@@ -547,7 +596,7 @@ fetch('http://127.0.0.1:3334/internal/matches/{id}/close',
 
 ```json
 {
-  "winnerId": "string"
+  "winnerId": 0
 }
 ```
 
@@ -556,8 +605,7 @@ fetch('http://127.0.0.1:3334/internal/matches/{id}/close',
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |id|path|integer|true|Id of the match|
-|body|body|object|false|Post match winner and close it|
-|» winnerId|body|string|true|The id of the winner|
+|body|body|any|false|Post match winner and close it|
 
 > Example responses
 
@@ -742,7 +790,7 @@ Deck of the player
 |authorId|integer|true|none|The id of the author|
 |opponentId|integer|true|none|The id of the opponent|
 |status|string|true|none|The status of the match|
-|winnerId|integer|false|none|The id of the winner|
+|winnerId|integer|false|none|The id of the winner. If the winner is a draw, the winnerId is null and the match status is set to finished|
 
 #### Enumerated Values
 

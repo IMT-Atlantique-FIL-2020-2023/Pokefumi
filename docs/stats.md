@@ -1,8 +1,10 @@
 ---
 title: Stats service v0.0.1
 language_tabs:
+  - shell: Shell
   - javascript: JavaScript
 language_clients:
+  - shell: ""
   - javascript: ""
 toc_footers: []
 includes: []
@@ -35,6 +37,13 @@ Pokemon stats
 <a id="opIdgetNumberOfRoundsByPokemon"></a>
 
 > Code samples
+
+```shell
+# You can also use wget
+curl -X GET http://127.0.0.1:3337/pokemons/{id}/number-of-rounds \
+  -H 'Accept: application/json'
+
+```
 
 ```javascript
 
@@ -113,6 +122,13 @@ This operation does not require authentication
 
 > Code samples
 
+```shell
+# You can also use wget
+curl -X GET http://127.0.0.1:3337/pokemons/{id}/number-of-victories \
+  -H 'Accept: application/json'
+
+```
+
 ```javascript
 
 const headers = {
@@ -190,6 +206,13 @@ This operation does not require authentication
 
 > Code samples
 
+```shell
+# You can also use wget
+curl -X GET http://127.0.0.1:3337/pokemons/rounds \
+  -H 'Accept: application/json'
+
+```
+
 ```javascript
 
 const headers = {
@@ -249,6 +272,13 @@ Rounds stats
 
 > Code samples
 
+```shell
+# You can also use wget
+curl -X GET http://127.0.0.1:3337/rounds/count-a-day-last-30-days \
+  -H 'Accept: application/json'
+
+```
+
 ```javascript
 
 const headers = {
@@ -271,7 +301,7 @@ fetch('http://127.0.0.1:3337/rounds/count-a-day-last-30-days',
 
 `GET /rounds/count-a-day-last-30-days`
 
-*Number of rounds a day for the last 30 days*
+*Number of rounds a day for the last 30 days. 1 round per player play. It means that's the double of rounds played*
 
 > Example responses
 
@@ -303,6 +333,14 @@ This operation does not require authentication
 <a id="opIduploadStatRow"></a>
 
 > Code samples
+
+```shell
+# You can also use wget
+curl -X PUT http://127.0.0.1:3337/stats \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json'
+
+```
 
 ```javascript
 const inputBody = '{

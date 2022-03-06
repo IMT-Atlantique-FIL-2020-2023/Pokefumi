@@ -5,6 +5,7 @@ services:
     build:
       context: ./
       dockerfile: apps/user/Dockerfile
+    restart: on-failure
     environment:
       - JWT_SECRET=ILIKEPOTATOES
       - BASE_URL_USER=http://user:3333
@@ -15,6 +16,7 @@ services:
     build:
       context: ./
       dockerfile: apps/matchmaking/Dockerfile
+    restart: on-failure
     environment:
       - JWT_SECRET=ILIKEPOTATOES
       - BASE_URL_USER=http://user:3333
@@ -25,6 +27,7 @@ services:
     build:
       context: ./
       dockerfile: apps/round/Dockerfile
+    restart: on-failure
     environment:
       - JWT_SECRET=ILIKEPOTATOES
       - BASE_URL_USER=http://user:3333
@@ -35,6 +38,7 @@ services:
     build:
       context: ./
       dockerfile: apps/stats/Dockerfile
+    restart: on-failure
     environment:
       - JWT_SECRET=ILIKEPOTATOES
       - BASE_URL_USER=http://user:3333

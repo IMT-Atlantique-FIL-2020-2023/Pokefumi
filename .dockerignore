@@ -1,6 +1,7 @@
 # compiled output
 .vscode
 node_modules
+**/node_modules
 dist
 
 # code formatter
@@ -13,7 +14,16 @@ dist
 
 # test
 jest.config.js
+**/jest.config.js
 
 # docker
 Dockerfile
 docker-compose.yml
+
+# openapi schemas
+**/*.schema.*ml
+
+# Other stuff
+**/*.md
+**/Procfile
+**/.env

@@ -52,3 +52,21 @@ curl -X POST "http://127.0.0.1:8000/matchmakingservice/matchs/$matchId/join" \
 -H "Authorization: Bearer $jwt2" \
 -d '[13, 3, 25, 80, 5, 6, 7, 8, 9, 10]'
 
+# 1er round
+echo "Résolution du 1er round..."
+matchResult=$(node -pe 'JSON.parse(process.argv[1]).id' "$(curl -X PUT http://127.0.0.1:8000/round/match" \
+-H 'Content-Type: application/json' \
+-H 'Accept: application/json' \
+-H "Authorization: Bearer $jwt" \
+-d '{"matchId": '"$matchId'", "idJoueur": "'$userId'", "idxPokemonDeck": 1}')")
+
+matchResult=$(node -pe 'JSON.parse(process.argv[1]).id' "$(curl -X PUT http://127.0.0.1:8000/round/match" \
+-H 'Content-Type: application/json' \
+-H 'Accept: application/json' \
+-H "Authorization: Bearer $jwt2" \
+-d '{"matchId": '"$matchId'", "idJoueur": "'$userId2'", "idxPokemonDeck": 2}'")
+
+echo "Résultat du 1er round..."
+echo $matchResult
+
+

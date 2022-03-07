@@ -403,6 +403,8 @@ Voici la liste des targets [nx](https://nx.dev/) disponibles :
 
 ### 1.10.1. Schémas de base de données
 
+> Générés avec [prisma-erd](https://prisma-erd.simonknott.de/)
+
 #### 1.10.1.1. User service
 
 ```mermaid

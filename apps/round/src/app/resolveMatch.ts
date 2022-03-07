@@ -97,7 +97,7 @@ export default async function resolveMatch(matchId: number, userId: number, deck
       victory: !isWinner,
     });
 
-    await wait(100);
+    await wait(200);
 
     Stats.StatsService.uploadStatRow({
       dateMatch: new Date().toISOString(),

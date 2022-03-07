@@ -19,6 +19,9 @@ Pour le déroulement d'une partie, voilà ce qu'il se passe (en considérant que
     - [1.3.2. Contraintes](#132-contraintes)
   - [1.4. Schéma d'architecture](#14-schéma-darchitecture)
   - [1.5. Description des différents services](#15-description-des-différents-services)
+    - [1.5.1. Tableau résumé](#151-tableau-résumé)
+    - [1.5.2. Graphe de dépendance Nx](#152-graphe-de-dépendance-nx)
+    - [1.5.3. Résumé de chaque entité](#153-résumé-de-chaque-entité)
   - [1.6. Choix techniques](#16-choix-techniques)
     - [1.6.1. Généraux](#161-généraux)
       - [1.6.1.1. Approche "schéma-first" ?](#1611-approche-schéma-first-)
@@ -74,11 +77,11 @@ Pour le déroulement d'une partie, voilà ce qu'il se passe (en considérant que
 
 ## 1.2. Démos
 
-Tests e2e
+Tests [e2e](packages/pokefumi-e2e/src/lib/pokefumi-e2e.spec.ts)
 
 ![Lancement des test e2e](./docs/test-e2e.gif)
 
-Docker-compose avec l'Api Gateway Krakend et le script `test.sh`
+Docker-compose avec l'Api Gateway Krakend et le script [test.sh](./test.sh)
 
 ![Demo docker-compose](./docs/docker-compose.gif)
 
@@ -122,6 +125,8 @@ Docker-compose avec l'Api Gateway Krakend et le script `test.sh`
 
 ## 1.5. Description des différents services
 
+### 1.5.1. Tableau résumé
+
 L'application est divisée en 4 services principaux : user, match, matchmaking, stats
 
 | Nom du service | API Gateway | User service                                                                                                                                                                                                                                                                 | Matchmaking service                                                                                                                                                                                                                                                                                                                                                                    | Stat service                                                                                                                      | Round service                                                   |
@@ -129,6 +134,24 @@ L'application est divisée en 4 services principaux : user, match, matchmaking, 
 | Actions        | Interface   | <ul><li>m'inscrire à la plateforme avec un nom d'utilisateur unique.</li> <li>me connecter à la plateforme utilisant mon nom d’utilisateur et un mot de passe</li> <li>voir la liste de joueurs (avec leur score)</li> <li>effacer et modifier les joueurs (ADMIN)</li></ul> | <ul><li>voir la liste de matchs</li><li>voir les détails d’un match: joueurs, Pokémons utilisés, etc</li> <li>inviter un autre joueur à un match (creer un match)</li> <li>consulter les invitations reçues </li><li>accepter une invitation à un match (joindre un match existant)</li><li>effacer et modifier les matchs (ADMIN only) </li><li>créer un deck pour un match</li></ul> | <ul><li>nombre de matchs par jour,</li> <li>nombre de matchs par pokemon,</li> <li>nombre de victoires par pokemon, etc</li></ul> | envoyer un Pokémon à l’arena et consulter le résultat du combat |
 | Dépendances    | *           |                                                                                                                                                                                                                                                                              | User service (besoin du nom d’utilisateur) Pokeapi                                                                                                                                                                                                                                                                                                                                     |                                                                                                                                   | Matchmaking service, Stats service (envoi des stats) Pokeapi    |
 | Tables (BDD)   | N/A         | User                                                                                                                                                                                                                                                                         | Match                                                                                                                                                                                                                                                                                                                                                                                  | StatRound                                                                                                                         | N/A (utilise un cache LRU en mémoire vive)                      |
+
+### 1.5.2. Graphe de dépendance Nx
+
+> Ce graphique a été généré avec la commande `nx graph`
+
+![dep-graph](./docs/dep-graph.png)
+
+### 1.5.3. Résumé de chaque entité
+
+- Applications (microservices Rest ExpressJS)
+  - [apps/user](apps/user/) : pour gérer les informations de chaque utilisateur et la création de nouveaux utilisateurs. Écoute sur le port `3333`
+  - [apps/matchmaking](apps/matchmaking/) : pour gérer les invitations à un match vers un autre joueur ou afficher les matchs publics. Écoute sur le port `3334`
+  - [apps/round](apps/round/) : pour gérer le déroulement d'un combat, en confrontant deux à deux chaque pokemon et en donnant le score. Écoute sur le port `3335`
+  - [apps/stats](apps/stats/) : pour obtenir les statistiques sur les matchs en général (scores, victoires). Écoute sur le port `3337`
+- Packages (bibliothèques de code)
+  - [packages/pokefumi-api](packages/pokefumi-api/) : client axios Rest générés à partir de [openapi-typescript-codegen](https://github.com/ferdikoomen/openapi-typescript-codegen)
+  - [packages/pokefumi-e2e](packages/pokefumi-e2e/) : tests jest d'intégration
+  - [packages/pokefumi-common](packages/pokefumi-common/) : ancienne couche modèle, en partie utilisée par le service `Round`
 
 ## 1.6. Choix techniques
 
@@ -201,20 +224,51 @@ un outil nommé [openapi2krakend](https://github.com/okhuz/openapi2krakend) qui 
 
 ### 1.6.4. Matchmaking service
 
+Le service de `Matchmaking` utilise lui aussi l'ORM `Prisma` pour gérer la base de données SQLite, notamment la table `Match`.
+Voir le fichier [prisma.schema.prisma](apps/matchmaking/prisma/schema.prisma).
+
+Il authentifie les utilisateurs (pour la création du match et pour en joindre un) avec un jeton JWT (`express-jtw`).
+Cela permet une authentification sans états et donc éviter un stockage de session côté serveur.
+
+Comparé aux autres services, il possède une spécificité : les corps de requêtes et les paramètres d'URL sont validés
+avec [zod](https://github.com/colinhacks/zod) et le middleware `zod-express-middleware`.
+Zod est une bibliothèque de validation moderne qui permet de créer des schémas de validation
+(voir [matchmaking.controller.ts](apps/matchmaking/src/app/controllers/matchmaking.controller.ts)) pour exemple.
+Zod est très modulable et possède une fonctionnalité d'inférence de type très intéressante, qui permet
+d'extraire les [types natifs à partir d'un schéma](https://github.com/IMT-Atlantique-FIL-2020-2023/Pokefumi/blob/cb0b1329e5f4e953d1925d7780f515a39c7ae43e/apps/matchmaking/src/app/controllers/matchmaking.controller.ts#L13).
+
+La gestion des erreurs se fait avec le middleware `express-async-handler`, qui permet de simplifier la tâche.
+
 ### 1.6.5. Round service
 
 @mlhoutel à toi de jouer !
 
 ### 1.6.6. Stats service
 
+Le service de `Stats` utilise lui aussi l'ORM `Prisma` pour gérer la base de données SQLite, notamment la table `StatRound`.
+Voir le fichier [prisma.schema.prisma](apps/stats/prisma/schema.prisma).
+
+Le routeur express.js, les types et les schémas de validation sont entièrement générés avec [oats-ts](https://github.com/oats-ts/oats-ts)
+à partir du schéma OpenAPI [stats.schema.yaml](apps/stats/stats.schema.yaml).
+Les fichiers générés sont stockés dans le dossier [apps/stats/src/app/generated-oats/](apps/stats/src/app/generated-oats/).
+Voir par exemple le [routeur](apps/stats/src/app/generated-oats/routers/) ou encore les [types de réponses](apps/stats/src/app/generated-oats/responses/).
+Le script de génération est le fichier [generate.ts](apps/stats/scripts/generate.ts).
+
+Cela permet d'être que le service `Stats` correspond bien à son modèle spécifié dans le schéma
+OpenAPI. De plus, toute la partie validation des corps de requêtes et des paramètres de chaîne est générée.
+Le développeur n'a qu'a implémenter le code métier, coeur du service en "codant dans les trous", c-a-d en implémentant les stubs.
+Voir le fichier d'implémentation [StatsApiImpl.ts](apps/stats/src/app/StatsApiImpl.ts)
+
+Oats-ts est encore un outil jeune, mais il est prometteur !
+
 ## 1.7. Documentation de référence et exemples de requêtes / réponses
 
-> Note: chaque service possède un fichier Openapi décrivant ses endpoints (voir [matchmaking.schema.yaml](./apps/matchmaking/matchmaking.schema.yaml) par exemple). La documentation ci-dessous est générée à l'aide de [widdershins](https://github.com/Mermade/widdershins)
+> Note: chaque service possède un fichier OpenAPI décrivant ses endpoints (voir [matchmaking.schema.yaml](./apps/matchmaking/matchmaking.schema.yaml) par exemple). La documentation ci-dessous est générée à l'aide de [widdershins](https://github.com/Mermade/widdershins)
 
 - Service de gestion des utilisateurs, *pour gérer les informations de chaque utilisateur et la création de nouveaux utilisateurs* : [docs/user.md](docs/user.md)
 - Service de matchmaking, *pour gérer les invitations à un match vers un autre joueur ou afficher les matchs publics* : [docs/matchmaking.md](docs/matchmaking.md)
 - Service de gestion d'un round, *pour gérer le déroulement d'un combat, en confrontant deux à deux chaque pokemon et en donnant le score*: [docs/round.md](docs/round.md)
-- Service de statistiques, *pour obtenir les statistiques sur les matchs en général (scores, victoire)* : [docs/stats.md](docs/stats.md)
+- Service de statistiques, *pour obtenir les statistiques sur les matchs en général (scores, victoires)* : [docs/stats.md](docs/stats.md)
 
 ## 1.8. Pour bien commencer, pour tester les microservices
 

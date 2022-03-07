@@ -14,7 +14,7 @@ Pour le déroulement d'une partie, voilà ce qu'il se passe (en considérant que
 - [1. Pokefumi : Nx + Docker + Typescript + Express + Jwt + OpenAPI + Jest](#1-pokefumi--nx--docker--typescript--express--jwt--openapi--jest)
   - [1.1. Fonctionnalités](#11-fonctionnalités)
   - [Démos](#démos)
-  - [1.2. Résumé du travail réalisé par rapport au spécifications fournies](#12-résumé-du-travail-réalisé-par-rapport-au-spécifications-fournies)
+  - [1.2. Résumé du travail réalisé par rapport aux spécifications fournies](#12-résumé-du-travail-réalisé-par-rapport-aux-spécifications-fournies)
     - [1.2.1. Fonctionnalités](#121-fonctionnalités)
     - [1.2.2. Contraintes](#122-contraintes)
   - [1.3. Schéma d'architecture](#13-schéma-darchitecture)
@@ -82,7 +82,7 @@ Docker-compose avec l'Api Gateway Krakend et le script `test.sh`
 
 ![Demo docker-compose](./docs/docker-compose.gif)
 
-## 1.2. Résumé du travail réalisé par rapport au spécifications fournies
+## 1.2. Résumé du travail réalisé par rapport aux spécifications fournies
 
 ### 1.2.1. Fonctionnalités
 

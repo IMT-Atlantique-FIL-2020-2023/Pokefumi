@@ -39,7 +39,7 @@ Pour le déroulement d'une partie, voilà ce qu'il se passe (en considérant que
     - [1.8.1. Sans Docker et sans l'API Gateway ("boite blanche")](#181-sans-docker-et-sans-lapi-gateway-boite-blanche)
       - [1.8.1.1. Premier lancement](#1811-premier-lancement)
       - [1.8.1.2. Executer les tests d'intégration sans API Gateway avec Jest](#1812-executer-les-tests-dintégration-sans-api-gateway-avec-jest)
-    - [1.8.2. Avec Docker, docker-compose et l'API Gateway ("boite noire")](#182-avec-docker-docker-compose-et-lapi-gateway-boite-noire)
+    - [1.8.2. Avec Docker, docker-compose et l'API Gateway Krakend ("boite noire")](#182-avec-docker-docker-compose-et-lapi-gateway-krakend-boite-noire)
       - [1.8.2.1. Lancement des micro-services](#1821-lancement-des-micro-services)
       - [1.8.2.2. Tests d'intégration au travers de l'API Gateway avec un script bash](#1822-tests-dintégration-au-travers-de-lapi-gateway-avec-un-script-bash)
   - [1.9. Liste des targets nx](#19-liste-des-targets-nx)
@@ -77,11 +77,18 @@ Pour le déroulement d'une partie, voilà ce qu'il se passe (en considérant que
 
 ## 1.2. Démos
 
-Tests [e2e](packages/pokefumi-e2e/src/lib/pokefumi-e2e.spec.ts)
+Tests [e2e](packages/pokefumi-e2e/src/lib/pokefumi-e2e.spec.ts) : execution automatique des tests d'intégration pour tester chaque endpoint de chaque microservice.
+
+> Automatise un de scénario test de match avec deux utilisateurs de bout en bout (du service `user` au service `stats`).
+Efface les bases de données et créé les utilisateurs au démarrage.
 
 ![Lancement des test e2e](./docs/test-e2e.gif)
 
-Docker-compose avec l'Api Gateway Krakend et le script [test.sh](./test.sh)
+Docker-compose avec l'Api Gateway Krakend et le script [test.sh](./test.sh).
+
+> Lance un scénario de test de match avec deux utilisateurs à l'aide de CURL.
+Créé les utilisateurs, obtient leur jeton JWT, créé le match et créé un Deck.
+Affiche ensuite le score des joueurs et les stats.
 
 ![Demo docker-compose](./docs/docker-compose.gif)
 
@@ -205,6 +212,13 @@ une même bibliothèque mais avec une version différente, la version la plus ha
 C'est plus sympathique quand on peut voir le résultat en direct de notre commit !
 Heroku permet de déployer chaque micro-service à chaque modification de code. Ils tournent dans une image docker.
 
+Liste des services déployés avec endpoint "exemple" :
+
+- https://pokefumi-user.herokuapp.com/users
+- https://pokefumi-matchmaking.herokuapp.com/matchs
+- https://pokefumi-round.herokuapp.com/api
+- https://pokefumi-stats.herokuapp.com/rounds/count-a-day-last-30-days
+
 ### 1.6.2. API Gateway
 
 Nous avons choisi d'utiliser un API Gateway différent que celui vu en cours (Nginx) : [Krakend-ce](https://github.com/devopsfaith/krakend-ce).
@@ -274,8 +288,6 @@ Oats-ts est encore un outil jeune, mais il est prometteur !
 
 ### 1.8.1. Sans Docker et sans l'API Gateway ("boite blanche")
 
-> Note : l'API Gateway étant une image docker, il est nécessaire d'avoir Docker afin de pouvoir le tester.
-
 Pour lancer : utiliser le [devcontainer vscode](https://code.visualstudio.com/docs/remote/containers), ou installer nx en global (faire la commande dans un terminal) : `npm i -g nx`.
 
 Version de nodejs conseillée : `16.X.X`
@@ -289,8 +301,10 @@ Version de nodejs conseillée : `16.X.X`
 
     ```dotenv
     # apps/user/.env
-
+    
+    # Clef de chiffrement utilisée pour chiffrer les jetons
     JWT_SECRET=ILIKEPOTATOES
+
     ```
 
 5. Ensuite pour lancer le user service : `nx run user:serve`. Pour lancer le matchmaking service par ex. :  `nx run matchmaking:serve`.
@@ -306,7 +320,9 @@ Des tests automatisés sont disponibles pour tester les services. Ils sont progr
 nx run pokefumi-e2e:test-e2e
 ```
 
-### 1.8.2. Avec Docker, docker-compose et l'API Gateway ("boite noire")
+### 1.8.2. Avec Docker, docker-compose et l'API Gateway Krakend ("boite noire")
+
+> Note : l'API Gateway étant une image docker, il est nécessaire d'avoir Docker afin de pouvoir le tester.
 
 #### 1.8.2.1. Lancement des micro-services
 
@@ -327,11 +343,6 @@ Un fichier [test.sh](./test.sh) est disponible à la racine du projet. Il permet
 ```bash
 bash test.sh
 ```
-
-Préciser: pourquoi pas de choix du mode workspace ?
-Tout mettre du fichier doc ici
-Liste de toutes les fonctionnalités, avec test e2e, qui lance les builds et clean les db..
-Utilisation de zod
 
 ## 1.9. Liste des targets nx
 
@@ -415,4 +426,32 @@ Ce projet ayant pour vocation d'être une démonstration, la gestion des erreurs
 
 ### 1.11.4. Bonus 💰 : comment ajouter un service de vente de Pokemon "rares" que l'on peut ajouter à son Docker ?
 
-@RaphaelPainter @mlhoutel
+Avec Nx, c'est plutôt simple !
+
+1. Générer un nouveau service : `nx generate @nrwl/express:application`
+2. Modéliser son schéma OpenAPI et son schéma prisma (ajouter une table inventaire, stock de pokemons, etc.)
+3. Implémenter le service
+4. Ajouter les targets Nx `generate`, `install`, `push`
+5. Générer les clients Rest axios : `nx run pokefumi-api:generate`
+6. Ajouter des tests e2e : [pokefumi-e2e.spec.ts](packages/pokefumi-e2e/src/lib/pokefumi-e2e.spec.ts)
+7. Créer son Dockerfile en s'inspirant du Dockerfile du service `User`
+8. Ajouter un nouveau container au docker-compose :
+
+    ```yaml
+    sales:
+      build:
+        context: ./
+        dockerfile: apps/sales/Dockerfile
+      restart: on-failure
+      environment:
+        - JWT_SECRET=ILIKEPOTATOES
+        - BASE_URL_USER=http://user:3333
+        - BASE_URL_ROUND=http://round:3335
+        - BASE_URL_STATS=http://stats:3337
+        - BASE_URL_MATCHMAKING=http://matchmaking:3334
+    ```
+
+9. Ajouter les endpoints à la configuration krakend : [krakend.json](./krakend.json)
+10. Modifier le script [test.sh](./test.sh) en conséquences
+
+Bonne chance !

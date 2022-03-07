@@ -24,8 +24,8 @@ Pour le déroulement d'une partie, voilà ce qu'il se passe (en considérant que
     - [1.5.3. Résumé de chaque entité](#153-résumé-de-chaque-entité)
   - [1.6. Choix techniques](#16-choix-techniques)
     - [1.6.1. Généraux](#161-généraux)
-      - [1.6.1.1. Approche "schéma-first" ?](#1611-approche-schéma-first-)
-      - [1.6.1.2. Pourquoi s'embêter avec Nx ?](#1612-pourquoi-sembêter-avec-nx-)
+      - [1.6.1.1. Approche "schema-first" ?](#1611-approche-schema-first-)
+      - [1.6.1.2. Pourquoi utiliser Nx ?](#1612-pourquoi-utiliser-nx-)
       - [1.6.1.3. Prisma ?](#1613-prisma-)
       - [1.6.1.4. NPM Workspaces : pourquoi nous avons du les abandonner](#1614-npm-workspaces--pourquoi-nous-avons-du-les-abandonner)
       - [1.6.1.5. Déploiement continu avec Heroku ?](#1615-déploiement-continu-avec-heroku-)
@@ -35,10 +35,10 @@ Pour le déroulement d'une partie, voilà ce qu'il se passe (en considérant que
     - [1.6.5. Round service](#165-round-service)
     - [1.6.6. Stats service](#166-stats-service)
   - [1.7. Documentation de référence et exemples de requêtes / réponses](#17-documentation-de-référence-et-exemples-de-requêtes--réponses)
-  - [1.8. Pour bien commencer, pour tester les microservices](#18-pour-bien-commencer-pour-tester-les-microservices)
+  - [1.8. Pour tester les microservices](#18-pour-tester-les-microservices)
     - [1.8.1. Sans Docker et sans l'API Gateway ("boite blanche")](#181-sans-docker-et-sans-lapi-gateway-boite-blanche)
       - [1.8.1.1. Premier lancement](#1811-premier-lancement)
-      - [1.8.1.2. Executer les tests d'intégration sans API Gateway avec Jest](#1812-executer-les-tests-dintégration-sans-api-gateway-avec-jest)
+      - [1.8.1.2. Exécuter les tests d'intégration sans API Gateway avec Jest](#1812-exécuter-les-tests-dintégration-sans-api-gateway-avec-jest)
     - [1.8.2. Avec Docker, docker-compose et l'API Gateway Krakend ("boite noire")](#182-avec-docker-docker-compose-et-lapi-gateway-krakend-boite-noire)
       - [1.8.2.1. Lancement des micro-services](#1821-lancement-des-micro-services)
       - [1.8.2.2. Tests d'intégration au travers de l'API Gateway avec un script bash](#1822-tests-dintégration-au-travers-de-lapi-gateway-avec-un-script-bash)
@@ -51,7 +51,7 @@ Pour le déroulement d'une partie, voilà ce qu'il se passe (en considérant que
   - [1.11. Evolutions possibles de l'application](#111-evolutions-possibles-de-lapplication)
     - [1.11.1. Système de salon](#1111-système-de-salon)
     - [1.11.2. Statistiques sur l'activité](#1112-statistiques-sur-lactivité)
-    - [1.11.3. Meilleur gestion des erreurs](#1113-meilleur-gestion-des-erreurs)
+    - [1.11.3. Meilleure gestion des erreurs](#1113-meilleure-gestion-des-erreurs)
     - [1.11.4. Bonus 💰 : comment ajouter un service de vente de Pokemon "rares" que l'on peut ajouter à son Docker ?](#1114-bonus---comment-ajouter-un-service-de-vente-de-pokemon-rares-que-lon-peut-ajouter-à-son-docker-)
 
 ## 1.1. Fonctionnalités
@@ -98,15 +98,15 @@ Affiche ensuite le score des joueurs et les stats.
 
 1. [x] En tant que joueur, je peux …
 
-   1.  [x] m'inscrire à la plateforme avec un nom d'utilisateur unique
-   2.  [x] me connecter à la plateforme en utilisant mon nom d’utilisateur et un mot de passe
-   3.  [x] voir la liste des joueurs (avec leur score cummulé sur toutes leurs parties)
-   4.  [x] voir la liste des matchs (en cours, terminés, en attente)
-   5.  [x] voir les détails d’un match: joueurs, Pokemons utilisés, etc
-   6.  [x] inviter un autre joueur à un match (créer un match)
-   7.  [x] consulter les invitations reçues
-   8.  [x] accepter une invitation à un match (joindre un match existant)
-   9.  [x] créer un deck pour un match
+   1. [x] m'inscrire à la plateforme avec un nom d'utilisateur unique
+   2. [x] me connecter à la plateforme en utilisant mon nom d’utilisateur et un mot de passe
+   3. [x] voir la liste des joueurs (avec leur score cummulé sur toutes leurs parties)
+   4. [x] voir la liste des matchs (en cours, terminés, en attente)
+   5. [x] voir les détails d’un match: joueurs, Pokemons utilisés, etc
+   6. [x] inviter un autre joueur à un match (créer un match)
+   7. [x] consulter les invitations reçues
+   8. [x] accepter une invitation à un match (joindre un match existant)
+   9. [x] créer un deck pour un match
    10. [x] envoyer un Pokemon à l’arena et consulter le résultat du combat (le joueur n'envoie pas un Pokemon en particulier mais envoie un deck, donc au moins un Pokemon, à l'arena)
 
 2. [ ] En tant qu’administrateur, je peux …
@@ -136,11 +136,11 @@ Affiche ensuite le score des joueurs et les stats.
 
 L'application est divisée en 4 services principaux : user, match, matchmaking, stats
 
-| Nom du service | API Gateway | User service                                                                                                                                                                                                                                                                 | Matchmaking service                                                                                                                                                                                                                                                                                                                                                                    | Stat service                                                                                                                      | Round service                                                   |
-| -------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| Nom du service | API Gateway | User service                                                                                                                                                                                                                                                                    | Matchmaking service                                                                                                                                                                                                                                                                                                                                                                     | Stat service                                                                                                                    | Round service                                                   |
+| -------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
 | Actions        | Interface   | <ul><li>m'inscrire à la plateforme avec un nom d'utilisateur unique</li> <li>me connecter à la plateforme en utilisant mon nom d’utilisateur et un mot de passe</li> <li>voir la liste des joueurs (avec leur score)</li> <li>effacer et modifier les joueurs (ADMIN)</li></ul> | <ul><li>voir la liste des matchs</li><li>voir les détails d’un match: joueurs, Pokemons utilisés, etc</li> <li>inviter un autre joueur à un match (creer un match)</li> <li>consulter les invitations reçues </li><li>accepter une invitation à un match (joindre un match existant)</li><li>effacer et modifier les matchs (ADMIN only) </li><li>créer un deck pour un match</li></ul> | <ul><li>nombre de matchs par jour</li> <li>nombre de matchs par Pokemon</li> <li>nombre de victoires par Pokemon, etc</li></ul> | envoyer un Pokemon à l’arena et consulter le résultat du combat |
-| Dépendances    | *           |                                                                                                                                                                                                                                                                              | User service (besoin du nom d’utilisateur) Pokeapi                                                                                                                                                                                                                                                                                                                                     |                                                                                                                                   | Matchmaking service, Stats service (envoi des stats) Pokeapi    |
-| Tables (BDD)   | N/A         | User                                                                                                                                                                                                                                                                         | Match                                                                                                                                                                                                                                                                                                                                                                                  | StatRound                                                                                                                         | N/A (utilise un cache LRU en mémoire vive)                      |
+| Dépendances    | *           |                                                                                                                                                                                                                                                                                 | User service (besoin du nom d’utilisateur) Pokeapi                                                                                                                                                                                                                                                                                                                                      |                                                                                                                                 | Matchmaking service, Stats service (envoi des stats) Pokeapi    |
+| Tables (BDD)   | N/A         | User                                                                                                                                                                                                                                                                            | Match                                                                                                                                                                                                                                                                                                                                                                                   | StatRound                                                                                                                       | N/A (utilise un cache LRU en mémoire vive)                      |
 
 ### 1.5.2. Graphe de dépendance Nx
 
@@ -184,7 +184,7 @@ Il est pratique, et pas pratique à la fois.
   - Hot Module Reload de webpack : c'est mieux que nodemon car on ne recharge que le code modifié
 - Désavantages :
   - Nx utilise webpack 5 et nous n'avons pas de moyen de le désactiver. On peut avoir des problèmes en Node.JS, par exemple pour détecter les bibliothèques qui sont natives de celles qui sont téléchargées (voir le fichier [webpack.config.js](./webpack/webpack.config.js) pour voir un workaround)
-  - il fonctionne très mal avec prisma ! En effet, prisma génère [un client](https://www.prisma.io/docs/concepts/components/prisma-client)  `@prisma/client` qui sert à contacter la base de données. Le problème est que lorsque plusieurs services utilisent prisma, il existe plusieurs `@prisma/client` générés, un pour chaque service. 
+  - il fonctionne très mal avec prisma ! En effet, prisma génère [un client](https://www.prisma.io/docs/concepts/components/prisma-client)  `@prisma/client` qui sert à contacter la base de données. Le problème est que lorsque plusieurs services utilisent prisma, il existe plusieurs `@prisma/client` générés, un pour chaque service.
   - Webpack à du mal à différencier les services. Une solution, c'est de faire [ceci](https://github.com/IMT-Atlantique-FIL-2020-2023/Pokefumi/blob/c7d9d2664b1260cdaa3546d270d5692c66c4a62e/apps/matchmaking/prisma/schema.prisma#L6)
 
 #### 1.6.1.3. Prisma ?
@@ -207,10 +207,10 @@ Heroku permet de déployer chaque micro-service à chaque modification de code. 
 
 Liste des services déployés avec endpoint "exemple" :
 
-- https://pokefumi-user.herokuapp.com/users
-- https://pokefumi-matchmaking.herokuapp.com/matchs
-- https://pokefumi-round.herokuapp.com/api
-- https://pokefumi-stats.herokuapp.com/rounds/count-a-day-last-30-days
+- <https://pokefumi-user.herokuapp.com/users>
+- <https://pokefumi-matchmaking.herokuapp.com/matchs>
+- <https://pokefumi-round.herokuapp.com/api>
+- <https://pokefumi-stats.herokuapp.com/rounds/count-a-day-last-30-days>
 
 ### 1.6.2. API Gateway
 

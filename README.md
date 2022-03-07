@@ -84,14 +84,14 @@ Pour le déroulement d'une partie, voilà ce qu'il se passe (en considérant que
 
 Tests [e2e](packages/pokefumi-e2e/src/lib/pokefumi-e2e.spec.ts) : execution automatique des tests d'intégration pour tester chaque endpoint de chaque microservice.
 
-> Automatise un de scénario test de match avec deux utilisateurs de bout en bout (du service `user` au service `stats`).
+> Automatise un scénario de test de match avec deux utilisateurs de bout en bout (du service `user` au service `stats`).
 Efface les bases de données et créé les utilisateurs au démarrage.
 
 ![Lancement des test e2e](./docs/test-e2e.gif)
 
 Docker-compose avec l'Api Gateway Krakend et le script [test.sh](./test.sh).
 
-> Lance un scénario de test de match avec deux utilisateurs à l'aide de CURL.
+> Lance les containers puis un scénario de test de match avec deux utilisateurs à l'aide d'un script de Bash et de Curl.
 Créé les utilisateurs, obtient leur jeton JWT, créé le match et créé un Deck.
 Affiche ensuite le score des joueurs et les stats.
 

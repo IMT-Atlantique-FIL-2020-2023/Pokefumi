@@ -29,6 +29,7 @@ Pour le déroulement d'une partie, voilà ce qu'il se passe (en considérant que
       - [1.6.1.3. Prisma ?](#1613-prisma-)
       - [1.6.1.4. NPM Workspaces : pourquoi nous avons du les abandonner](#1614-npm-workspaces--pourquoi-nous-avons-du-les-abandonner)
       - [1.6.1.5. Déploiement continu avec Heroku ?](#1615-déploiement-continu-avec-heroku-)
+      - [1.6.1.6. Test end to end - Jest](#1616-test-end-to-end---jest)
     - [1.6.2. API Gateway](#162-api-gateway)
     - [1.6.3. User service](#163-user-service)
     - [1.6.4. Matchmaking service](#164-matchmaking-service)
@@ -44,10 +45,14 @@ Pour le déroulement d'une partie, voilà ce qu'il se passe (en considérant que
       - [1.8.2.2. Tests d'intégration au travers de l'API Gateway avec un script bash](#1822-tests-dintégration-au-travers-de-lapi-gateway-avec-un-script-bash)
   - [1.9. Liste des targets nx](#19-liste-des-targets-nx)
   - [1.10. Choix de conception](#110-choix-de-conception)
-    - [1.10.1. API Stats](#1101-api-stats)
-    - [1.10.2. Distinction entre Matchmaking et Round](#1102-distinction-entre-matchmaking-et-round)
-    - [1.10.3. V1 (version implémentée)](#1103-v1-version-implémentée)
-    - [1.10.4. V2 (non implémenté)](#1104-v2-non-implémenté)
+    - [1.10.1. Schémas de base de données](#1101-schémas-de-base-de-données)
+      - [1.10.1.1. User service](#11011-user-service)
+      - [1.10.1.2. Matchmaking service](#11012-matchmaking-service)
+      - [1.10.1.3. Stats service](#11013-stats-service)
+    - [1.10.2. API Stats](#1102-api-stats)
+    - [1.10.3. Distinction entre Matchmaking et Round](#1103-distinction-entre-matchmaking-et-round)
+    - [1.10.4. V1 (version implémentée)](#1104-v1-version-implémentée)
+    - [1.10.5. V2 (non implémenté)](#1105-v2-non-implémenté)
   - [1.11. Evolutions possibles de l'application](#111-evolutions-possibles-de-lapplication)
     - [1.11.1. Système de salon](#1111-système-de-salon)
     - [1.11.2. Statistiques sur l'activité](#1112-statistiques-sur-lactivité)
@@ -212,6 +217,15 @@ Liste des services déployés avec endpoint "exemple" :
 - <https://pokefumi-round.herokuapp.com/api>
 - <https://pokefumi-stats.herokuapp.com/rounds/count-a-day-last-30-days>
 
+#### 1.6.1.6. Test end to end - Jest
+
+Les tests e2e sont réalisés avec [Jest](https://jestjs.io/).
+C'est un framework de tests très populaire.
+Les tests sont fais de bouts en bouts, en déroulant un scénario de création d'utilisateur, de match et de participations à des rounds.
+Tous les services sont ainsi testés.
+
+Voir [okefumi-e2e.spec.ts](packages/pokefumi-e2e/src/lib/pokefumi-e2e.spec.ts).
+
 ### 1.6.2. API Gateway
 
 Nous avons choisi d'utiliser un API Gateway différent que celui vu en cours (Nginx) : [Krakend-ce](https://github.com/devopsfaith/krakend-ce).
@@ -226,14 +240,27 @@ Car il :
 
 ### 1.6.3. User service
 
-> @RaphaelPainter TODO
+Le service de `User` utilise l'ORM `Prisma` pour gérer la base de données SQLite, notamment la table `Match`.
+Voir le fichier [prisma.schema.prisma](apps/user/prisma/schema.prisma).
+
+Il hash les mots de passe avec le module `crypto` de Node.JS en SHA-256.
+Cela permet d'éviter une éventuelle fuite des mots de passes.
+Voir [user.repository.ts](https://github.com/IMT-Atlantique-FIL-2020-2023/Pokefumi/blob/460d3b76b76017210c78a3c18a4ec53d1b736535/apps/user/src/app/repository/user.repository.ts#L44-L45).
+
+Lorsque l'utilisateur se connecte, il obtient un jeton JWT.
+Ce jeton est chiffré à l'aide de l'algorithme HS-256. Il contient un payload avec l'ID de
+l'utilisateur connecté et la date d'expiration du jeton.
+Cela permet une authentification sans états et donc éviter un stockage de session côté serveur.
+Voir [user.repository.ts](https://github.com/IMT-Atlantique-FIL-2020-2023/Pokefumi/blob/460d3b76b76017210c78a3c18a4ec53d1b736535/apps/user/src/app/repository/user.repository.ts#L50-L51)
+
+Le champs `statut` du [schéma de BDD](#1101-sch%C3%A9mas-de-base-de-donn%C3%A9es) a été mis en prévision d'un système de statut (inactif, en jeu, etc.).
 
 ### 1.6.4. Matchmaking service
 
 Le service de `Matchmaking` utilise lui aussi l'ORM `Prisma` pour gérer la base de données SQLite, notamment la table `Match`.
 Voir le fichier [prisma.schema.prisma](apps/matchmaking/prisma/schema.prisma).
 
-Il authentifie les utilisateurs (pour la création du match et pour en joindre un) avec un jeton JWT (`express-jtw`).
+Il authentifie les utilisateurs (pour la création du match et pour en joindre un) avec un jeton JWT (`express-jwt`).
 Cela permet une authentification sans états et donc éviter un stockage de session côté serveur.
 
 Comparé aux autres services, il possède une spécificité : les corps de requêtes et les paramètres d'URL sont validés avec [zod](https://github.com/colinhacks/zod) et le middleware `zod-express-middleware`.
@@ -242,9 +269,31 @@ Zod est très modulable et possède une fonctionnalité d'inférence de type tr�
 
 La gestion des erreurs se fait avec le middleware `express-async-handler`, qui permet de simplifier la tâche.
 
+Nous avons décidé de stocker les 10 Pokemons dans un champs de type texte.
+Le format est le suivant : `ID ID ID...`. 10 ID séparés par des espaces.
+Cela permet d'éviter d'avoir une table servant juste à stocker des Pokemons.
+Par contre, cela nécessite de la validation côté client pour être sûr du stockage des 10 Pokemons sous ce format-ci.
+C'est là ou `zod` rempli sa mission.
+Voir [matchmaking.controller.ts#L19-L23](https://github.com/IMT-Atlantique-FIL-2020-2023/Pokefumi/blob/460d3b76b76017210c78a3c18a4ec53d1b736535/apps/matchmaking/src/app/controllers/matchmaking.controller.ts#L19-L23).
+
 ### 1.6.5. Round service
 
-> @mlhoutel TODO
+Le service `Round` authentifie les utilisateurs (pour la création du match et pour en joindre un) avec un jeton JWT (`express-jwt`).
+Cela permet une authentification sans états et donc éviter un stockage de session côté serveur.
+
+Pour stocker les rounds, il utilise un cache 'last recently used' qui classe les rounds par ordre d'utilisation.
+Tout est stocké dans la mémoire vive pour un temps donnée, ainsi il n'y a pas de persistence sur les rounds.
+Voir [cet exemple](https://github.com/IMT-Atlantique-FIL-2020-2023/Pokefumi/blob/d3c817786c134baa07fc6d543e35114bcaf98018/apps/round/src/app/resolveMatch.ts#L61-L62)
+
+**Comment faire pour attendre que l'autre joueur joue son Pokemon ?**
+
+Notre choix a été de garder la connexion ouverte tant que l'autre joueur n'a pas joué son Pokemon.
+Ainsi, lorsque le premier joueur envoi un pokemon à l'arena,
+il est attente de réponse. Lorsque le second adversaire joue, les deux sont débloqués et reçoivent le résultat du round.
+Le délai d'attente (*timeout*) maximum de réponse est de 30 secondes.
+Si au bout de 30 secondes, l'autre joueur n'a pas joué, la connexion est coupée.
+
+Une meilleure implémentation serait avec des Websocket, qui permettre d'éviter les temps d'attentes bloquants.
 
 ### 1.6.6. Stats service
 
@@ -261,6 +310,13 @@ Le développeur n'a qu'a implémenter le code métier, coeur du service en "coda
 Voir le fichier d'implémentation [StatsApiImpl.ts](apps/stats/src/app/StatsApiImpl.ts)
 
 Oats-ts est encore un outil jeune, mais il est prometteur !
+
+**Comment obtenir les statistiques de manière intelligente ?**
+
+Il était demandé de *"trouver un moyen de produire des statistiques sans requêter directement l’API qui est trop surchargée"*.
+Nous en avons trouvé un : les statistiques sont envoyées par le service `Round` à chaque round.
+Elles sont agrégés par le service `Stats` à la demande du client. Cela permet d'éviter d'appeler les services `Round` et `Matchmaking`.
+Ainsi, les statistiques se font seulement sur les rounds.
 
 ## 1.7. Documentation de référence et exemples de requêtes / réponses
 
@@ -345,20 +401,65 @@ Voici la liste des targets [nx](https://nx.dev/) disponibles :
 
 ## 1.10. Choix de conception
 
-### 1.10.1. API Stats
+### 1.10.1. Schémas de base de données
+
+#### 1.10.1.1. User service
+
+```mermaid
+erDiagram
+  User {
+    Int id
+    String username
+    String statut
+    Int score
+    String password  
+  }
+```
+
+#### 1.10.1.2. Matchmaking service
+
+```mermaid
+erDiagram
+  Match {
+    Int id
+    DateTime createdAt
+    DateTime updatedAt
+    String authorPokemons
+    String opponentPokemons
+    Int authorId
+    Int opponentId
+    String status
+    Int winnerId  
+  }
+```
+
+#### 1.10.1.3. Stats service
+
+```mermaid
+erDiagram
+  StatRound {
+    Int idPokemon
+    DateTime dateMatch
+    Int idMatch
+    Boolean victory
+    Int team  
+  }
+```
+
+### 1.10.2. API Stats
 
 La première version du service de Stats devait faire appel aux autres services pour se mettre à jour à la demande du client.
 Nous avons pensé que cela entraînait trop de temps d'attente lors de cette opération et qu'il vaudrait mieux limiter les appels aux autres services.
 Pour cela, la seconde version de l'API Stats, implémentée actuellement, consiste en une mise à jour de sa BDD en temps réel : pendant le déroulement d'un match, pour chaque round, le  résultat du round est transmis de façon synchrone au service Stats par le service Round.
 On se retrouve donc avec une API Stats qui ne fait que recevoir (et donc transmettre au client/IHM les statistiques agrégées).
 
-### 1.10.2. Distinction entre Matchmaking et Round
+### 1.10.3. Distinction entre Matchmaking et Round
 
 La question de la délégation des responsabilités entre les services a été source de nombreux désaccords dans les différentes phases de conception et a résulté en différentes versions progressives au cours du développement du projet.
 Cela a notamment été le cas pour les services Matchmaking et Round, pour déterminer lesquels devaient gérer le déroulement d'un match. Au départ, nous avons pensé qu'un seul service suffisait pour assurer cette responsabilité. Puis, nous avons décidé d'en faire deux :  `Matchmaking` et `Round`.
 Pour rappel, dans la culture vidéo-ludique, le matchmaking consiste à la création d'une partie, à la recherche d'autres joueurs et au lancement d'une partie; ensuite il réapparaît à la fin du match pour afficher les résultats et permettre de relancer une partie ou d'échanger dans le salon avec les autres joueurs. Nous avonc donc décidé de limiter la gestion du match dans le service Matchmaking pour respecter ce concept.
 
-### 1.10.3. V1 (version implémentée)
+### 1.10.4. V1 (version implémentée)
 
 Une API `Matchmaking` gère le déroulement d'un match,
 tandis qu'une API `Round` gère un round spécifiquement.
@@ -369,7 +470,7 @@ Chaque round est stocké en cache dans la mémoire vide pendant un temps donné.
 Ce dernier incrémente ensuite le score en envoyant
 une requête au service `User`.
 
-### 1.10.4. V2 (non implémenté)
+### 1.10.5. V2 (non implémenté)
 
 Le service `Round` est divisé en deux services distincts pour améliorer la séparation des responsabilités et au vu de la taille que le service prend :
 
